@@ -1,0 +1,23 @@
+<!-- 
+  Use this to close side menu
+  (click)="closeSideMenu.close()" 
+-->
+<div fxLayout="column" fxLayoutAlign="space-around center" class="p-24">
+
+  <!-- <div fxLayout="row" fxLayoutAlign="space-around center">
+    <button mat-icon-button (click)="closeSideMenu.emit()">
+      <mat-icon>close</mat-icon>
+    </button>
+    <div>AAAAAAA</div>
+  </div> -->
+
+  <mat-list>
+
+    <mat-list-item [routerLink]="['/sample']" (click)="closeSideMenu.emit()">
+      <mat-icon matListIcon>dashboard</mat-icon>
+      <h3 matLine> Sample </h3>
+    </mat-list-item>
+
+  </mat-list>
+
+</div>

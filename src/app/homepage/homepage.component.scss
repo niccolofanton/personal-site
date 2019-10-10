@@ -1,0 +1,81 @@
+.wall {
+    background: linear-gradient(225deg, #ff1744, #3d5afe, #00e6da);
+    background-size: 400% 400%;
+    -webkit-animation: AnimationName 26s ease infinite;
+    animation: AnimationName 26s ease infinite;
+    position: relative;
+    overflow-y: scroll;
+}
+
+.big-title {
+    font-size: 65px;
+}
+
+.big-subtitle {
+    font-size: 45px;
+}
+
+.small-title {
+    font-size: 6.5vw;
+}
+
+.small-subtitle {
+    font-size: 4.5vw;
+}
+
+.text {
+    color: white;
+    text-align: left;
+    text-decoration: none;
+
+}
+
+@font-face {
+    font-family: "Coco";
+    src: url(../../assets/fonts/Coco-Gothic-Bold.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url(../../assets/fonts/Roboto-Regular.ttf) format("truetype");
+}
+
+.cocofont {
+    font-family: "Coco", Verdana, Tahoma;
+}
+
+.robotofont {
+    font-family: 'Roboto Mono', monospace;
+}
+
+.ralewayfont {
+    font-family: 'Raleway', sans-serif;
+}
+
+@-webkit-keyframes AnimationName {
+    0% {
+        background-position: 0% 51%
+    }
+
+    50% {
+        background-position: 100% 50%
+    }
+
+    100% {
+        background-position: 0% 51%
+    }
+}
+
+@keyframes AnimationName {
+    0% {
+        background-position: 0% 51%
+    }
+
+    50% {
+        background-position: 100% 50%
+    }
+
+    100% {
+        background-position: 0% 51%
+    }
+}

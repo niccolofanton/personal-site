@@ -1,0 +1,29 @@
+/* You can add global styles to this file, and also import other style files */
+// @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+}
+
+.page-with-toolbar {
+    min-width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+
+    min-height: calc(100% - 64px);
+    overflow-y: scroll;
+}
+
+.page-without-toolbar {
+    min-width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+
+    min-height: 100%;
+    overflow-y: scroll;
+}
+
+.loading-snack-bar {
+    min-width: auto !important;
+}

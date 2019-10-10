@@ -1,0 +1,41 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+
+    <div fxFlex fxLayout="row" fxLayoutAlign="start center">
+
+      <!-- SIDE-MENU ICON -->
+      <button mat-icon-button class="mr-4" *ngIf="( navigationSettings$ | async  ).sidemenu"
+        (click)="openSideMenu.emit()">
+        <mat-icon>menu</mat-icon>
+      </button>
+
+      <!-- TITLE -->
+      <span>{{ (title$ | async) }}</span>
+
+    </div>
+
+    <div fxFlex fxFlexFill fxLayout="row" fxLayoutAlign="end center">
+
+      <button mat-button [matMenuTriggerFor]="userMenu" [disableRipple]="true" >
+        <div fxLayout="row" fxLayoutAlign="center center">
+          <mat-icon class="mr-0 mr-sm-16" matTooltip="Disconnesso dal server">
+            account_circle
+          </mat-icon>
+
+          <mat-icon class="s-16" fxHide.xs>keyboard_arrow_down</mat-icon>
+        </div>
+      </button>
+
+      <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
+
+        <button mat-menu-item [routerLink]="['/login']">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Logout</span>
+        </button>
+
+      </mat-menu>
+
+    </div>
+
+  </mat-toolbar-row>
+</mat-toolbar>

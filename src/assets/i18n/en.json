@@ -1,0 +1,12 @@
+{
+    "sample": {
+        "hi": "Hi"
+    },
+    "login": {
+        "title": "Login",
+        "usr": "Username",
+        "required": "Mandatory field",
+        "psw": "Password",
+        "login": "Enter"
+    }
+}
