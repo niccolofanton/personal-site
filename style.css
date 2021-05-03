@@ -1,0 +1,16 @@
+body {
+    /* min-width: 100%;
+    max-width: 100%;
+    width: 100%; */
+    background-color: black;
+}
+
+.page {
+    display: grid;
+    grid-column-gap: 50px;
+    grid-row-gap: 50px;
+    border: solid red 1px;
+    color: white;
+}
+
+.right {}
