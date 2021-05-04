@@ -20,18 +20,30 @@ body {
     --primary: #1aa6b7;
     --secondary: #f56a79;
     --secondary-darker: #ff414d;
+
+    --card-margin: 48px;
 }
 
 .relative {
     position: relative;
+    top: 50vh;
+    position: sticky;
 }
 
 .page {
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
+
     min-height: 100%;
     background-color: var(--background);
+}
+
+.end {
+    justify-content: flex-end;
+}
+
+.center {
+    justify-content: center;
 }
 
 .floating-text {
@@ -41,20 +53,83 @@ body {
     display: flex;
     align-items: center;
     justify-content: flex-end;
+
+    mix-blend-mode: difference;
+    z-index: 9999;
 }
 
 .right {
+    position: relative;
     min-height: 100%;
-    width: 25%;
-    margin-right: 25%;
+    width: 50%;
+    /* margin-right: 25%; */
 }
 
 .red-box {
+    position: fixed;
     background-color: var(--secondary);
-    height: calc(100% - 64px);
-    width: 100%;
-    margin: 32px;
-    border-radius: 16px;
+    height: 100%;
+    width: 50%;
+    z-index: 1;
+
+    animation: card 1s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
+    animation-play-state: paused;
+    animation-delay: calc(var(--scroll) * -1s);
+
+    /* animation-iteration-count: 1; */
+    animation-fill-mode: both;
+}
+
+@keyframes card {
+
+    0% {
+        /* fullscreen right */
+        height: 100%;
+        width: 50%;
+        margin: 0px;
+        border-radius: 0px;
+    }
+
+    20% {
+        /* small right */
+        height: calc(100% - var(--card-margin)*2);
+        width: calc(50% - var(--card-margin)*2);
+        margin: var(--card-margin);
+        border-radius: 16px;
+    }
+
+    40% {
+        /* fullscreen right */
+        height: 100%;
+        width: 50%;
+        margin: 0px;
+        border-radius: 0px;
+    }
+
+    60% {
+        /* fullscreen left */
+        height: 100%;
+        width: 50%;
+        margin: 0px;
+        border-radius: 0px;
+        transform: translateX(-100%)
+    }
+
+    80% {
+        /* card left */
+        height: calc(100% - var(--card-margin)*2);
+        width: calc(50% - var(--card-margin)*2);
+        margin: var(--card-margin);
+        border-radius: 16px;
+        transform: translateX(-100%)
+    }
+
+    100% {
+        height: 100%;
+        width: 50%;
+        margin: 0px;
+        border-radius: 0px;
+    }
 }
 
 /* material shadow */
@@ -69,7 +144,9 @@ body {
 }
 
 .primary-text {
+    z-index: 999999;
     color: var(--secondary-darker);
+    mix-blend-mode: difference;
 }
 
 .main-name {
@@ -78,21 +155,4 @@ body {
     top: -68px;
     right: -170px;
     white-space: nowrap;
-    mix-blend-mode: difference;
-
-
-    /* normal	
-multiply	
-screen	
-overlay	
-darken	
-lighten	
-color-dodge	
-color-burn	
-difference	
-exclusion	
-hue
-saturation
-color
-luminosity */
 }
