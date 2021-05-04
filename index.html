@@ -9,10 +9,17 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@395&display=swap" rel="stylesheet">
     <title>fant.</title>
+
+
+    <script>
+        window.addEventListener('scroll', e => {
+            document.body.style.setProperty('--scroll', (window.pageYOffset / document.body.offsetHeight) / 2);
+        }, false);
+    </script>
 </head>
 
 <body>
-    <div class="page">
+    <div class="page end">
 
         <!-- flexbox container -->
         <div class="floating-text">
@@ -30,6 +37,15 @@
             <div class="red-box shadow"></div>
         </div>
 
+    </div>
+
+
+    <div class="page">
+    </div>
+
+    <div class="page center">
+        <!-- absolute text -->
+        <span class="roboto-mono primary-text">COMING SOON...</span>
     </div>
 </body>
 
