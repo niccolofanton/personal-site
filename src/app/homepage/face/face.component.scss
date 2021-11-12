@@ -1,0 +1,53 @@
+:host{
+    .face-container{
+        // border: solid black 2px;
+        border-radius: 100%;
+
+        box-shadow: 0 0 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+        overflow: hidden;
+
+        background: linear-gradient(225deg, #ff1744, #3d5afe, #00e6da);
+        background-size: 400% 400%;
+        -webkit-animation: AnimationName 26s ease infinite;
+        animation: AnimationName 26s ease infinite;
+       
+    }
+
+    @-webkit-keyframes AnimationName {
+        0% {
+            background-position: 0% 51%
+        }
+    
+        50% {
+            background-position: 100% 50%
+        }
+    
+        100% {
+            background-position: 0% 51%
+        }
+    }
+    
+    @keyframes AnimationName {
+        0% {
+            background-position: 0% 51%
+        }
+    
+        50% {
+            background-position: 100% 50%
+        }
+    
+        100% {
+            background-position: 0% 51%
+        }
+    }
+
+
+    // .wall {
+    //     background: linear-gradient(225deg, #ff1744, #3d5afe, #00e6da);
+    //     background-size: 400% 400%;
+    //     -webkit-animation: AnimationName 26s ease infinite;
+    //     animation: AnimationName 26s ease infinite;
+    //     position: relative;
+    //     overflow-y: scroll;
+    // }
+}

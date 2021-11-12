@@ -1,81 +1,93 @@
-.wall {
-    background: linear-gradient(225deg, #ff1744, #3d5afe, #00e6da);
-    background-size: 400% 400%;
-    -webkit-animation: AnimationName 26s ease infinite;
-    animation: AnimationName 26s ease infinite;
-    position: relative;
-    overflow-y: scroll;
-}
+:host {
 
-.big-title {
-    font-size: 65px;
-}
 
-.big-subtitle {
-    font-size: 45px;
-}
-
-.small-title {
-    font-size: 6.5vw;
-}
-
-.small-subtitle {
-    font-size: 4.5vw;
-}
-
-.text {
-    color: white;
-    text-align: left;
-    text-decoration: none;
-
-}
-
-@font-face {
-    font-family: "Coco";
-    src: url(../../assets/fonts/Coco-Gothic-Bold.ttf) format("truetype");
-}
-
-@font-face {
-    font-family: "Roboto";
-    src: url(../../assets/fonts/Roboto-Regular.ttf) format("truetype");
-}
-
-.cocofont {
-    font-family: "Coco", Verdana, Tahoma;
-}
-
-.robotofont {
-    font-family: 'Roboto Mono', monospace;
-}
-
-.ralewayfont {
-    font-family: 'Raleway', sans-serif;
-}
-
-@-webkit-keyframes AnimationName {
-    0% {
-        background-position: 0% 51%
+    .big-title {
+        font-size: 65px;
     }
 
-    50% {
-        background-position: 100% 50%
+    .big-subtitle {
+        font-size: 24px;
     }
 
-    100% {
-        background-position: 0% 51%
-    }
-}
-
-@keyframes AnimationName {
-    0% {
-        background-position: 0% 51%
+    .small-title {
+        font-size: 6.5vw;
     }
 
-    50% {
-        background-position: 100% 50%
+    .small-subtitle {
+        font-size: 4.5vw;
     }
 
-    100% {
-        background-position: 0% 51%
+    .text {
+        color: black;
+        text-align: left;
+        text-decoration: none;
+
+    }
+
+    @font-face {
+        font-family: "Coco";
+        src: url(../../assets/fonts/Coco-Gothic-Bold.ttf) format("truetype");
+    }
+
+    @font-face {
+        font-family: "Roboto";
+        src: url(../../assets/fonts/Roboto-Regular.ttf) format("truetype");
+    }
+
+    @font-face {
+        font-family: "Upheaval TT";
+        src: url(../../assets/fonts/upheavtt.ttf) format("truetype");
+    }
+
+
+    .cocofont {
+        font-family: "Coco", Verdana, Tahoma;
+    }
+
+    .robotofont {
+        font-family: 'Roboto Mono', monospace;
+    }
+
+    .ralewayfont {
+        font-family: 'Raleway', sans-serif;
+    }
+
+    .upheavalfont {
+        font-family: 'Upheaval', sans-serif;
+    }
+
+    .content {
+        background-color: white;
+        overflow-x: hidden;
+        overflow-y: overlay;
+        box-shadow: 0 0 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+        border-radius: 12px;
+        padding: 24px;
+        min-height: 80vh;
+        max-height: 80vh;
+    }
+
+    /* custom scrollbar */
+    ::-webkit-scrollbar {
+        width: 20px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background-color: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: #d6dee1;
+        border-radius: 20px;
+        border: 6px solid transparent;
+        background-clip: content-box;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: #a8bbbf;
+    }
+
+    .wall {
+        background-color: #18233a;
     }
 }
