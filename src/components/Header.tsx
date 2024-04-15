@@ -183,14 +183,10 @@ export function Header() {
 
           <>
             <div
-              ref={avatarRef}
-              className="order-last mt-[calc(theme(spacing.16)-theme(spacing.3))]"
-            />
-            <Container
-              className="top-0 order-last -mb-3 pt-3"
+              className="top-[var(--avatar-top,theme(spacing.3))] w-full"
               style={{
                 position:
-                  'var(--header-position)' as React.CSSProperties['position'],
+                  'var(--header-inner-position)' as React.CSSProperties['position'],
               }}
             >
               <div
