@@ -171,7 +171,7 @@ export function Header() {
     if (!home) {
       setPlayHomeAnimation(false)
     }
-  }, [])
+  }, [isHomePage])
 
   return (
     <>
