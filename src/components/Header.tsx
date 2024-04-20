@@ -173,6 +173,13 @@ export function Header() {
     }
   }, [isHomePage])
 
+
+  useEffect(() => {
+    if (!home) {
+      setPlayHomeAnimation(false)
+    }
+  }, [])
+
   return (
     <>
       <motion.div {...anim(blur(getTime(0), home && playHomeAnimation))} >
