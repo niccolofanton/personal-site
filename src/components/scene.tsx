@@ -151,6 +151,7 @@ export const Scene = (props: SceneProps) => {
         state.camera.position.z = 10;
         state.camera.zoom = 5
         state.camera.updateProjectionMatrix()
+        state.gl.setPixelRatio(2);
       }}>
         {/* <camera position={[0, 0, 50]}  /> */}
         {/* <EffectComposer>

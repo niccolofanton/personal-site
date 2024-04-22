@@ -18,7 +18,7 @@ const projects = [
     name: 'ENDOR',
     description:
       'A creative studio that designs and develops digital products for the web.',
-    link: { href: 'http://https://endor.studio/', label: 'Endor Studio' },
+    link: { href: 'https://endor.studio/', label: 'Endor Studio' },
     logo: logoEndor,
   },
   {
@@ -89,7 +89,7 @@ export default function Projects() {
                 />
               </div>
               <h2 className="mt-6 text-base font-mono font-semibold text-zinc-800 dark:text-zinc-100">
-                <Card.Link href={project.link.href}>{project.name}</Card.Link>
+                <Card.Link href={project.link.href} target='_blank'>{project.name}</Card.Link>
               </h2>
               <Card.Description>{project.description}</Card.Description>
               <p className="relative z-10 mt-6 flex text-sm font-medium text-zinc-400 transition sm:group-hover:text-blue-500 dark:text-zinc-200">

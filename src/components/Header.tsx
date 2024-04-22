@@ -163,16 +163,9 @@ function Avatar({
 export function Header() {
   let home = usePathname() === '/'
   let headerRef = useRef<React.ElementRef<'div'>>(null)
-  let avatarRef = useRef<React.ElementRef<'div'>>(null)
+
 
   const { playHomeAnimation, setPlayHomeAnimation } = useContext(AppContext);
-
-  useEffect(() => {
-    if (!home) {
-      setPlayHomeAnimation(false)
-    }
-  }, [isHomePage])
-
 
   useEffect(() => {
     if (!home) {
@@ -204,7 +197,7 @@ export function Header() {
                 }}
               >
               </div>
-            </Container>
+            </div>
           </>
 
           <div

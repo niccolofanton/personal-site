@@ -41,7 +41,7 @@ export const blur = (delay: number = 0, enabled: boolean = true) => {
 }
 
 
-export const start = .4;
+export const start = 4.4;
 export const delay = 0.1;
 export const getTime = (i: number) => {
   return start + i * delay;
