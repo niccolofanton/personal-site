@@ -10,6 +10,7 @@ import { formatDate } from '@/lib/formatDate'
 import { PageAnimation } from './PageAnimation'
 import { AppContext } from '@/components/Providers'
 import { RandomText } from './RandomText'
+import { NextSeo } from 'next-seo';
 
 function ArrowLeftIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
@@ -40,6 +41,14 @@ export function ArticleLayout({
 
   return (
     <PageAnimation>
+
+      {article.metadata && (
+        <NextSeo
+          title={article.metadata.title}
+          description={article.metadata.description}
+        />
+      )}
+
       <Container className="mt-8">
         <div className="xl:relative">
           <div className="mx-auto max-w-2xl">
@@ -53,7 +62,7 @@ export function ArticleLayout({
             </button>
             <article>
               <header className="flex flex-col">
-                <h1 className="mt-6 text-4xl font-bold tracking-tight text-zinc-800 sm:text-5xl dark:text-zinc-100">  
+                <h1 className="mt-6 text-4xl font-bold tracking-tight text-zinc-800 sm:text-5xl dark:text-zinc-100">
                   <RandomText text={article.title} speed={20} fadeIn={false} ></RandomText>
                 </h1>
                 <time

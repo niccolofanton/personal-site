@@ -1,10 +1,11 @@
 import Image, { type ImageProps } from 'next/image'
 import Link from 'next/link'
-import clsx from 'clsx'
+// import clsx from 'clsx'
 import { motion } from 'framer-motion';
+import { NextSeo } from 'next-seo';
 
 import { Button } from '@/components/Button'
-import { Card } from '@/components/Card'
+// import { Card } from '@/components/Card'
 import { Container } from '@/components/Container'
 import {
   GitHubIcon,
@@ -24,7 +25,7 @@ import logoMe from '@/images/logos/me.jpeg'
 // import image5 from '@/images/photos/image-5.jpg'
 // import { type ArticleWithSlug, getAllArticles } from '@/lib/articles'
 import { formatDate } from '@/lib/formatDate'
-import { GetStaticProps, InferGetStaticPropsType, Metadata } from 'next'
+import { GetStaticProps, InferGetStaticPropsType } from 'next'
 import { PageAnimation, anim, blur, getTime } from '@/components/PageAnimation'
 import { getAllArticles, ArticleWithSlug } from '@/lib/articles'
 import { RandomText } from '@/components/RandomText'
@@ -326,9 +327,9 @@ function Resume() {
 //   )
 // }
 
-export const metadata: Metadata = {
+export const metadata = {
   title: 'Home - Niccoló Fanton',
-  description: 'Niccoló Fanton - I find meaning in work that matters.',
+  // description: 'Niccoló Fanton - I find meaning in work that matters.',
 }
 
 export const getStaticProps = (async (context: any) => {
@@ -349,103 +350,108 @@ export default function HomePage({ data }: InferGetStaticPropsType<typeof getSta
   }, [])
 
   return (
+    <>
+      <NextSeo
+        title={metadata.title}
+      />
 
-    <PageAnimation>
-      <Container className="mt-16">
-        <div className="min-w-full flex flex-col-reverse gap-10 lg:gap-0 lg:flex-row lg:items-center lg:justify-between">
+      <PageAnimation>
 
-          <div className='max-w-2xl'>
-            <h1 className="text-4xl font-bold tracking-tight text-zinc-800 sm:text-5xl dark:text-zinc-100">
-              <RandomLoopingText
-                delay={800}
-                fadeIn={!!playHomeAnimation}
-                text={`I'm Nick. I find meaning in work that "matters"`}
-                loop={{
-                  delay: 1000,
-                  keywork: 'matters',
-                  words: ['inspires', 'amazes', 'pays', 'moves', 'matters'],
-                }}
-              />
-            </h1>
-            <motion.p {...anim(blur(getTime(2), playHomeAnimation))} className="mt-6 text-base text-zinc-600 dark:text-zinc-400">
-              My name is Niccolò Fanton, and I&apos;m a developer based Italy.
-              I have a profound love for design and I consider my work as an extension of myself.
-              I&apos;m an explorer of hidden meanings, I chase life with an insatiable thirst for
-              understanding. <br /><br />
-              Passion fuels every action, leading every step with fervor.
-            </motion.p>
-            <motion.div  {...anim(blur(getTime(3), playHomeAnimation))} className="mt-6 flex gap-6">
-              <SocialLink href="https://twitter.com/niccolofanton" target='_blank' aria-label="Follow on X" icon={XIcon} />
-              <SocialLink
-                href="https://www.instagram.com/niccolofanton"
-                target='_blank'
-                aria-label="Follow on Instagram"
-                icon={InstagramIcon}
-              />
-              <SocialLink
-                href="https://www.behance.net/fantonniccolo"
-                target='_blank'
-                aria-label="Follow on Behance"
-                icon={BehanceIcon}
-              />
-              <SocialLink
-                href="https://www.linkedin.com/in/niccolofanton"
-                target='_blank'
-                aria-label="Follow on LinkedIn"
-                icon={LinkedInIcon}
-              />
-              <SocialLink
-                href="https://github.com/niccolofanton"
-                target='_blank'
-                aria-label="Follow on GitHub"
-                icon={GitHubIcon}
-              />
+        <Container className="mt-16">
+          <div className="min-w-full flex flex-col-reverse gap-10 lg:gap-0 lg:flex-row lg:items-center lg:justify-between">
 
-              <SocialLink
-                href="mailto:niccolofanton1997@gmail.com"
-                icon={MailIcon}
-              >
-              </SocialLink>
+            <div className='max-w-2xl'>
+              <h1 className="text-4xl font-bold tracking-tight text-zinc-800 sm:text-5xl dark:text-zinc-100">
+                <RandomLoopingText
+                  delay={800}
+                  fadeIn={!!playHomeAnimation}
+                  text={`I'm Nick. I find meaning in work that "matters"`}
+                  loop={{
+                    delay: 1000,
+                    keywork: 'matters',
+                    words: ['inspires', 'amazes', 'pays', 'moves', 'matters'],
+                  }}
+                />
+              </h1>
+              <motion.p {...anim(blur(getTime(2), playHomeAnimation))} className="mt-6 text-base text-zinc-600 dark:text-zinc-400">
+                My name is Niccolò Fanton, and I&apos;m a developer based Italy.
+                I have a profound love for design and I consider my work as an extension of myself.
+                I&apos;m an explorer of hidden meanings, I chase life with an insatiable thirst for
+                understanding. <br /><br />
+                Passion fuels every action, leading every step with fervor.
+              </motion.p>
+              <motion.div  {...anim(blur(getTime(3), playHomeAnimation))} className="mt-6 flex gap-6">
+                <SocialLink href="https://twitter.com/niccolofanton" target='_blank' aria-label="Follow on X" icon={XIcon} />
+                <SocialLink
+                  href="https://www.instagram.com/niccolofanton"
+                  target='_blank'
+                  aria-label="Follow on Instagram"
+                  icon={InstagramIcon}
+                />
+                <SocialLink
+                  href="https://www.behance.net/fantonniccolo"
+                  target='_blank'
+                  aria-label="Follow on Behance"
+                  icon={BehanceIcon}
+                />
+                <SocialLink
+                  href="https://www.linkedin.com/in/niccolofanton"
+                  target='_blank'
+                  aria-label="Follow on LinkedIn"
+                  icon={LinkedInIcon}
+                />
+                <SocialLink
+                  href="https://github.com/niccolofanton"
+                  target='_blank'
+                  aria-label="Follow on GitHub"
+                  icon={GitHubIcon}
+                />
+
+                <SocialLink
+                  href="mailto:niccolofanton1997@gmail.com"
+                  icon={MailIcon}
+                >
+                </SocialLink>
+              </motion.div>
+            </div>
+
+            <motion.div  {...anim(blur(.2, playHomeAnimation))}>
+              <Scene className='h-64' />
             </motion.div>
+
           </div>
 
-          <motion.div  {...anim(blur(.2, playHomeAnimation))}>
-            <Scene className='h-64' />
-          </motion.div>
 
-        </div>
+        </Container>
+        {/* <Photos /> */}
+        <Container className="mt-36 md:mt-36">
 
+          <div className={`${articles.length > 0 ? `lg:grid-cols-2` : ''} mx-auto grid max-w-xl grid-cols-1 gap-y-20 lg:max-w-none justify-items-center `}>
 
-      </Container>
-      {/* <Photos /> */}
-      <Container className="mt-36 md:mt-36">
+            {articles.length > 0 && (
+              <motion.div {...anim(blur(getTime(4), playHomeAnimation))} className="flex flex-col gap-16">
+                <h4 className="mb-[-30px] text-3xl font-bold tracking-tight text-zinc-800 sm:text-3xl dark:text-zinc-100">
+                  <RandomText fadeIn={playHomeAnimation} text='Latest articles'></RandomText>
+                </h4>
 
-        <div className={`${articles.length > 0 ? `lg:grid-cols-2` : ''} mx-auto grid max-w-xl grid-cols-1 gap-y-20 lg:max-w-none justify-items-center `}>
+                {articles.map((article) => (
+                  <Article key={article.slug} article={article} playHomeAnimation={!!playHomeAnimation} />
+                ))}
+              </motion.div>
+            )}
 
-          {articles.length > 0 && (
-            <motion.div {...anim(blur(getTime(4), playHomeAnimation))} className="flex flex-col gap-16">
-              <h4 className="mb-[-30px] text-3xl font-bold tracking-tight text-zinc-800 sm:text-3xl dark:text-zinc-100">
-                <RandomText fadeIn={playHomeAnimation} text='Latest articles'></RandomText>
-              </h4>
-
-              {articles.map((article) => (
-                <Article key={article.slug} article={article} playHomeAnimation={!!playHomeAnimation} />
-              ))}
-            </motion.div>
-          )}
-
-          <div className={`space-y-10  max-w-xl ${articles.length > 0 ? 'lg:pl-16 xl:pl-24 mt-10' : ''}`}>
-            <motion.div {...anim(blur(getTime(5), playHomeAnimation))}>
-              <Resume />
-            </motion.div>
-            <motion.div {...anim(blur(getTime(6), playHomeAnimation))}>
-              {/* <Newsletter /> */}
-            </motion.div>
+            <div className={`space-y-10  max-w-xl ${articles.length > 0 ? 'lg:pl-16 xl:pl-24 mt-10' : ''}`}>
+              <motion.div {...anim(blur(getTime(5), playHomeAnimation))}>
+                <Resume />
+              </motion.div>
+              <motion.div {...anim(blur(getTime(6), playHomeAnimation))}>
+                {/* <Newsletter /> */}
+              </motion.div>
+            </div>
           </div>
-        </div>
 
-      </Container>
-    </PageAnimation>
-
+        </Container>
+      </PageAnimation>
+    </>
   )
 }

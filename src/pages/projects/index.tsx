@@ -1,10 +1,10 @@
-import { type Metadata } from 'next'
+
 import Image from 'next/image'
 
 import { Card } from '@/components/Card'
 import { SimpleLayout } from '@/components/SimpleLayout'
 
-
+import { NextSeo } from 'next-seo';
 import logoOrtify from '@/images/logos/ortify.jpeg'
 import logoEndor from '@/images/logos/endor.jpeg'
 import logoNDM from '@/images/logos/ndm.jpeg'
@@ -62,14 +62,18 @@ function LinkIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   )
 }
 
-export const metadata: Metadata = {
-  title: 'Projects',
+export const metadata = {
+  title: 'Projects - Niccoló Fanton',
   description: 'Things I’ve made trying to put my dent in the universe.',
 }
 
 export default function Projects() {
   return (
     <PageAnimation>
+      <NextSeo
+        title={metadata.title}
+        description={metadata.description}
+      />
       <SimpleLayout
         title="Things I’ve made trying to put my dent in the universe."
         intro="I’ve worked on tons of little projects over the years but these are the ones that I’m most proud of!"

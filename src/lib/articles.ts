@@ -6,6 +6,10 @@ interface Article {
   author: string
   date: string
   image: any
+  metadata?: {
+    title: string
+    description: string
+  }
 }
 
 export interface ArticleWithSlug extends Article {
