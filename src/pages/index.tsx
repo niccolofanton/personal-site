@@ -350,7 +350,7 @@ export default function HomePage({ data }: InferGetStaticPropsType<typeof getSta
   return (
 
     <PageAnimation>
-      <Container className="mt-9">
+      <Container className="mt-16">
         <div className="min-w-full flex flex-col-reverse gap-10 lg:gap-0 lg:flex-row lg:items-center lg:justify-between">
 
           <div className='max-w-2xl'>
@@ -432,7 +432,7 @@ export default function HomePage({ data }: InferGetStaticPropsType<typeof getSta
               <Resume />
             </motion.div>
             <motion.div {...anim(blur(getTime(6), playHomeAnimation))}>
-              <Newsletter />
+              {/* <Newsletter /> */}
             </motion.div>
           </div>
         </div>
