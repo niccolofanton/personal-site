@@ -262,8 +262,8 @@ function Resume() {
       company: 'Freelance',
       title: 'Full Stack Developer',
       logo: logoMe,
-      start: '2023',
-      end: '2022',
+      start: '2022',
+      end: '2023',
     },
     {
       company: 'AWSM',
