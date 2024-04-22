@@ -6,18 +6,21 @@ export default function Document() {
   return (
     <Html lang="en" className={` h-auto antialiased`} suppressHydrationWarning>
       <Head>
+
+
         <Script
           async
-          src="https://www.googletagmanager.com/gtag/js?id=G-KHV4Q1BQHW"
-        />
+          src={`https://www.googletagmanager.com/gtag/js?id=G-KHV4Q1BQHW`}
+        ></Script>
 
-        <Script id="google-analytics">
+        <Script id="gtag-init" strategy="afterInteractive">
           {`
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-KHV4Q1BQHW');
-          `}
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-KHV4Q1BQHW');
+        `}
         </Script>
 
       </Head>
