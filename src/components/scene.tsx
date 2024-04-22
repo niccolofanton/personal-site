@@ -140,7 +140,7 @@ export const Scene = (props: SceneProps) => {
   }
 
   const asciiConf = {
-    characters: '.*#@',
+    characters: ' .*#@',
     fontSize: 40,
     cellSize: 16
   }
