@@ -25,7 +25,7 @@ export default function Document() {
 
         <Script
           strategy='lazyOnload'
-          src={`https://www.googletagmanager.com/gtag/js?id=KHV4Q1BQHW`}
+          src={`https://www.googletagmanager.com/gtag/js?id=G-KHV4Q1BQHW`}
         />
 
         <Script id='' strategy='lazyOnload'>
@@ -33,7 +33,7 @@ export default function Document() {
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', 'KHV4Q1BQHW', {
+              gtag('config', 'G-KHV4Q1BQHW', {
               page_path: window.location.pathname,
               });
           `}
