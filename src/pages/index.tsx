@@ -11,6 +11,7 @@ import {
   InstagramIcon,
   LinkedInIcon,
   XIcon,
+  BehanceIcon
 } from '@/components/SocialIcons'
 import logoAzzurroDigitale from '@/images/logos/azzurrodigitale.jpeg'
 import logoAWMS from '@/images/logos/awms.jpeg'
@@ -380,6 +381,12 @@ export default function HomePage({ data }: InferGetStaticPropsType<typeof getSta
                 target='_blank'
                 aria-label="Follow on Instagram"
                 icon={InstagramIcon}
+              />
+              <SocialLink
+                href="https://www.behance.net/fantonniccolo"
+                target='_blank'
+                aria-label="Follow on Behance"
+                icon={BehanceIcon}
               />
               <SocialLink
                 href="https://www.linkedin.com/in/niccolofanton"
