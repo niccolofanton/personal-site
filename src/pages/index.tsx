@@ -408,7 +408,7 @@ export default function HomePage({ data }: InferGetStaticPropsType<typeof getSta
                 />
 
                 <SocialLink
-                  href="mailto:niccolofanton1997@gmail.com"
+                  href="mailto:email@niccolofanton.dev"
                   icon={MailIcon}
                 >
                 </SocialLink>
