@@ -15,6 +15,7 @@
     "@mdx-js/loader": "^3.0.0",
     "@mdx-js/react": "^3.0.0",
     "@next/mdx": "^14.0.4",
+    "@next/third-parties": "^14.2.2",
     "@react-three/drei": "^9.105.4",
     "@react-three/fiber": "8.15",
     "@react-three/postprocessing": "^2.16.2",
