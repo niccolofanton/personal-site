@@ -266,7 +266,7 @@ function Resume() {
       end: '2023',
     },
     {
-      company: 'AWSM',
+      company: 'AWMS',
       title: 'Senior Frontend Developer',
       logo: logoAWMS,
       start: '2021',
