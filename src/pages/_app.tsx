@@ -17,7 +17,7 @@ export const metadata = {
       'Home - Niccoló Fanton',
   },
   description:
-    `My name is Niccolò Fanton, I'm a developer based Italy.
+    `My name is Niccolò Fanton, I'm a developer based in Italy.
      I have a profound love for design and I consider my work as an extension of myself.
      I'm an explorer of hidden meanings, I chase life with an insatiable thirst for
      understanding.`,

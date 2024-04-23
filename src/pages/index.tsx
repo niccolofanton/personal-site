@@ -374,7 +374,7 @@ export default function HomePage({ data }: InferGetStaticPropsType<typeof getSta
                 />
               </h1>
               <motion.p {...anim(blur(getTime(2), playHomeAnimation))} className="mt-6 text-base text-zinc-600 dark:text-zinc-400">
-                My name is Niccolò Fanton, and I&apos;m a developer based Italy.
+                My name is Niccolò Fanton, and I&apos;m a developer in based Italy.
                 I have a profound love for design and I consider my work as an extension of myself.
                 I&apos;m an explorer of hidden meanings, I chase life with an insatiable thirst for
                 understanding. <br /><br />
