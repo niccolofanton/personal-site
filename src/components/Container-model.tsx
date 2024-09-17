@@ -1,10 +1,10 @@
 import { useFrame, useThree } from '@react-three/fiber'
 import React, { RefObject, useEffect, useRef, useState } from 'react';
-import { useGLTF, DragControls } from '@react-three/drei';
+import { useGLTF, DragControls, Wireframe } from '@react-three/drei';
 import { RigidBody, useRevoluteJoint, RapierRigidBody, useRapier, useRopeJoint, CuboidCollider, RoundCuboidCollider, useSpringJoint } from '@react-three/rapier';
 import { GLTF } from 'three-stdlib';
 import * as THREE from 'three';
-import DraggableRigidBody, { DraggableRigidBodyProps } from './DraggableRigidBody';
+import DraggableRigidBody from './DraggableRigidBody';
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -37,7 +37,13 @@ const RevoluteJoint: React.FC<{
   return null;
 };
 
+const positions: [number, number, number,][] = [];
 
+for (let i = 0; i < 40; i++) {
+  positions.push(
+    [Math.random() * (6 - -6) + -6, Math.random() * (5 - 0.5) + 0.5, Math.random() * (6 - -6) + -6]
+  )
+}
 
 export function ContainerModel(props: JSX.IntrinsicElements['group']) {
   const group = useRef<THREE.Group>(null);
@@ -54,36 +60,75 @@ export function ContainerModel(props: JSX.IntrinsicElements['group']) {
   const groupB = 2; // Group 2
   const groupC = 4; // Group 3
 
-  const raggableRigidBodyProps: Partial<DraggableRigidBodyProps> = {
-    boundingBox: {
-      minX: -8,
-      maxX: 8,
-      minY: .5,
-      maxY: 8,
-      minZ: -8,
-      maxZ: 8
-    },
+
+  let firstCollisionId: number | null = null;
+  const [currentDragged, setCurrentDragged] = useState<number | null>(null);
+
+  const DraggableRigidBodyProps: Partial<DraggableRigidBody2Props> = {
     rigidBodyProps: {
       gravityScale: 3.5,
       linearDamping: 5,
       angularDamping: .2,
       colliders: "hull"
     },
+    boundingBox: [[-8, 8], [.5, 8], [-8, 8]],
   }
+
+
+  // Questa funzione verrà passata a B per emettere un evento
+  const handleOnDragStart = (id: number | null | undefined) => {
+    // key was not set on component
+    if (id === undefined) return;
+    // something is already being dragged
+    if (currentDragged !== null) return
+    // save only the first event fired
+    if (firstCollisionId !== null) return;
+    firstCollisionId = id;
+    setCurrentDragged(id)
+  };
+
+  // Questa funzione verrà passata a B per emettere un evento
+  const handleOnDragStop = (id: number | undefined) => {
+    // in case we don't have an id on the component
+    if (id === undefined) return;
+    // only the current dragged can reset the state
+    if (id !== currentDragged) return;
+    console.log('handleOnDragStop', id);
+    setCurrentDragged(null);
+  };
+
 
 
   return (
     <>
-      <DraggableRigidBody {...raggableRigidBodyProps}
-        visibleMesh={
-          <mesh>
-            {/* <boxGeometry args={[1, 1, 1]} /> */}
-            <sphereGeometry args={[1, 10, 10]} />
-            <meshStandardMaterial wireframe={true} />
-          </mesh>
-        }
-      />
+      {
+        positions.map((_, i) =>
+          <DraggableRigidBody key={i} {...DraggableRigidBodyProps}
 
+            id={i}
+            onDragStart={handleOnDragStart}
+            onDragStop={handleOnDragStop}
+            currentDragged={currentDragged}
+            enableSpringJoint={false}
+
+            groupProps={{ position: _ }}
+
+            visibleMesh={
+              <mesh castShadow receiveShadow>
+                <boxGeometry args={[1, 1, 1]} />
+                <meshStandardMaterial color={"gray"} wireframe={false} />
+              </mesh>
+            }
+
+          // invisibleMesh={
+          //   <mesh castShadow receiveShadow>
+          //     <boxGeometry args={[.9, .9, .9]} />
+          //     <meshStandardMaterial color={"red"} wireframe={false} />
+          //   </mesh>
+          // }
+          />
+        )
+      }
 
       {/* <group ref={group} {...props} dispose={null}>
         <group>

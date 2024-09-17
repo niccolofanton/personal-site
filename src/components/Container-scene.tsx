@@ -1,6 +1,6 @@
 import { Bloom, EffectComposer, N8AO } from '@react-three/postprocessing';
 import { Physics, RigidBody, CuboidCollider } from "@react-three/rapier";
-import { Environment, OrbitControls, OrthographicCamera } from '@react-three/drei';
+import { Environment, OrbitControls, OrthographicCamera, Shadow, SoftShadows } from '@react-three/drei';
 import { ContainerModel } from './Container-model';
 import { Canvas } from '@react-three/fiber';
 import { Suspense } from 'react';
@@ -29,23 +29,27 @@ export const ContainerScene = (props: ContainerSceneProps) => {
   return (
     <div className={`${props.className}`}>
 
-      <Canvas onCreated={state => {
-        state.camera.position.z = 5;
-        state.camera.position.y = 5;
-        state.camera.position.x = -5;
+      <Canvas
+
+        shadows
+
+        onCreated={state => {
+          state.camera.position.z = 15;
+          state.camera.position.y = 5;
+          // state.camera.position.x = -5;
 
 
-        state.camera.lookAt(0, 0, 0);
-        state.camera.updateProjectionMatrix()
-        state.gl.setPixelRatio(2);
-      }}>
+          state.camera.lookAt(0, 0, 0);
+          state.camera.updateProjectionMatrix()
+          state.gl.setPixelRatio(2);
+        }}>
 
         {/* <OrthographicCamera/> */}
 
         <Suspense>
 
           {/* <camera position={[0, 0, 50]} /> */}
-{/* 
+          {/* 
           <EffectComposer>
             <N8AO {...AOconf} />
             <Bloom intensity={.2}></Bloom>
@@ -53,23 +57,37 @@ export const ContainerScene = (props: ContainerSceneProps) => {
 
           <OrbitControls autoRotate={false} enableRotate={false} enableZoom={true} autoRotateSpeed={1} />
 
-          <ambientLight intensity={3} />
-
-          <Environment preset="city" />
-
+          {/* <ambientLight intensity={3} /> */}
+          {/* <Environment preset="city" />  */}
           {/* <primitive object={new AxesHelper(5)} /> */}
 
-          <Physics debug={true} gravity={[0, -9.81, 0]} paused={false}>
-            <ContainerModel></ContainerModel>
 
+
+          {/* <SoftShadows /> */}
+
+          {/* <fog attach="fog" args={["white", 0, 40]} /> */}
+          <ambientLight intensity={0.5} />
+          <directionalLight castShadow position={[2.5, 8, 5]} intensity={1.5} shadow-mapSize={1024}>
+            <orthographicCamera attach="shadow-camera" args={[-10, 10, -10, 10, 0.1, 50]} />
+          </directionalLight>
+
+
+          {/* <mesh receiveShadow position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]} >
+            <planeGeometry args={[2500, 2500]} />
+            <meshStandardMaterial />
+          </mesh> */}
+
+          <Physics debug={true} gravity={[0, -9.81, 0]} paused={false}>
+
+            <ContainerModel></ContainerModel>
 
             {/* <Door/> */}
             <CuboidCollider position={[0, -1, 0]} args={[10, 1, 10]} />
-            <CuboidCollider position={[0, 10, 0]} args={[10, 1, 10]} />
-            <CuboidCollider position={[-10, 10, 0]} args={[10, 1, 10]} rotation={[0,0, Math.PI/2]} />
-            <CuboidCollider position={[10, 10, 0]} args={[10, 1, 10]} rotation={[0,0, Math.PI/2]} />
-            <CuboidCollider position={[0, 10, 10]} args={[10, 1, 10]} rotation={[Math.PI/2,0, 0]} />
-            <CuboidCollider position={[0, 10, -10]} args={[10, 1, 10]} rotation={[Math.PI/2,0, 0]} />
+            <CuboidCollider position={[0, 100, 0]} args={[10, 1, 10]} />
+            <CuboidCollider position={[-10, 10, 0]} args={[10, 1, 10]} rotation={[0, 0, Math.PI / 2]} />
+            <CuboidCollider position={[10, 10, 0]} args={[10, 1, 10]} rotation={[0, 0, Math.PI / 2]} />
+            <CuboidCollider position={[0, 10, 10]} args={[10, 1, 10]} rotation={[Math.PI / 2, 0, 0]} />
+            <CuboidCollider position={[0, 10, -10]} args={[10, 1, 10]} rotation={[Math.PI / 2, 0, 0]} />
 
 
             {/* <CuboidCollider position={[0, -.2, 0]} args={[3, .1, 4]} />
@@ -78,8 +96,6 @@ export const ContainerScene = (props: ContainerSceneProps) => {
             <CuboidCollider position={[1.7, 2.8, 0]} args={[3, .1, 4]} rotation={[0, 0, Math.PI / 2]} />
             <CuboidCollider position={[0, 2.8, 4.5]} args={[3, .1, 4]} rotation={[Math.PI / 2, 0, 0]} />
             <CuboidCollider position={[0, 2.8, -3.6]} args={[3, .1, 4]} rotation={[Math.PI / 2, 0, 0]} /> */}
-
-
 
 
           </Physics>
