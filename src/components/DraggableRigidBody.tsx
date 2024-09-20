@@ -2,35 +2,42 @@ import * as THREE from 'three';
 import { useThree, useFrame, ThreeElements, GroupProps } from '@react-three/fiber';
 import { RapierRigidBody, RigidBody, RigidBodyProps, useSpringJoint } from '@react-three/rapier';
 import React, { useState, useRef, ReactElement, useImperativeHandle, forwardRef } from 'react';
-import { DragControls } from '@react-three/drei';
-import { DragControlsProps } from '@react-three/drei/web/DragControls';
+import { CustomDragControls, CustomDragControlsProps } from './CustomDragControls';
+import { interactionGroupB } from './Container-scene';
 
 export const DEFAULT_SPRING_JOINT_CONFIG = {
     restLength: 0,
     stiffness: 500,
     damping: 0,
+    collisionGroups: 2
 }
 
 export interface DraggableRigidBodyProps {
-    id?: number,
-    boundingBox?: [[number, number] | undefined, [number, number] | undefined, [number, number] | undefined]
-    dragControlsProps?: Partial<DragControlsProps>,
-    rigidBodyProps?: RigidBodyProps,
+    groupProps?: GroupProps, /** set position coordinates here */
 
-    groupProps?: GroupProps,
+    boundingBox?: [
+        [number, number] | undefined,
+        [number, number] | undefined,
+        [number, number] | undefined
+    ] /** x, y and z min and max drag coordinates */
+
+    dragControlsProps?: Partial<CustomDragControlsProps>,
+    rigidBodyProps?: Partial<RigidBodyProps>,
+
     visibleMesh: ReactElement<ThreeElements['mesh']>,
-    invisibleMesh?: ReactElement<ThreeElements['mesh']>,
+    invisibleMesh?: ReactElement<ThreeElements['mesh']>, /** defaults to visibleMesh, invisibleMesh is used for the DragControls */
 
-    enableSpringJoint?: boolean,
+    enableSpringJoint?: boolean, /** enables wobbly physics */
+
     jointConfig?: {
-        restLength: number,
-        stiffness: number,
-        damping: number
-    }
+        restLength?: number,
+        stiffness?: number,
+        damping?: number,
+        springJointCollisionGroups?: number,
+    } /** rapier SpringJoint props */
 
-    onDragStart?: (key: number | undefined) => void,
-    onDragStop?: (key: number | undefined) => void,
-    currentDragged?: number | null
+    onDragStart?: () => void,
+    onDragStop?: () => void,
 }
 
 // Interfaccia per il tipo di ref che vogliamo esporre
@@ -45,20 +52,20 @@ const DraggableRigidBody = forwardRef<DraggableRigidBodyRef, DraggableRigidBodyP
         const [isDragging, setIsDragging] = useState(false)
         const { scene } = useThree();
 
-        const visibleRigidBodyRef = useRef<RapierRigidBody>(null);
-        const visibleMeshRef = useRef<THREE.Mesh>(null);
+        const rigidBodyRef = useRef<RapierRigidBody>(null);
+        const jointRigidBodyRef = useRef<RapierRigidBody>(null);
 
-        const invisibibleRigidBodyRef = useRef<RapierRigidBody>(null);
-        const invisibleMeshRef = useRef<THREE.Mesh>(null);
+        const meshRef = useRef<THREE.Mesh>(null);
+        const invisibleDragControlsMeshRef = useRef<THREE.Mesh>(null);
 
         useImperativeHandle(ref, () => ({
-            getInvisibleMesh: () => invisibleMeshRef.current,
-            getVisibleMesh: () => visibleMeshRef.current,
+            getInvisibleMesh: () => invisibleDragControlsMeshRef.current,
+            getVisibleMesh: () => meshRef.current,
         }));
 
         useSpringJoint(
-            invisibibleRigidBodyRef,
-            visibleRigidBodyRef,
+            jointRigidBodyRef,
+            rigidBodyRef,
             [
                 [0, 0, 0],
                 [0, 0, 0],
@@ -69,20 +76,21 @@ const DraggableRigidBody = forwardRef<DraggableRigidBodyRef, DraggableRigidBodyP
         );
 
         useFrame(() => {
-
             // removes unwanted joint movement when not dragged
             if (
-                invisibibleRigidBodyRef.current &&
-                !invisibibleRigidBodyRef.current.isSleeping() &&
+                jointRigidBodyRef.current &&
+                !jointRigidBodyRef.current.isSleeping() &&
                 !isDragging
             ) {
-                invisibibleRigidBodyRef.current.setLinvel({ x: 0, y: 0, z: 0 }, false)
-                invisibibleRigidBodyRef.current.setAngvel({ x: 0, y: 0, z: 0 }, false)
+                jointRigidBodyRef.current.setLinvel({ x: 0, y: 0, z: 0 }, false)
+                jointRigidBodyRef.current.setAngvel({ x: 0, y: 0, z: 0 }, false)
             }
 
             if (
-                !invisibleMeshRef.current || !visibleMeshRef.current ||
-                isDragging || visibleRigidBodyRef.current?.isSleeping()
+                !invisibleDragControlsMeshRef.current || !meshRef.current ||
+                isDragging ||
+                rigidBodyRef.current?.bodyType() === 2 ||
+                rigidBodyRef.current?.isSleeping()
             ) return;
 
             /**
@@ -91,21 +99,21 @@ const DraggableRigidBody = forwardRef<DraggableRigidBodyRef, DraggableRigidBodyP
              * ? dragging or RigidBody is moving)
              */
 
-            // updates position and rotation witout influence from parent objects
-            const pmV = visibleMeshRef.current?.parent;
-            const pmI = invisibleMeshRef.current?.parent;
+            // updates position and rotation without influence from parent objects
+            const pmV = meshRef.current?.parent;
+            const pmI = invisibleDragControlsMeshRef.current?.parent;
 
             if (!pmV || !pmI) return;
 
-            scene.attach(visibleMeshRef.current);
-            scene.attach(invisibleMeshRef.current);
+            scene.attach(meshRef.current);
+            scene.attach(invisibleDragControlsMeshRef.current);
 
-            const pos = visibleMeshRef.current.position;
-            invisibleMeshRef.current.position.set(pos.x, pos.y, pos.z);
-            invisibleMeshRef.current.setRotationFromEuler(visibleMeshRef.current.rotation);
+            const pos = meshRef.current.position;
+            invisibleDragControlsMeshRef.current.position.set(pos.x, pos.y, pos.z);
+            invisibleDragControlsMeshRef.current.setRotationFromEuler(meshRef.current.rotation);
 
-            pmV.attach(visibleMeshRef.current);
-            pmI.attach(invisibleMeshRef.current);
+            pmV.attach(meshRef.current);
+            pmI.attach(invisibleDragControlsMeshRef.current);
         })
 
         const getBoxedPosition = (position: THREE.Vector3) => {
@@ -119,11 +127,6 @@ const DraggableRigidBody = forwardRef<DraggableRigidBodyRef, DraggableRigidBodyP
 
             if (box[1]) {
                 position.setY(Math.min(Math.max(box[1][0], position.y), box[1][1]));
-
-                if (position.y < 0.5) {
-                    console.log(position.y);
-                }
-
             }
 
             if (box[2]) {
@@ -134,59 +137,54 @@ const DraggableRigidBody = forwardRef<DraggableRigidBodyRef, DraggableRigidBodyP
         }
 
         const startDragging = () => {
-            // another is being dragged
-            if (props.currentDragged !== null) return
-
-            // fire event
-            if (props.onDragStart) {
-                props.onDragStart(props.id)
-            }
 
             setIsDragging(true)
 
-            if (invisibibleRigidBodyRef.current) {
-                invisibibleRigidBodyRef.current.setBodyType(2, true);
-                invisibibleRigidBodyRef.current.wakeUp()
+            if(props.onDragStart) props.onDragStart();
+
+            if (props.enableSpringJoint && jointRigidBodyRef.current && rigidBodyRef.current) {
+                jointRigidBodyRef.current.setBodyType(2, true);
+                rigidBodyRef.current.setLinearDamping(8);
+                jointRigidBodyRef.current.wakeUp()
                 return;
             }
 
-            if (!visibleRigidBodyRef.current) return;
-            visibleRigidBodyRef.current.setBodyType(2, true);
-            visibleRigidBodyRef.current.wakeUp()
+            if (!rigidBodyRef.current) return;
+            rigidBodyRef.current.setBodyType(2, true);
+            rigidBodyRef.current.wakeUp()
         }
 
         const onDrag = () => {
-            if (!isDragging || !visibleRigidBodyRef.current || !invisibleMeshRef.current) return;
-            if (props.id !== props.currentDragged) {
-                stopDragging();
-                return;
-            }
+            if (!isDragging || !rigidBodyRef.current || !invisibleDragControlsMeshRef.current) return;
+
+            // skip update if RigidBody type is not updated
+            if (!props.enableSpringJoint && rigidBodyRef.current.bodyType() !== 2) return;
+            if (props.enableSpringJoint && jointRigidBodyRef.current && jointRigidBodyRef.current.bodyType() !== 2) return;
 
             // update position
             const position = new THREE.Vector3()
-            invisibleMeshRef.current.getWorldPosition(position)
+            invisibleDragControlsMeshRef.current.getWorldPosition(position)
 
-            if (invisibibleRigidBodyRef.current) {
-                invisibibleRigidBodyRef.current.setNextKinematicTranslation(position)
+            if (props.enableSpringJoint && jointRigidBodyRef.current) {
+                jointRigidBodyRef.current.setNextKinematicTranslation(position)
                 return
             }
 
-            visibleRigidBodyRef.current.setNextKinematicTranslation(getBoxedPosition(position))
+            rigidBodyRef.current.setNextKinematicTranslation(getBoxedPosition(position))
         }
 
         const stopDragging = () => {
-            if (props.onDragStop) {
-                props.onDragStop(props.id)
-            }
+            if(props.onDragStop) props.onDragStop();
 
-            if (invisibibleRigidBodyRef.current) {
-                invisibibleRigidBodyRef.current.setBodyType(0, true);
+            if (props.enableSpringJoint && jointRigidBodyRef.current && rigidBodyRef.current) {
+                jointRigidBodyRef.current.setBodyType(0, true);
+                rigidBodyRef.current.setLinearDamping(props.jointConfig?.damping ?? 0);
                 setIsDragging(false)
                 return;
             }
 
-            if (!visibleRigidBodyRef.current) return;
-            visibleRigidBodyRef.current.setBodyType(0, true);
+            if (!rigidBodyRef.current) return;
+            rigidBodyRef.current.setBodyType(0, true);
             setIsDragging(false)
         }
 
@@ -196,39 +194,41 @@ const DraggableRigidBody = forwardRef<DraggableRigidBodyRef, DraggableRigidBodyP
                 {
                     props.enableSpringJoint &&
                     (
-                        //  we use 2 colliders with a joint for the "elastic effect" 
-                        <RigidBody type={'dynamic'} ref={invisibibleRigidBodyRef} collisionGroups={2}  >
+                        //  we use 2 colliders with a joint for the "wobbly effect", this RigidBody is on another collisionGroups
+                        <RigidBody type={'dynamic'} ref={jointRigidBodyRef}
+                            collisionGroups={props.jointConfig?.springJointCollisionGroups ?? DEFAULT_SPRING_JOINT_CONFIG.collisionGroups}>
                             <mesh>
-                                <sphereGeometry args={[.2, 10, 10]} />
-                                <meshStandardMaterial color={"red"} wireframe={false} visible={true} />
+                                <boxGeometry args={[.01, .01, .01]} />
+                                <meshStandardMaterial visible={false} />
                             </mesh>
                         </RigidBody>
                     )
                 }
 
                 {/* handle mouse movements */}
-                <DragControls
+                <CustomDragControls
                     onDragStart={startDragging}
                     onDrag={onDrag}
                     onDragEnd={stopDragging}
                     {...props.dragControlsProps}
                 >
-                    {React.cloneElement(props.invisibleMesh ?? props.visibleMesh, { ref: invisibleMeshRef, key: 'visible', visible: false })}
-                </DragControls>
+                    {React.cloneElement(props.invisibleMesh ?? props.visibleMesh, { ref: invisibleDragControlsMeshRef, key: 'invisible', visible: false })}
+                </CustomDragControls>
 
+                {/* handle physics */}
                 <RigidBody
-                    ref={visibleRigidBodyRef}
+                    ref={rigidBodyRef}
                     type={'dynamic'}
                     colliders={'hull'}
+                    collisionGroups={interactionGroupB}
                     {...props.rigidBodyProps}
                 >
-                    {React.cloneElement(props.visibleMesh, { ref: visibleMeshRef, key: 'invisible' })}
+                    {React.cloneElement(props.visibleMesh, { ref: meshRef, key: 'visible' })}
                 </RigidBody>
 
             </group >
         )
     }
 );
-
 
 export default DraggableRigidBody;
