@@ -23,7 +23,7 @@ type GLTFResult = GLTF & {
     ['777.001']: THREE.MeshStandardMaterial
     ['777.004']: THREE.MeshStandardMaterial
   }
-  animations: GLTFAction[]
+  animations: any[]
 }
 
 export function Model(props: JSX.IntrinsicElements['group']) {

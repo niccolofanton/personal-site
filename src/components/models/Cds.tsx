@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import React, { LegacyRef, useMemo, useRef } from 'react';
+import React, { createRef, LegacyRef, useMemo, useRef } from 'react';
 import { useGLTF, Instances, Instance } from '@react-three/drei';
 import { GroupProps, useFrame, useLoader } from '@react-three/fiber';
 import DraggableRigidBody, { DraggableRigidBodyProps } from '../DraggableRigidBody';
@@ -28,9 +28,10 @@ type CdsModelProps = JSX.IntrinsicElements['group'] & {
 export const CdsModel = React.forwardRef<any, CdsModelProps>(({ texturesSrc, ...props }, ref) => {
 
   const { nodes } = useGLTF('/models-transformed/cd-transformed.glb') as GLTFResult;
-  const textures = texturesSrc.map((src) => useLoader(THREE.TextureLoader, src));
+  const textures = useLoader(THREE.TextureLoader, texturesSrc);
   const instances: LegacyRef<THREE.InstancedMesh> = useRef(null);
-  const meshRefs = texturesSrc.map(() => useRef<THREE.Group>(null));
+  const meshRefs = useMemo(() => texturesSrc.map(() => createRef<THREE.Group>()), [texturesSrc]);  // Crea i ref per ogni elemento
+
   const geometry = useMemo(() => new THREE.PlaneGeometry(1.05, 1.01), [])
   const geometry2 = useMemo(() => new THREE.BoxGeometry(1.05, 1.01, .5), [])
 
@@ -50,8 +51,8 @@ export const CdsModel = React.forwardRef<any, CdsModelProps>(({ texturesSrc, ...
         let r = new THREE.Quaternion();
 
         if (meshRefs[i]?.current) {
-          meshRefs[i].current.getWorldPosition(p);
-          meshRefs[i].current.getWorldQuaternion(r);
+          meshRefs[i].current?.getWorldPosition(p);
+          meshRefs[i].current?.getWorldQuaternion(r);
         }
 
         instance.setRotationFromQuaternion(r);

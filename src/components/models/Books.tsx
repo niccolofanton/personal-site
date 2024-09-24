@@ -1,7 +1,7 @@
 import DraggableRigidBody, { DraggableRigidBodyProps } from '../DraggableRigidBody';
 import { GroupProps, useFrame, useLoader } from '@react-three/fiber';
 import { useGLTF, Instances, Instance } from '@react-three/drei';
-import React, { LegacyRef, useMemo, useRef } from 'react';
+import React, { createRef, LegacyRef, useMemo, useRef } from 'react';
 import { generatedPositions } from '../Container-model';
 import { GLTF } from 'three-stdlib'
 import * as THREE from 'three';
@@ -25,9 +25,9 @@ type BookModelProps = JSX.IntrinsicElements['group'] & {
 export const BooksModel = React.forwardRef<any, BookModelProps>(({ texturesSrc, ...props }, ref) => {
 
   const { nodes, materials } = useGLTF('/models-transformed/book-transformed.glb') as GLTFResult
-  const textures = texturesSrc.map((src) => useLoader(THREE.TextureLoader, src));
   const instances: LegacyRef<THREE.InstancedMesh> = useRef(null);
-  const meshRefs = texturesSrc.map(() => useRef<THREE.Group>(null));
+  const textures = useLoader(THREE.TextureLoader, texturesSrc);
+  const meshRefs = useMemo(() => texturesSrc.map(() => createRef<THREE.Group>()), [texturesSrc]);  // Crea i ref per ogni elemento
   const geometry = useMemo(() => new THREE.PlaneGeometry(.666, 1), [])
   const geometry2 = useMemo(() => new THREE.BoxGeometry(.666, 1, .15), [])
   const material = useMemo(() => new THREE.MeshStandardMaterial({ visible: false }), [])
@@ -42,8 +42,8 @@ export const BooksModel = React.forwardRef<any, BookModelProps>(({ texturesSrc, 
         let r = new THREE.Quaternion();
 
         if (meshRefs[i]?.current) {
-          meshRefs[i].current.getWorldPosition(p);
-          meshRefs[i].current.getWorldQuaternion(r);
+          meshRefs[i].current?.getWorldPosition(p);
+          meshRefs[i].current?.getWorldQuaternion(r);
         }
 
         instance.setRotationFromQuaternion(r);

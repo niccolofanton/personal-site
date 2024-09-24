@@ -157,18 +157,18 @@ type GLTFResult = GLTF & {
   animations: any[]
 }
 
-const RevoluteJoint: React.FC<{
-  body1: RefObject<RapierRigidBody>,
-  body2: RefObject<RapierRigidBody>,
-  anchor: [number, number, number],
-  anchors?: [[number, number, number], [number, number, number]],
-  rotation?: [number, number, number]
-}> = ({ body1, body2, anchor, anchors = undefined, rotation = [0, 0, 1] }) => {
-  anchors ?
-    useRevoluteJoint(body1, body2, [...anchors, rotation]) :
-    useRevoluteJoint(body1, body2, [anchor, anchor, rotation]);
-  return null;
-};
+// const RevoluteJoint: React.FC<{
+//   body1: RefObject<RapierRigidBody>,
+//   body2: RefObject<RapierRigidBody>,
+//   anchor: [number, number, number],
+//   anchors?: [[number, number, number], [number, number, number]],
+//   rotation?: [number, number, number]
+// }> = ({ body1, body2, anchor, anchors = undefined, rotation = [0, 0, 1] }) => {
+//   anchors ?
+//     useRevoluteJoint(body1, body2, [...anchors, rotation]) :
+//     useRevoluteJoint(body1, body2, [anchor, anchor, rotation]);
+//   return null;
+// };
 
 
 // for (let i = 0; i < 200; i++) {
