@@ -1,16 +1,14 @@
-import { useFrame, useThree } from '@react-three/fiber'
 import React, { RefObject, useEffect, useRef, useState } from 'react';
-import { useGLTF, DragControls, Wireframe, OrbitControls } from '@react-three/drei';
-import { RigidBody, useRevoluteJoint, RapierRigidBody, useRapier, useRopeJoint, CuboidCollider, RoundCuboidCollider, useSpringJoint } from '@react-three/rapier';
+import { useGLTF } from '@react-three/drei';
+import { useRevoluteJoint, RapierRigidBody} from '@react-three/rapier';
 import { GLTF } from 'three-stdlib';
 import * as THREE from 'three';
 import DraggableRigidBody, { DraggableRigidBodyProps } from './DraggableRigidBody';
-import { interactionGroupA, interactionGroupB } from './Container-scene';
 
 import SmoothOrbitControls from './SmoothOrbitControls';
 import { Ak47Model } from './models/Ak47';
 import { ApeModel } from './models/Ape';
-import { BookModel } from './models/Book';
+import { BooksModel } from './models/Books';
 import { CarModel } from './models/Car';
 import { ClankModel } from './models/Clank';
 import { ControllerModel } from './models/Controller';
@@ -18,23 +16,127 @@ import { CrashModel } from './models/Crash';
 import { DaftpunkModel } from './models/Daftpunk';
 import { Deadmau5Model } from './models/Deadmau5';
 import { DexterModel } from './models/Dexter';
-import { DiscModel } from './models/Disc';
+import { VinylsModel } from './models/Vinyls';
 import { GbcModel } from './models/Gbc';
 import { HaloModel } from './models/Halo';
 import { KanyeModel } from './models/Kanye';
 import { KlonoaModel } from './models/Klonoa';
 import { MarioModel } from './models/Mario';
 import { MinecraftModel } from './models/Minecraft';
-import { PokemonModel } from './models/Pokemon';
 import { RaymanModel } from './models/Rayman';
 import { SlyModel } from './models/Sly';
 import { SnakeModel } from './models/Snake';
 import { SteveModel } from './models/Steve';
 import { TankModel } from './models/Tank';
-import { TerrariaModel } from './models/Terraria';
 import { VhsModel } from './models/Vhs';
 import { ZeldaModel } from './models/Zelda';
 import { ZombieModel } from './models/Zombie';
+import { CdsModel } from './models/Cds';
+import { DvdsModel } from './models/Dvds';
+
+// Array of generated positions
+export const generatedPositions = [
+  new THREE.Vector3(-1.95, 5.98, 7.87),
+  new THREE.Vector3(0.14, 2.83, 6.97),
+  new THREE.Vector3(-3.30, 17.29, -7.24),
+  new THREE.Vector3(1.76, 8.91, 7.82),
+  new THREE.Vector3(-1.15, 5.78, 2.83),
+  new THREE.Vector3(-3.73, 18.46, 6.17),
+  new THREE.Vector3(-8.70, 7.96, -3.83),
+  new THREE.Vector3(2.82, 11.15, 7.21),
+  new THREE.Vector3(8.10, 2.48, -6.10),
+  new THREE.Vector3(-3.15, 4.90, 7.86),
+  new THREE.Vector3(0.12, 14.69, -8.20),
+  new THREE.Vector3(-4.83, 5.86, -3.71),
+  new THREE.Vector3(2.84, 11.53, -6.39),
+  new THREE.Vector3(0.18, 6.47, -1.55),
+  new THREE.Vector3(7.89, 3.43, 3.89),
+  new THREE.Vector3(-4.98, 9.38, -3.18),
+  new THREE.Vector3(5.85, 12.10, 3.41),
+  new THREE.Vector3(-4.07, 8.77, -0.31),
+  new THREE.Vector3(-6.32, 14.35, -4.94),
+  new THREE.Vector3(-5.39, 9.99, -1.62),
+  new THREE.Vector3(-0.75, 3.73, 7.48),
+  new THREE.Vector3(-4.27, 11.08, -5.92),
+  new THREE.Vector3(8.99, 10.35, -6.74),
+  new THREE.Vector3(8.64, 1.15, 2.86),
+  new THREE.Vector3(-1.78, 18.51, -1.10),
+  new THREE.Vector3(-7.37, 5.75, -5.19),
+  new THREE.Vector3(5.65, 16.12, -1.13),
+  new THREE.Vector3(-4.48, 3.52, 4.49),
+  new THREE.Vector3(2.68, 18.87, -4.03),
+  new THREE.Vector3(-4.20, 16.40, 1.62),
+  new THREE.Vector3(-0.64, 1.85, 2.51),
+  new THREE.Vector3(2.29, 10.98, -7.90),
+  new THREE.Vector3(-3.94, 1.80, 6.38),
+  new THREE.Vector3(5.28, 5.28, -4.67),
+  new THREE.Vector3(-8.99, 10.95, -8.96),
+  new THREE.Vector3(-6.12, 7.13, 8.60),
+  new THREE.Vector3(5.78, 15.10, -4.82),
+  new THREE.Vector3(2.72, 7.64, -7.12),
+  new THREE.Vector3(5.30, 4.67, 1.91),
+  new THREE.Vector3(-4.78, 8.88, -6.19),
+  new THREE.Vector3(8.98, 6.70, -4.93),
+  new THREE.Vector3(2.94, 18.38, -5.00),
+  new THREE.Vector3(-8.62, 10.55, -2.34),
+  new THREE.Vector3(8.97, 9.11, 6.33),
+  new THREE.Vector3(-5.86, 5.15, -4.94),
+  new THREE.Vector3(-5.21, 5.23, -1.77),
+  new THREE.Vector3(-0.45, 11.63, -7.62),
+  new THREE.Vector3(-4.02, 18.47, -6.95),
+  new THREE.Vector3(7.39, 3.87, 5.14),
+  new THREE.Vector3(-8.49, 14.76, 4.70),
+  new THREE.Vector3(6.13, 2.07, -6.64),
+  new THREE.Vector3(2.64, 14.01, 5.43),
+  new THREE.Vector3(2.60, 5.10, -0.29),
+  new THREE.Vector3(2.66, 14.20, -8.76),
+  new THREE.Vector3(-0.71, 18.23, -2.29),
+  new THREE.Vector3(-4.43, 11.18, 6.92),
+  new THREE.Vector3(6.59, 16.54, 6.05),
+  new THREE.Vector3(1.16, 4.72, 8.34),
+  new THREE.Vector3(8.11, 9.82, 2.62),
+  new THREE.Vector3(-8.14, 1.51, -4.14),
+  new THREE.Vector3(-3.16, 7.15, -2.00),
+  new THREE.Vector3(-4.33, 9.05, 2.49),
+  new THREE.Vector3(8.78, 8.17, -8.17),
+  new THREE.Vector3(-0.85, 6.01, 7.81),
+  new THREE.Vector3(1.77, 4.06, 6.51),
+  new THREE.Vector3(4.92, 12.70, -6.28),
+  new THREE.Vector3(-8.70, 15.85, 2.95),
+  new THREE.Vector3(-6.13, 17.78, 4.43),
+  new THREE.Vector3(-2.71, 10.80, 2.52),
+  new THREE.Vector3(-8.51, 7.09, 1.89),
+  new THREE.Vector3(-6.53, 5.82, 3.28),
+  new THREE.Vector3(0.20, 18.83, -4.17),
+  new THREE.Vector3(0.08, 18.19, -8.47),
+  new THREE.Vector3(3.34, 2.72, 5.62),
+  new THREE.Vector3(3.86, 16.34, -8.75),
+  new THREE.Vector3(-5.30, 17.13, -4.59),
+  new THREE.Vector3(6.01, 11.09, 4.13),
+  new THREE.Vector3(2.51, 14.94, 0.22),
+  new THREE.Vector3(4.21, 14.53, 0.28),
+  new THREE.Vector3(-7.74, 3.12, 1.07),
+  new THREE.Vector3(-3.57, 7.92, -5.89),
+  new THREE.Vector3(4.71, 15.00, 1.48),
+  new THREE.Vector3(1.04, 10.51, 0.71),
+  new THREE.Vector3(7.20, 8.89, 0.73),
+  new THREE.Vector3(-0.90, 17.70, 6.40),
+  new THREE.Vector3(6.87, 16.43, 2.50),
+  new THREE.Vector3(-4.96, 16.04, 7.64),
+  new THREE.Vector3(-6.41, 9.58, 7.38),
+  new THREE.Vector3(8.05, 17.96, -3.81),
+  new THREE.Vector3(-1.44, 16.83, 0.44),
+  new THREE.Vector3(-1.35, 2.40, -7.51),
+  new THREE.Vector3(3.65, 14.03, 3.10),
+  new THREE.Vector3(8.50, 12.47, 4.30),
+  new THREE.Vector3(7.15, 15.92, -0.59),
+  new THREE.Vector3(-5.82, 6.86, 1.91),
+  new THREE.Vector3(0.17, 4.77, 2.82),
+  new THREE.Vector3(-5.78, 18.06, -5.03),
+  new THREE.Vector3(-1.59, 14.86, -0.05),
+  new THREE.Vector3(-0.02, 9.68, -8.17),
+  new THREE.Vector3(2.43, 12.36, -8.32)
+];
 
 
 type GLTFResult = GLTF & {
@@ -99,6 +201,8 @@ export function ContainerModel(props: JSX.IntrinsicElements['group']) {
   const groupB = 2; // Group 2
   const groupC = 4; // Group 3
 
+  const springJoint = false;
+  const objectScaleSize = 1.5;
 
   // let firstCollisionId: number | null = null;
   // const [currentDragged, setCurrentDragged] = useState<number | null>(null);
@@ -106,50 +210,28 @@ export function ContainerModel(props: JSX.IntrinsicElements['group']) {
   const DraggableRigidBodyProps: Partial<DraggableRigidBodyProps> = {
     rigidBodyProps: {
       // gravityScale: 3.5,
-      // linearDamping: 5,
+      restitution: .1,
       angularDamping: .2,
+      // linearDamping: 1.1,
     },
     jointConfig: {
-      stiffness: 20
+      stiffness: 40
     },
-    boundingBox: [[-8, 8], [.1, 8], [-8, 8]],
+    boundingBox: [[-10, 10], [.1, 20], [-10, 10]],
     dragControlsProps: {
       preventOverlap: true
-    }
+    },
+    onDragStart: () => setOrbitEnabled(false),
+    onDragStop: () => setOrbitEnabled(true),
+    enableSpringJoint: springJoint
   }
 
-
-  // // Questa funzione verrà passata a B per emettere un evento
-  // const handleOnDragStart = (id: number | null | undefined) => {
-  //   // key was not set on component
-  //   if (id === undefined) return;
-  //   // something is already being dragged
-  //   if (currentDragged !== null) return
-  //   // save only the first event fired
-  //   if (firstCollisionId !== null) return;
-  //   firstCollisionId = id;
-  //   setCurrentDragged(id)
-  // };
-
-  // // Questa funzione verrà passata a B per emettere un evento
-  // const handleOnDragStop = (id: number | undefined) => {
-  //   // in case we don't have an id on the component
-  //   if (id === undefined) return;
-  //   // only the current dragged can reset the state
-  //   if (id !== currentDragged) return;
-  //   setCurrentDragged(null);
-  // };
-
   useEffect(() => {
-
-    // return;
-
     setTimeout(() => {
       setVisible(true);
 
       // setCollisionGroups(interactionGroupA)
       setType('dynamic');
-
 
       setTimeout(() => {
 
@@ -158,354 +240,397 @@ export function ContainerModel(props: JSX.IntrinsicElements['group']) {
         setType('fixed');
 
       }, 1500)
-
     }, 1000)
-
   }, []);
 
 
-  // Array per tenere traccia delle posizioni già generate
-  let generatedPositions: any[] = [
-    new THREE.Vector3(-0.012621761469900683, 1.991537183001228, -0.3141446491988096),
-    new THREE.Vector3(-0.3157177311359942, 0.6404231546721415, 0.8216084635894614),
-    new THREE.Vector3(0.19666437602836107, 0.7622624795479265, 2.5179808396069143),
-    new THREE.Vector3(-0.7336749575698303, 1.2967759040629674, 2.582427474946236),
-    new THREE.Vector3(-0.6086349767815271, 1.0516318060799499, -2.6977870142526292),
-    new THREE.Vector3(-0.9187780985211824, 1.1357701565158806, -1.6209473418134754),
-    new THREE.Vector3(-0.9099348536642919, 1.2537123172560505, 1.371154685449686),
-    new THREE.Vector3(-0.03201270627502195, 0.5327846457233409, -1.0641108688908534),
-    new THREE.Vector3(0.489483886439829, 0.9233909842067284, 1.530845559323204),
-    new THREE.Vector3(0.6744868591838191, 0.5640977472803604, -2.0952415626976526),
-    new THREE.Vector3(0.21521895369544852, 1.5403745262398392, -1.980338569225537),
-    new THREE.Vector3(0.3343422813592576, 0.8753711214614125, -0.17965538085620913),
-    new THREE.Vector3(-0.9103217586747183, 1.6898756010382154, 0.3264250537093991),
-    new THREE.Vector3(0.954129964515186, 1.4583591232713284, 2.7214670265917125),
-    new THREE.Vector3(0.33482602424973473, 1.6979285008123957, -2.991280744883828),
-    new THREE.Vector3(0.9449559264919749, 1.9281816536683507, 1.578893266878553),
-    new THREE.Vector3(0.862955026752934, 1.588091871057658, -0.6817787591801938),
-    new THREE.Vector3(-0.3025377401701945, 1.9729534099451835, 1.827050998285367),
-    new THREE.Vector3(0.08865116752393343, 1.780745346628515, 0.8347549056258092),
-    new THREE.Vector3(-0.8970082845203233, 0.7561664008497724, -0.2121231693832426),
-    new THREE.Vector3(-0.8966105441658891, 1.8877651504928423, -0.7756163504529208),
-    new THREE.Vector3(-0.9830817003919039, 1.9190309185410035, -2.3065958812631275),
-    new THREE.Vector3(0.9463515976464842, 1.8676248035232965, 0.31018181926412103),
-    new THREE.Vector3(0.03295290667126194, 1.9314393823012024, 2.9776364996298117),
-    new THREE.Vector3(0.9363344062773344, 0.544249554219874, 0.6074133489575351),
-    new THREE.Vector3(0.9886620679889395, 0.5458796267830728, -1.0384158616050962),
-    new THREE.Vector3(0.9980756349514359, 0.9309553879241437, -2.997953143847975),
-  ];
-
-  // // Funzione helper per calcolare la distanza tra due punti
-  // const distance = (pos1: THREE.Vector3, pos2: THREE.Vector3) => {
-  //   return Math.sqrt(
-  //     Math.pow(pos2.x - pos1.x, 2) +
-  //     Math.pow(pos2.y - pos1.y, 2) +
-  //     Math.pow(pos2.z - pos1.z, 2)
-  //   );
-  // };
-
-  // // Funzione helper per generare una nuova posizione
-  // const randomPosition = () => {
-  //   let newPos: THREE.Vector3;
-
-  //   // Ripeti finché non trovi una posizione che rispetta la distanza minima
-  //   do {
-  //     const x = Math.random() * 2 - 1;  // x tra -1 e 1
-  //     const y = Math.random() * 1.5 + 0.5;  // y tra 0.5 e 2
-  //     const z = Math.random() * 6 - 3;  // z tra -3 e 3
-  //     newPos = new THREE.Vector3(x, y, z);
-
-  //     // Verifica se la nuova posizione è ad almeno 1 metro di distanza da tutte le altre
-  //   } while (generatedPositions.some(pos => distance(pos, newPos) < 1));
-
-  //   // Memorizza la nuova posizione
-  //   generatedPositions.push(newPos);
-
-  //   console.log(generatedPositions);
-
-  //   return newPos.toArray();
-  // };
-
+  const imageArray = Array.from({ length: 11 }, (v, i) => `${i + 1}.png`);
+  const vhsArray = Array.from({ length: 5 }, (v, i) => `${i + 1}.jpg`);
+  const cdsArray = Array.from({ length: 33 }, (v, i) => `${i + 1}.jpg`);
+  const vinylsArray = Array.from({ length: 9 }, (v, i) => `${i + 1}.jpg`);
+  const booksArray = Array.from({ length: 7 }, (v, i) => `${i + 1}.jpg`);
+  const logosArray = Array.from({ length: 12 }, (v, i) => `${i + 1}.png`);
 
   return (
-
     <>
 
+      <SmoothOrbitControls enableRotate={orbitEnabled} target={[0, 10, 0]} />
 
-      <SmoothOrbitControls enableRotate={orbitEnabled} />
+      <CdsModel
+        texturesSrc={cdsArray.map(p => `/cds/${p}`)}
+        groupProps={{ scale: .5 }}
+        draggableRigidBodyProps={DraggableRigidBodyProps}
+      />
 
-      <DraggableRigidBody {...DraggableRigidBodyProps}
-        groupProps={{ position: generatedPositions[0] }}
-        onDragStart={() => setOrbitEnabled(false)}
-        onDragStop={() => setOrbitEnabled(true)}
-        enableSpringJoint={false}
-        // groupProps={{ position: _ }}
-        visibleMesh={
-          <MarioModel position={[0, 0, 0]} scale={.14} />
-        }
+      <DvdsModel
+        texturesSrc={imageArray.map(p => `/films/${p}`)}
+        groupProps={{}}
+        draggableRigidBodyProps={DraggableRigidBodyProps}
       />
-      <DraggableRigidBody {...DraggableRigidBodyProps}
-        groupProps={{ position: generatedPositions[1] }}
-        onDragStart={() => setOrbitEnabled(false)}
-        onDragStop={() => setOrbitEnabled(true)}
-        enableSpringJoint={false}
-        // groupProps={{ position: _ }}
-        visibleMesh={
-          <ZombieModel scale={.6} />
-        }
+
+      <VinylsModel
+        texturesSrc={vinylsArray.map(p => `/vinyls/${p}`)}
+        groupProps={{}}
+        draggableRigidBodyProps={DraggableRigidBodyProps}
       />
-      <DraggableRigidBody {...DraggableRigidBodyProps}
-        groupProps={{ position: generatedPositions[2] }}
-        onDragStart={() => setOrbitEnabled(false)}
-        onDragStop={() => setOrbitEnabled(true)}
-        enableSpringJoint={false}
-        // groupProps={{ position: _ }}
-        visibleMesh={
-          <Ak47Model scale={0.04} />
-        }
+
+      <VhsModel
+        texturesSrc={vhsArray.map(p => `/vhs/${p}`)}
+        groupProps={{}}
+        draggableRigidBodyProps={DraggableRigidBodyProps}
       />
-      <DraggableRigidBody {...DraggableRigidBodyProps}
-        groupProps={{ position: generatedPositions[3] }}
-        onDragStart={() => setOrbitEnabled(false)}
-        onDragStop={() => setOrbitEnabled(true)}
-        enableSpringJoint={false}
-        // groupProps={{ position: _ }}
-        visibleMesh={
-          <ApeModel scale={.8} />
-        }
-      />
-      <DraggableRigidBody {...DraggableRigidBodyProps}
-        groupProps={{ position: generatedPositions[4] }}
-        onDragStart={() => setOrbitEnabled(false)}
-        onDragStop={() => setOrbitEnabled(true)}
-        enableSpringJoint={false}
-        // groupProps={{ position: _ }}
-        visibleMesh={
-          <BookModel scale={.05} />
-        }
-      />
-      <DraggableRigidBody {...DraggableRigidBodyProps}
-        groupProps={{ position: generatedPositions[5] }}
-        onDragStart={() => setOrbitEnabled(false)}
-        onDragStop={() => setOrbitEnabled(true)}
-        enableSpringJoint={false}
-        // groupProps={{ position: _ }}
-        visibleMesh={
-          <CarModel scale={.1} />
-        }
-      />
-      <DraggableRigidBody {...DraggableRigidBodyProps}
-        groupProps={{ position: generatedPositions[6] }}
-        onDragStart={() => setOrbitEnabled(false)}
-        onDragStop={() => setOrbitEnabled(true)}
-        enableSpringJoint={false}
-        // groupProps={{ position: _ }}
-        visibleMesh={
-          <ClankModel scale={.7} />
-        }
-      />
-      <DraggableRigidBody {...DraggableRigidBodyProps}
-        groupProps={{ position: generatedPositions[7] }}
-        onDragStart={() => setOrbitEnabled(false)}
-        onDragStop={() => setOrbitEnabled(true)}
-        enableSpringJoint={false}
-        // groupProps={{ position: _ }}
-        visibleMesh={
-          <ControllerModel scale={.005} />
-        }
-      />
-      <DraggableRigidBody {...DraggableRigidBodyProps}
-        groupProps={{ position: generatedPositions[8] }}
-        onDragStart={() => setOrbitEnabled(false)}
-        onDragStop={() => setOrbitEnabled(true)}
-        enableSpringJoint={false}
-        // groupProps={{ position: _ }}
-        visibleMesh={
-          <CrashModel scale={.01} />
-        }
-      />
-      <DraggableRigidBody {...DraggableRigidBodyProps}
-        groupProps={{ position: generatedPositions[9] }}
-        onDragStart={() => setOrbitEnabled(false)}
-        onDragStop={() => setOrbitEnabled(true)}
-        enableSpringJoint={false}
-        // groupProps={{ position: _ }}
-        visibleMesh={
-          <DaftpunkModel scale={3.7} />
-        }
-      />
-      <DraggableRigidBody {...DraggableRigidBodyProps}
-        groupProps={{ position: generatedPositions[10] }}
-        onDragStart={() => setOrbitEnabled(false)}
-        onDragStop={() => setOrbitEnabled(true)}
-        enableSpringJoint={false}
-        // groupProps={{ position: _ }}
-        visibleMesh={
-          <Deadmau5Model scale={.05} />
-        }
-      />
-      <DraggableRigidBody {...DraggableRigidBodyProps}
-        groupProps={{ position: generatedPositions[11] }}
-        onDragStart={() => setOrbitEnabled(false)}
-        onDragStop={() => setOrbitEnabled(true)}
-        enableSpringJoint={false}
-        // groupProps={{ position: _ }}
-        visibleMesh={
-          <DexterModel scale={.1} />
-        }
-      />
-      <DraggableRigidBody {...DraggableRigidBodyProps}
-        groupProps={{ position: generatedPositions[12] }}
-        onDragStart={() => setOrbitEnabled(false)}
-        onDragStop={() => setOrbitEnabled(true)}
-        enableSpringJoint={false}
-        // groupProps={{ position: _ }}
-        visibleMesh={
-          <DiscModel scale={1.1} />
-        }
-      />
-      <DraggableRigidBody {...DraggableRigidBodyProps}
-        groupProps={{ position: generatedPositions[13] }}
-        onDragStart={() => setOrbitEnabled(false)}
-        onDragStop={() => setOrbitEnabled(true)}
-        enableSpringJoint={false}
-        // groupProps={{ position: _ }}
-        visibleMesh={
-          <GbcModel scale={.7} />
-        }
-      />
-      <DraggableRigidBody {...DraggableRigidBodyProps}
-        groupProps={{ position: generatedPositions[14] }}
-        onDragStart={() => setOrbitEnabled(false)}
-        onDragStop={() => setOrbitEnabled(true)}
-        enableSpringJoint={false}
-        // groupProps={{ position: _ }}
-        visibleMesh={
-          <HaloModel scale={1} />
-        }
-      />
-      <DraggableRigidBody {...DraggableRigidBodyProps}
-        groupProps={{ position: generatedPositions[15] }}
-        onDragStart={() => setOrbitEnabled(false)}
-        onDragStop={() => setOrbitEnabled(true)}
-        enableSpringJoint={false}
-        // groupProps={{ position: _ }}
-        visibleMesh={
-          <KanyeModel scale={2} />
-        }
-      />
-      <DraggableRigidBody {...DraggableRigidBodyProps}
-        groupProps={{ position: generatedPositions[16] }}
-        onDragStart={() => setOrbitEnabled(false)}
-        onDragStop={() => setOrbitEnabled(true)}
-        enableSpringJoint={false}
-        // groupProps={{ position: _ }}
-        visibleMesh={
-          <KlonoaModel scale={.27} />
-        }
-      />
-      <DraggableRigidBody {...DraggableRigidBodyProps}
-        groupProps={{ position: generatedPositions[17] }}
-        onDragStart={() => setOrbitEnabled(false)}
-        onDragStop={() => setOrbitEnabled(true)}
-        enableSpringJoint={false}
-        // groupProps={{ position: _ }}
-        visibleMesh={
-          <MinecraftModel scale={1.8} />
-        }
-      />
-      <DraggableRigidBody {...DraggableRigidBodyProps}
-        groupProps={{ position: generatedPositions[18] }}
-        onDragStart={() => setOrbitEnabled(false)}
-        onDragStop={() => setOrbitEnabled(true)}
-        enableSpringJoint={false}
-        // groupProps={{ position: _ }}
-        visibleMesh={
-          <PokemonModel scale={.2} />
-        }
-      />
-      <DraggableRigidBody {...DraggableRigidBodyProps}
-        groupProps={{ position: generatedPositions[19] }}
-        onDragStart={() => setOrbitEnabled(false)}
-        onDragStop={() => setOrbitEnabled(true)}
-        enableSpringJoint={false}
-        // groupProps={{ position: _ }}
-        visibleMesh={
-          <RaymanModel scale={1.3} />
-        }
-      />
-      <DraggableRigidBody {...DraggableRigidBodyProps}
-        groupProps={{ position: generatedPositions[20] }}
-        onDragStart={() => setOrbitEnabled(false)}
-        onDragStop={() => setOrbitEnabled(true)}
-        enableSpringJoint={false}
-        // groupProps={{ position: _ }}
-        visibleMesh={
-          <SlyModel scale={1} />
-        }
-      />
-      <DraggableRigidBody {...DraggableRigidBodyProps}
-        groupProps={{ position: generatedPositions[21] }}
-        onDragStart={() => setOrbitEnabled(false)}
-        onDragStop={() => setOrbitEnabled(true)}
-        enableSpringJoint={false}
-        // groupProps={{ position: _ }}
-        visibleMesh={
-          <SnakeModel scale={.13} />
-        }
-      />
-      <DraggableRigidBody {...DraggableRigidBodyProps}
-        groupProps={{ position: generatedPositions[22] }}
-        onDragStart={() => setOrbitEnabled(false)}
-        onDragStop={() => setOrbitEnabled(true)}
-        enableSpringJoint={false}
-        // groupProps={{ position: _ }}
-        visibleMesh={
-          <SteveModel scale={.06} />
-        }
-      />
-      <DraggableRigidBody {...DraggableRigidBodyProps}
-        groupProps={{ position: generatedPositions[23] }}
-        onDragStart={() => setOrbitEnabled(false)}
-        onDragStop={() => setOrbitEnabled(true)}
-        enableSpringJoint={false}
-        // groupProps={{ position: _ }}
-        visibleMesh={
-          <TankModel scale={.8} />
-        }
-      />
-      <DraggableRigidBody {...DraggableRigidBodyProps}
-        groupProps={{ position: generatedPositions[24] }}
-        onDragStart={() => setOrbitEnabled(false)}
-        onDragStop={() => setOrbitEnabled(true)}
-        enableSpringJoint={false}
-        // groupProps={{ position: _ }}
-        visibleMesh={
-          <TerrariaModel scale={.13} />
-        }
-      />
-      <DraggableRigidBody {...DraggableRigidBodyProps}
-        groupProps={{ position: generatedPositions[25] }}
-        onDragStart={() => setOrbitEnabled(false)}
-        onDragStop={() => setOrbitEnabled(true)}
-        enableSpringJoint={false}
-        // groupProps={{ position: _ }}
-        visibleMesh={
-          <VhsModel scale={.25} />
-        }
-      />
-      <DraggableRigidBody {...DraggableRigidBodyProps}
-        groupProps={{ position: generatedPositions[26] }}
-        onDragStart={() => setOrbitEnabled(false)}
-        onDragStop={() => setOrbitEnabled(true)}
-        enableSpringJoint={false}
-        // groupProps={{ position: _ }}
-        visibleMesh={
-          <ZeldaModel scale={.05} />
-        }
+
+      <BooksModel
+        texturesSrc={booksArray.map(p => `/comics/${p}`)}
+        groupProps={{}}
+        draggableRigidBodyProps={DraggableRigidBodyProps}
       />
 
 
+      {/* 
+      {imageArray.map((p, i) => {
+        return <DraggableRigidBody  {...DraggableRigidBodyProps}
+          key={`dvd${i}`}
+
+          groupProps={{ position: generatedPositions[7 + 5 + i] }}
+
+          onDragStart={() => setOrbitEnabled(false)}
+          onDragStop={() => setOrbitEnabled(true)}
+          enableSpringJoint={springJoint}
+          // rigidBodyProps={{ colliders: 'cuboid' }}
+          rigidBodyProps={{ colliders: 'cuboid' }}
+
+          visibleMesh={
+            <DvdModel scale={.8} textureSrc={`/films/${p}`} />
+          }
+        />
+      })} */}
+
+
+      {/* {booksArray.map((p, i) => {
+        return <DraggableRigidBody  {...DraggableRigidBodyProps}
+          groupProps={{ position: generatedPositions[i] }}
+          onDragStart={() => setOrbitEnabled(false)}
+          onDragStop={() => setOrbitEnabled(true)}
+          enableSpringJoint={springJoint}
+          rigidBodyProps={{ colliders: 'cuboid', density: 1. }}
+          visibleMesh={
+            <BookModel scale={.9} textureSrc={`/comics/${p}`} />
+          }
+        />
+      })} */}
+
+      {/* {vhsArray.map((p, i) => {
+        return <DraggableRigidBody  {...DraggableRigidBodyProps}
+          key={`vhs${i}`}
+          groupProps={{ position: generatedPositions[7 + i] }}
+          onDragStart={() => setOrbitEnabled(false)}
+          onDragStop={() => setOrbitEnabled(true)}
+          enableSpringJoint={springJoint}
+          rigidBodyProps={{ colliders: 'cuboid' }}
+          visibleMesh={
+            <VhsModel scale={.3} textureSrc={`/vhs/${p}`} />
+          }
+        />
+      })} */}
+
+
+
+
+
+      {/* {vinylsArray.map((p, i) => {
+        return <DraggableRigidBody  {...DraggableRigidBodyProps}
+          groupProps={{ position: generatedPositions[7 + 5 + 11 + 33 + i] }}
+          onDragStart={() => setOrbitEnabled(false)}
+          onDragStop={() => setOrbitEnabled(true)}
+          // rigidBodyProps={{ colliders: '' }}
+          enableSpringJoint={springJoint}
+          // rigidBodyProps={{ colliders: 'cuboid' }}
+
+          // groupProps={{ position: _ }}
+          visibleMesh={
+            <VinylModel scale={2} textureSrc={`/vinyls/${p}`} />
+          }
+        />
+      })} */}
+
+      {/* {logosArray.map((p, i) => {
+        return <DraggableRigidBody  {...DraggableRigidBodyProps}
+          groupProps={{ position: generatedPositions[7 + 5 + 11 + 33 + 9 + i] }}
+          onDragStart={() => setOrbitEnabled(false)}
+          onDragStop={() => setOrbitEnabled(true)}
+          enableSpringJoint={springJoint}
+          rigidBodyProps={{ colliders: 'cuboid', density: 20 }}
+          visibleMesh={
+            <TexturedPlane src={`/logos/${p}`} />
+          }
+        />
+      })} */}
+
+
+      
+      <DraggableRigidBody  {...DraggableRigidBodyProps}
+        groupProps={{ position: generatedPositions[78 + 0] }}
+        onDragStart={() => setOrbitEnabled(false)}
+        onDragStop={() => setOrbitEnabled(true)}
+        enableSpringJoint={springJoint}
+        // groupProps={{ position: _ }}
+        rigidBodyProps={{ colliders: 'ball' }}
+        visibleMesh={
+          <MarioModel position={[0, 0, 0]} scale={objectScaleSize * .14} />
+        }
+      />
+
+      <DraggableRigidBody  {...DraggableRigidBodyProps}
+        groupProps={{ position: generatedPositions[78 + 1] }}
+        onDragStart={() => setOrbitEnabled(false)}
+        onDragStop={() => setOrbitEnabled(true)}
+        enableSpringJoint={springJoint}
+        // groupProps={{ position: _ }}
+        visibleMesh={
+          <ZombieModel scale={objectScaleSize * .6} />
+        }
+      />
+
+      <DraggableRigidBody  {...DraggableRigidBodyProps}
+        groupProps={{ position: generatedPositions[78 + 2] }}
+        onDragStart={() => setOrbitEnabled(false)}
+        onDragStop={() => setOrbitEnabled(true)}
+        enableSpringJoint={springJoint}
+        // groupProps={{ position: _ }}
+        visibleMesh={
+          <Ak47Model scale={objectScaleSize * 0.04} />
+        }
+      />
+
+      <DraggableRigidBody  {...DraggableRigidBodyProps}
+        groupProps={{ position: generatedPositions[78 + 3] }}
+        onDragStart={() => setOrbitEnabled(false)}
+        onDragStop={() => setOrbitEnabled(true)}
+        enableSpringJoint={springJoint}
+        // groupProps={{ position: _ }}
+        rigidBodyProps={{ colliders: 'ball' }}
+        visibleMesh={
+          <ApeModel scale={objectScaleSize * .8} />
+        }
+      />
+
+      <DraggableRigidBody  {...DraggableRigidBodyProps}
+        groupProps={{ position: generatedPositions[78 + 5] }}
+        onDragStart={() => setOrbitEnabled(false)}
+        onDragStop={() => setOrbitEnabled(true)}
+        enableSpringJoint={springJoint}
+        // groupProps={{ position: _ }}
+        rigidBodyProps={{ colliders: 'cuboid' }}
+
+        visibleMesh={
+          <CarModel scale={objectScaleSize * .1} />
+        }
+      />
+
+      <DraggableRigidBody  {...DraggableRigidBodyProps}
+        groupProps={{ position: generatedPositions[78 + 6] }}
+        onDragStart={() => setOrbitEnabled(false)}
+        onDragStop={() => setOrbitEnabled(true)}
+        enableSpringJoint={springJoint}
+        // groupProps={{ position: _ }}
+        rigidBodyProps={{ colliders: 'ball' }}
+
+        visibleMesh={
+          <ClankModel scale={objectScaleSize * .7} />
+        }
+      />
+
+      <DraggableRigidBody  {...DraggableRigidBodyProps}
+        groupProps={{ position: generatedPositions[78 + 7] }}
+        onDragStart={() => setOrbitEnabled(false)}
+        onDragStop={() => setOrbitEnabled(true)}
+        enableSpringJoint={springJoint}
+        // groupProps={{ position: _ }}
+        rigidBodyProps={{ colliders: 'cuboid' }}
+
+        visibleMesh={
+          <ControllerModel scale={objectScaleSize * .005} />
+        }
+      />
+
+      <DraggableRigidBody  {...DraggableRigidBodyProps}
+        groupProps={{ position: generatedPositions[78 + 8] }}
+        onDragStart={() => setOrbitEnabled(false)}
+        onDragStop={() => setOrbitEnabled(true)}
+        enableSpringJoint={springJoint}
+        // groupProps={{ position: _ }}
+        rigidBodyProps={{ colliders: 'cuboid' }}
+
+        visibleMesh={
+          <CrashModel scale={objectScaleSize * .01} />
+        }
+      />
+
+      <DraggableRigidBody  {...DraggableRigidBodyProps}
+        groupProps={{ position: generatedPositions[78 + 9] }}
+        onDragStart={() => setOrbitEnabled(false)}
+        onDragStop={() => setOrbitEnabled(true)}
+        enableSpringJoint={springJoint}
+        // groupProps={{ position: _ }}
+        visibleMesh={
+          <DaftpunkModel scale={objectScaleSize * 3.7} />
+        }
+      />
+
+      <DraggableRigidBody  {...DraggableRigidBodyProps}
+        groupProps={{ position: generatedPositions[78 + 10] }}
+        onDragStart={() => setOrbitEnabled(false)}
+        onDragStop={() => setOrbitEnabled(true)}
+        enableSpringJoint={springJoint}
+        // groupProps={{ position: _ }}
+        rigidBodyProps={{ colliders: 'trimesh' }}
+
+        visibleMesh={
+          <Deadmau5Model scale={objectScaleSize * .05} />
+        }
+      />
+
+      <DraggableRigidBody  {...DraggableRigidBodyProps}
+        groupProps={{ position: generatedPositions[78 + 11] }}
+        onDragStart={() => setOrbitEnabled(false)}
+        onDragStop={() => setOrbitEnabled(true)}
+        enableSpringJoint={springJoint}
+        // groupProps={{ position: _ }}
+        rigidBodyProps={{ colliders: 'cuboid' }}
+
+        visibleMesh={
+          <DexterModel scale={objectScaleSize * .1} />
+        }
+      />
+
+      <DraggableRigidBody  {...DraggableRigidBodyProps}
+        groupProps={{ position: generatedPositions[78 + 13] }}
+        onDragStart={() => setOrbitEnabled(false)}
+        onDragStop={() => setOrbitEnabled(true)}
+        enableSpringJoint={springJoint}
+        // groupProps={{ position: _ }}
+        visibleMesh={
+          <GbcModel scale={objectScaleSize * .7} />
+        }
+      />
+
+      <DraggableRigidBody  {...DraggableRigidBodyProps}
+        groupProps={{ position: generatedPositions[78 + 14] }}
+        onDragStart={() => setOrbitEnabled(false)}
+        onDragStop={() => setOrbitEnabled(true)}
+        enableSpringJoint={springJoint}
+        // groupProps={{ position: _ }}
+        rigidBodyProps={{ colliders: 'cuboid', density: 10, angularDamping: .5 }}
+        visibleMesh={
+          <HaloModel scale={objectScaleSize * 1} />
+        }
+      />
+      <DraggableRigidBody  {...DraggableRigidBodyProps}
+        groupProps={{ position: generatedPositions[78 + 15] }}
+        onDragStart={() => setOrbitEnabled(false)}
+        onDragStop={() => setOrbitEnabled(true)}
+        enableSpringJoint={springJoint}
+        // groupProps={{ position: _ }}
+        rigidBodyProps={{ colliders: 'ball' }}
+        visibleMesh={
+          <KanyeModel scale={objectScaleSize * 2} />
+        }
+      />
+      <DraggableRigidBody  {...DraggableRigidBodyProps}
+        groupProps={{ position: generatedPositions[78 + 16] }}
+        onDragStart={() => setOrbitEnabled(false)}
+        onDragStop={() => setOrbitEnabled(true)}
+        enableSpringJoint={springJoint}
+        // groupProps={{ position: _ }}
+        rigidBodyProps={{ colliders: 'ball' }}
+
+        visibleMesh={
+          <KlonoaModel scale={objectScaleSize * .27} />
+        }
+      />
+      <DraggableRigidBody  {...DraggableRigidBodyProps}
+        groupProps={{ position: generatedPositions[78 + 17] }}
+        onDragStart={() => setOrbitEnabled(false)}
+        onDragStop={() => setOrbitEnabled(true)}
+        enableSpringJoint={springJoint}
+        // groupProps={{ position: _ }}
+        rigidBodyProps={{ colliders: 'cuboid' }}
+        visibleMesh={
+          <MinecraftModel scale={objectScaleSize * 1.8} />
+        }
+      />
+
+      <DraggableRigidBody  {...DraggableRigidBodyProps}
+        groupProps={{ position: generatedPositions[78 + 19] }}
+        onDragStart={() => setOrbitEnabled(false)}
+        onDragStop={() => setOrbitEnabled(true)}
+        enableSpringJoint={springJoint}
+        // groupProps={{ position: _ }}
+        rigidBodyProps={{ colliders: 'ball' }}
+
+        visibleMesh={
+          <RaymanModel scale={objectScaleSize * 1.3} />
+        }
+      />
+      <DraggableRigidBody  {...DraggableRigidBodyProps}
+        groupProps={{ position: generatedPositions[78 + 20] }}
+        onDragStart={() => setOrbitEnabled(false)}
+        onDragStop={() => setOrbitEnabled(true)}
+        enableSpringJoint={springJoint}
+        // groupProps={{ position: _ }}
+        rigidBodyProps={{ colliders: 'cuboid', density: 10, angularDamping: .5 }}
+        visibleMesh={
+          <SlyModel scale={objectScaleSize * 1} />
+        }
+      />
+
+      <DraggableRigidBody  {...DraggableRigidBodyProps}
+        groupProps={{ position: generatedPositions[78 + 21] }}
+        onDragStart={() => setOrbitEnabled(false)}
+        onDragStop={() => setOrbitEnabled(true)}
+        enableSpringJoint={springJoint}
+        // groupProps={{ position: _ }}
+        rigidBodyProps={{ colliders: 'cuboid' }}
+
+        visibleMesh={
+          <SnakeModel scale={objectScaleSize * .13} />
+        }
+      />
+      <DraggableRigidBody  {...DraggableRigidBodyProps}
+        groupProps={{ position: generatedPositions[78 + 22] }}
+        onDragStart={() => setOrbitEnabled(false)}
+        onDragStop={() => setOrbitEnabled(true)}
+        enableSpringJoint={springJoint}
+        // groupProps={{ position: _ }}
+        visibleMesh={
+          <SteveModel scale={objectScaleSize * .06} />
+        }
+      />
+      <DraggableRigidBody  {...DraggableRigidBodyProps}
+        groupProps={{ position: generatedPositions[78 + 23] }}
+        onDragStart={() => setOrbitEnabled(false)}
+        onDragStop={() => setOrbitEnabled(true)}
+        enableSpringJoint={springJoint}
+        // groupProps={{ position: _ }}
+        rigidBodyProps={{ colliders: 'cuboid' }}
+        visibleMesh={
+          <TankModel scale={objectScaleSize * .8} />
+        }
+      />
+
+      <DraggableRigidBody  {...DraggableRigidBodyProps}
+        groupProps={{ position: generatedPositions[78 + 26] }}
+        onDragStart={() => setOrbitEnabled(false)}
+        onDragStop={() => setOrbitEnabled(true)}
+        enableSpringJoint={springJoint}
+        // groupProps={{ position: _ }}
+        rigidBodyProps={{ colliders: 'cuboid' }}
+
+        visibleMesh={
+          <ZeldaModel scale={objectScaleSize * .05} />
+        }
+      />
 
       {/* <group ref={group} {...props} dispose={null}>
         <group>
@@ -558,7 +683,6 @@ export function ContainerModel(props: JSX.IntrinsicElements['group']) {
         </group>
       </group> */}
     </>
-
   );
 }
 

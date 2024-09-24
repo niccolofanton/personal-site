@@ -1,5 +1,5 @@
 
-import { ContainerScene } from '@/components/Container-scene';
+import { ContainerScene } from '@/components/custom-scene';
 import { PageAnimation } from '@/components/PageAnimation'
 import { NextSeo } from 'next-seo';
 
@@ -27,7 +27,7 @@ export default function Projects() {
       
       */}
 
-      <ContainerScene className='h-[1200px]'></ContainerScene>
+      <ContainerScene className='h-[900px]'></ContainerScene>
 
     </PageAnimation>
   )

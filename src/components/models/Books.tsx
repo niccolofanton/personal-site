@@ -1,35 +1,35 @@
-import * as THREE from 'three';
-import React, { LegacyRef, useMemo, useRef } from 'react';
-import { useGLTF, Instances, Instance } from '@react-three/drei';
-import { GroupProps, useFrame, useLoader } from '@react-three/fiber';
 import DraggableRigidBody, { DraggableRigidBodyProps } from '../DraggableRigidBody';
+import { GroupProps, useFrame, useLoader } from '@react-three/fiber';
+import { useGLTF, Instances, Instance } from '@react-three/drei';
+import React, { LegacyRef, useMemo, useRef } from 'react';
 import { generatedPositions } from '../Container-model';
 import { GLTF } from 'three-stdlib'
-
+import * as THREE from 'three';
 
 type GLTFResult = GLTF & {
   nodes: {
-    vhs: THREE.Mesh
+    Plane: THREE.Mesh
   }
   materials: {
-    ['Material.002']: THREE.MeshBasicMaterial
+    ['Material.001']: THREE.MeshStandardMaterial
   }
   animations: any[]
 }
 
-type VhsModelProps = JSX.IntrinsicElements['group'] & {
+type BookModelProps = JSX.IntrinsicElements['group'] & {
   texturesSrc: string[];
   draggableRigidBodyProps: Partial<DraggableRigidBodyProps>;
   groupProps: GroupProps;
 };
 
-export const VhsModel = React.forwardRef<any, VhsModelProps>(({ texturesSrc, ...props }, ref) => {
+export const BooksModel = React.forwardRef<any, BookModelProps>(({ texturesSrc, ...props }, ref) => {
 
-  const { nodes, materials } = useGLTF('/models-transformed/vhs-transformed.glb') as GLTFResult
+  const { nodes, materials } = useGLTF('/models-transformed/book-transformed.glb') as GLTFResult
   const textures = texturesSrc.map((src) => useLoader(THREE.TextureLoader, src));
   const instances: LegacyRef<THREE.InstancedMesh> = useRef(null);
   const meshRefs = texturesSrc.map(() => useRef<THREE.Group>(null));
-  const geometry = useMemo(() => new THREE.BoxGeometry(1.05, 1.01, .5), [])
+  const geometry = useMemo(() => new THREE.PlaneGeometry(.666, 1), [])
+  const geometry2 = useMemo(() => new THREE.BoxGeometry(.666, 1, .15), [])
   const material = useMemo(() => new THREE.MeshStandardMaterial({ visible: false }), [])
 
   useFrame(() => {
@@ -47,7 +47,7 @@ export const VhsModel = React.forwardRef<any, VhsModelProps>(({ texturesSrc, ...
         }
 
         instance.setRotationFromQuaternion(r);
-        instance.rotateX(-Math.PI / 2)
+        instance.rotateX(Math.PI / 2)
         instance.position.set(p.x, p.y, p.z)
       })
   });
@@ -55,34 +55,27 @@ export const VhsModel = React.forwardRef<any, VhsModelProps>(({ texturesSrc, ...
   return (
     <Instances ref={instances as any}>
       {/* Define instanced geometry (merged) and material */}
-      <bufferGeometry {...nodes.vhs.geometry} />
-      {/* <meshStandardMaterial {...materials['Material.002']} /> */}
-      <meshBasicMaterial {...materials['Material.002']} />
+      <bufferGeometry {...nodes.Plane.geometry} />
+      <meshStandardMaterial {...materials['Material.001']} />
 
       {textures.map((texture, i) => (
         <>
-
-          <Instance rotation={[-Math.PI / 2, 0, 0]} scale={[4.472 / 2, 0.582 / 2, 2.471 / 2]} />
+          <Instance scale={[1, 1, 1.33]} rotation={[Math.PI / 2, 0, 0]} />
 
           <DraggableRigidBody
             key={`cd${i}`}
             {...props.draggableRigidBodyProps}
-            groupProps={{ position: generatedPositions[7 + i] }}
-            rigidBodyProps={{ colliders: 'cuboid' }}
+            groupProps={{ position: generatedPositions[i] }}
+            rigidBodyProps={{ colliders: 'cuboid', density: 1 }}
             enableSpringJoint={false}
             visibleComponentRef={meshRefs[i]}
             visibleMesh={
-              <group ref={ref} {...props} dispose={null}>
+              <group ref={ref} {...props} dispose={null} rotation={[0, Math.PI, 0]}>
+                <mesh scale={2.64} position={[.08, 0, -.09]} rotation={[0, 0.006, 0]} material={material} geometry={geometry2} />
 
-                <mesh scale={[8.4 / 2, 4.7 / 2, 3 / 2]} geometry={geometry} material={material} />
-
-
-                {/* Plane to display the PNG texture */}
-                <mesh position={[-.0, -.14, .3]} scale={2} rotation={[0, 0, Math.PI / 2]} >
-                  <planeGeometry args={[.6, 1]} />
-                  <meshBasicMaterial map={texture} />
+                <mesh scale={2.64} position={[.08, 0, -.09]} rotation={[0, 0.006, 0]} geometry={geometry}>
+                  <meshBasicMaterial map={texture} side={THREE.DoubleSide} />
                 </mesh>
-
               </group>
             }
           />
@@ -92,4 +85,4 @@ export const VhsModel = React.forwardRef<any, VhsModelProps>(({ texturesSrc, ...
   );
 });
 
-useGLTF.preload('/models-transformed/vhs-transformed.glb');
+useGLTF.preload('/models-transformed/book-transformed.glb');
