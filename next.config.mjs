@@ -5,7 +5,7 @@ import remarkGfm from 'remark-gfm'
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'mdx'],
-  transpilePackages: ["geist"],
+  transpilePackages: ["geist"]
 }
 
 const withMDX = nextMDX({

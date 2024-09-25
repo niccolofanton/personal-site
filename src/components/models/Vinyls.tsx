@@ -38,7 +38,7 @@ export const VinylsModel = React.forwardRef<any, DiscModelProps>(({ texturesSrc,
     if (!instances.current) return;
 
     instances.current?.children
-      .filter(instance => instance.constructor.name == 'PositionMesh')
+      .filter(instance => !!(instance as any).instance)
       .forEach((instance, i) => {
         if (!meshRefs[i]?.current) return
 

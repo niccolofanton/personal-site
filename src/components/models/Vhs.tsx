@@ -30,10 +30,11 @@ export const VhsModel = React.forwardRef<any, VhsModelProps>(({ texturesSrc, ...
   const material = useMemo(() => new THREE.MeshStandardMaterial({ visible: false }), [])
 
   useFrame(() => {
+    // console.log(instances);
     if (!instances.current) return;
 
     instances.current?.children
-      .filter(instance => instance.constructor.name == 'PositionMesh')
+      .filter(instance => !!(instance as any).instance)
       .forEach((instance, i) => {
         let p = new THREE.Vector3();
         let r = new THREE.Quaternion();
@@ -41,8 +42,6 @@ export const VhsModel = React.forwardRef<any, VhsModelProps>(({ texturesSrc, ...
         if (meshRefs[i]?.current) {
           meshRefs[i].current?.getWorldPosition(p);
           meshRefs[i].current?.getWorldQuaternion(r);
-        }else{
-          console.log(meshRefs[i]);
         }
 
         instance.setRotationFromQuaternion(r);
