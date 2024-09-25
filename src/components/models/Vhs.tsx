@@ -1,11 +1,10 @@
-import * as THREE from 'three';
-import React, { createRef, LegacyRef, useMemo, useRef } from 'react';
-import { useGLTF, Instances, Instance } from '@react-three/drei';
-import { GroupProps, useFrame, useLoader } from '@react-three/fiber';
 import DraggableRigidBody, { DraggableRigidBodyProps } from '../DraggableRigidBody';
+import React, { createRef, LegacyRef, useMemo, useRef } from 'react';
+import { GroupProps, useFrame, useLoader } from '@react-three/fiber';
+import { useGLTF, Instances, Instance } from '@react-three/drei';
 import { generatedPositions } from '../Container-model';
 import { GLTF } from 'three-stdlib'
-
+import * as THREE from 'three';
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -23,7 +22,6 @@ type VhsModelProps = JSX.IntrinsicElements['group'] & {
 };
 
 export const VhsModel = React.forwardRef<any, VhsModelProps>(({ texturesSrc, ...props }, ref) => {
-
   const { nodes, materials } = useGLTF('/models-transformed/vhs-transformed.glb') as GLTFResult
   const textures = useLoader(THREE.TextureLoader, texturesSrc);
   const instances: LegacyRef<THREE.InstancedMesh> = useRef(null);
@@ -53,11 +51,8 @@ export const VhsModel = React.forwardRef<any, VhsModelProps>(({ texturesSrc, ...
 
   return (
     <Instances ref={instances as any}>
-      {/* Define instanced geometry (merged) and material */}
       <bufferGeometry {...nodes.vhs.geometry} />
-      {/* <meshStandardMaterial {...materials['Material.002']} /> */}
       <meshBasicMaterial {...materials['Material.004']} />
-
       {textures.map((texture, i) => (
         <>
           <Instance rotation={[-Math.PI / 2, 0, 0]} scale={[4.472 / 2, 0.582 / 2, 2.471 / 2]} />
@@ -70,17 +65,13 @@ export const VhsModel = React.forwardRef<any, VhsModelProps>(({ texturesSrc, ...
             enableSpringJoint={false}
             visibleComponentRef={meshRefs[i]}
             visibleMesh={
-              
-              <group ref={ref} {...props} dispose={null} >
-                  {/* Plane to display the PNG texture */}
-                  <mesh scale={[8.4 / 2, 4.7 / 2, 3 / 2]} geometry={geometry} material={material} />
-
-                  <mesh position={[0, -.14, .3]} scale={1.8} rotation={[0, 0, Math.PI / 2]} >
-                    <planeGeometry args={[.64, 1.1]} />
-                    <meshBasicMaterial map={texture} />
-                  </mesh>
-                </group>
-
+              <group ref={meshRefs[i]} {...props} dispose={null} >
+                <mesh scale={[8.4 / 2, 4.7 / 2, 3 / 2]} geometry={geometry} material={material} />
+                <mesh position={[0, -.14, .3]} scale={1.8} rotation={[0, 0, Math.PI / 2]} >
+                  <planeGeometry args={[.64, 1.1]} />
+                  <meshBasicMaterial map={texture} />
+                </mesh>
+              </group>
             }
           />
         </>

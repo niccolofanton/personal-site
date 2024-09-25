@@ -292,6 +292,7 @@ export function ContainerModel(props: JSX.IntrinsicElements['group']) {
 
       {logosArray.map((p, i) => {
         return <DraggableRigidBody  {...DraggableRigidBodyProps}
+          key={`logo${i}`}
           groupProps={{ 
             scale:2,
             position: generatedPositions[7 + 5 + 11 + 33 + 9 + i] }}
@@ -482,7 +483,6 @@ export function ContainerModel(props: JSX.IntrinsicElements['group']) {
         enableSpringJoint={springJoint}
         // groupProps={{ position: _ }}
         rigidBodyProps={{ colliders: 'trimesh' }}
-
         visibleMesh={
           <KlonoaModel scale={objectScaleSize * .27} />
         }
