@@ -27,7 +27,7 @@ export default function Projects() {
       
       */}
 
-      <ContainerScene className='h-[670px]'></ContainerScene>
+      <ContainerScene className='h-[100vh]'></ContainerScene>
 
     </PageAnimation>
   )

@@ -32,7 +32,7 @@ export const VinylsModel = React.forwardRef<any, DiscModelProps>(({ texturesSrc,
   const geometry2 = useMemo(() => new THREE.CylinderGeometry(.75, .75, .1, 25), []);
   const invMaterial = useMemo(() => new THREE.MeshStandardMaterial({ visible: false }), []);
 
-  const materials = useMemo(() => textures.map(texture => new THREE.MeshStandardMaterial({ map: texture })), [textures]);
+  const materials = useMemo(() => textures.map(texture => new THREE.MeshStandardMaterial({ map: texture, side: THREE.DoubleSide })), [textures]);
 
   useFrame(() => {
     if (!instances.current) return;
@@ -72,8 +72,8 @@ export const VinylsModel = React.forwardRef<any, DiscModelProps>(({ texturesSrc,
             visibleMesh={
               <group ref={meshRefs[i]}>
                 <mesh scale={2} rotation={[Math.PI / 2, 0, 0]} geometry={geometry2} material={invMaterial} />
-                <mesh scale={1.12} geometry={geometry} material={materials[i]} />
-                <mesh scale={1.12} rotation={[0, -Math.PI, 0]} geometry={geometry} material={materials[i]} />
+                <mesh scale={1.125} geometry={geometry} material={materials[i]} />
+                {/* <mesh scale={1.12} rotation={[0, -Math.PI, 0]} geometry={geometry} material={materials[i]} /> */}
               </group>
             }
           />
