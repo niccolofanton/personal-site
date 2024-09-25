@@ -41,6 +41,8 @@ export const VhsModel = React.forwardRef<any, VhsModelProps>(({ texturesSrc, ...
         if (meshRefs[i]?.current) {
           meshRefs[i].current?.getWorldPosition(p);
           meshRefs[i].current?.getWorldQuaternion(r);
+        }else{
+          console.log(meshRefs[i]);
         }
 
         instance.setRotationFromQuaternion(r);
@@ -55,7 +57,7 @@ export const VhsModel = React.forwardRef<any, VhsModelProps>(({ texturesSrc, ...
       <meshBasicMaterial {...materials['Material.004']} />
       {textures.map((texture, i) => (
         <>
-          <Instance rotation={[-Math.PI / 2, 0, 0]} scale={[4.472 / 2, 0.582 / 2, 2.471 / 2]} />
+          <Instance rotation={[-Math.PI / 2, 0, 0]} scale={[2.236, 0.291, 1.2355]} />
 
           <DraggableRigidBody
             key={`cd${i}`}
