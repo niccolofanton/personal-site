@@ -158,9 +158,6 @@ const DraggableRigidBody = forwardRef<DraggableRigidBodyRef, DraggableRigidBodyP
         }
 
         const startDragging = () => {
-
-            console.log('ciao');
-
             setIsDragging(true)
 
             if (props.onDragStart) props.onDragStart();

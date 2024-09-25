@@ -12,9 +12,8 @@ type GLTFResult = GLTF & {
     vhs: THREE.Mesh
   }
   materials: {
-    ['Material.002']: THREE.MeshBasicMaterial
+    ['Material.004']: THREE.MeshBasicMaterial
   }
-  animations: any[]
 }
 
 type VhsModelProps = JSX.IntrinsicElements['group'] & {
@@ -57,11 +56,10 @@ export const VhsModel = React.forwardRef<any, VhsModelProps>(({ texturesSrc, ...
       {/* Define instanced geometry (merged) and material */}
       <bufferGeometry {...nodes.vhs.geometry} />
       {/* <meshStandardMaterial {...materials['Material.002']} /> */}
-      <meshBasicMaterial {...materials['Material.002']} />
+      <meshBasicMaterial {...materials['Material.004']} />
 
       {textures.map((texture, i) => (
         <>
-
           <Instance rotation={[-Math.PI / 2, 0, 0]} scale={[4.472 / 2, 0.582 / 2, 2.471 / 2]} />
 
           <DraggableRigidBody
@@ -72,18 +70,17 @@ export const VhsModel = React.forwardRef<any, VhsModelProps>(({ texturesSrc, ...
             enableSpringJoint={false}
             visibleComponentRef={meshRefs[i]}
             visibleMesh={
-              <group ref={ref} {...props} dispose={null}>
+              
+              <group ref={ref} {...props} dispose={null} >
+                  {/* Plane to display the PNG texture */}
+                  <mesh scale={[8.4 / 2, 4.7 / 2, 3 / 2]} geometry={geometry} material={material} />
 
-                <mesh scale={[8.4 / 2, 4.7 / 2, 3 / 2]} geometry={geometry} material={material} />
+                  <mesh position={[0, -.14, .3]} scale={1.8} rotation={[0, 0, Math.PI / 2]} >
+                    <planeGeometry args={[.64, 1.1]} />
+                    <meshBasicMaterial map={texture} />
+                  </mesh>
+                </group>
 
-
-                {/* Plane to display the PNG texture */}
-                <mesh position={[-.0, -.14, .3]} scale={2} rotation={[0, 0, Math.PI / 2]} >
-                  <planeGeometry args={[.6, 1]} />
-                  <meshBasicMaterial map={texture} />
-                </mesh>
-
-              </group>
             }
           />
         </>

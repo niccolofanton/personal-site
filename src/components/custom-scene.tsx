@@ -1,8 +1,9 @@
 import { Bloom, EffectComposer, HueSaturation, N8AO } from '@react-three/postprocessing';
 import { Physics, CuboidCollider, useRapier } from "@react-three/rapier";
-import { Environment, SoftShadows, Svg } from '@react-three/drei';
+import { AdaptiveDpr, Environment, PerformanceMonitor, Preload, SoftShadows, Svg } from '@react-three/drei';
 import { ContainerModel } from './Container-model';
 import { Canvas, useFrame } from '@react-three/fiber';
+
 import { FC, Suspense, useEffect, useRef, useState } from 'react';
 import { Attractor, AttractorProps } from "@react-three/rapier-addons";
 import * as THREE from 'three';
@@ -74,8 +75,9 @@ export const ContainerScene = (props: ContainerSceneProps) => {
   }
 
   const [force, setForce] = useState(.22);
-  // const [gravity, setGravity] = useState(-9.81);
-  const [gravity, setGravity] = useState(0);
+  const [gravity, setGravity] = useState(-9.81);
+  // const [gravity, setGravity] = useState(0);
+  const [dpr, setDpr] = useState(1.5)
 
   useEffect(() => {
 
@@ -85,14 +87,21 @@ export const ContainerScene = (props: ContainerSceneProps) => {
 
   }, []);
 
+  function round(number: number, precision = 0) {
+    const factor = Math.pow(10, precision);
+    return Math.round(number * factor) / factor;
+  }
+
   return (
     <div className={`${props.className} fixed top-0 w-[100%] `}  >
       <Canvas
         // shadows
         linear
         flat
+        dpr={dpr}
+        gl={{ antialias: false }}
+        performance={{ min: 0.5 }}
         onCreated={state => {
-
           state.gl.outputColorSpace = THREE.SRGBColorSpace;
 
           state.gl.setClearColor('#262626')
@@ -102,9 +111,12 @@ export const ContainerScene = (props: ContainerSceneProps) => {
           // state.camera.zoom = 2.3;
           // state.camera.lookAt(0, 0, 0);
           state.camera.updateProjectionMatrix()
-          state.gl.setPixelRatio(1.5);
+          // state.gl.setPixelRatio(1.5);
         }}>
 
+        <PerformanceMonitor onChange={({ factor }) => setDpr(round(0.5 + 1.5 * factor, 1))} />
+
+        <Preload all />
 
         <Perf />
         <Suspense>
@@ -127,7 +139,7 @@ export const ContainerScene = (props: ContainerSceneProps) => {
 
           <Physics debug={false} gravity={[0, gravity, 0]} paused={false}>
 
-            <Attractor position={[0, 10, 0]} range={40} strength={force} />
+            {/* <Attractor position={[0, 10, 0]} range={40} strength={force} /> */}
 
             {/* <FluctuatingValue /> */}
             <ContainerModel position={[0, 0, -.2]}></ContainerModel>

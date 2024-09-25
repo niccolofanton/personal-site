@@ -66,7 +66,7 @@ export const DvdsModel = React.forwardRef<any, DvdsModelProps>(({ texturesSrc, .
     <Instances ref={instances as any}>
       {/* Define instanced geometry (merged) and material */}
       <bufferGeometry {...mergedGeometry} />
-      <meshStandardMaterial transparent opacity={0.35} side={THREE.DoubleSide} roughness={0.2} color={'#CCCCCC'} />
+      <meshStandardMaterial transparent={false} side={THREE.DoubleSide} roughness={0.8} color={'#242424'} />
 
       {textures.map((texture, i) => (
         <>
@@ -105,72 +105,3 @@ export const DvdsModel = React.forwardRef<any, DvdsModelProps>(({ texturesSrc, .
 });
 
 useGLTF.preload('/models-transformed/dvd-transformed.glb');
-
-
-
-// import * as THREE from 'three'
-// import React, { ReactElement, useImperativeHandle, useMemo, useRef } from 'react'
-// import { useGLTF } from '@react-three/drei'
-// import { GLTF } from 'three-stdlib'
-// import { GroupProps, useLoader } from '@react-three/fiber'
-// import DraggableRigidBody, { DraggableRigidBodyProps } from '../DraggableRigidBody'
-// import { generatedPositions } from '../Container-model'
-
-// type GLTFResult = GLTF & {
-//   nodes: {
-//     Object_0005: THREE.Mesh
-//     Object_0005_1: THREE.Mesh
-//   }
-//   materials: {
-//     ['CdMaterial.005']: THREE.MeshStandardMaterial
-//     ['Material.003']: THREE.MeshStandardMaterial
-//   }
-//   animations: any[]
-// }
-
-// type CdModelProps = JSX.IntrinsicElements['group'] & {
-//   texturesSrc: string[]
-//   groupProps: GroupProps,
-//   draggableRigidBodyProps: Partial<DraggableRigidBodyProps>
-// }
-
-// export const CdsModel = React.forwardRef<any, CdModelProps>(({ texturesSrc, ...props }, ref) => {
-//   const { nodes, materials } = useGLTF('/models-transformed/cd-transformed.glb') as GLTFResult
-//   const textures = texturesSrc.map(src => useLoader(THREE.TextureLoader, src))
-
-//   const geometry = useMemo(() => new THREE.PlaneGeometry(1.05, 1.01), [])
-//   const material = useMemo(() => new THREE.MeshStandardMaterial({
-//     transparent: true,
-//     opacity: .3,
-//     side: THREE.DoubleSide,
-//     roughness: .1
-//   }), [])
-
-//   return (
-//     <>
-//       {textures.map((texture, i) => {
-
-//         return <DraggableRigidBody  {...props.draggableRigidBodyProps}
-//           key={`cd${i}`}
-//           groupProps={{ position: generatedPositions[7 + 5 + 11 + i] }}
-//           rigidBodyProps={{ colliders: 'cuboid' }}
-//           visibleMesh={
-//             <group {...props.groupProps} >
-//               <mesh rotation={[0, Math.PI + .6, 0]} position={[-.5, -.005, -.775]} scale={[1, 1, 1.33]} geometry={nodes.Object_0005.geometry} material={materials['CdMaterial.005']} />
-//               <mesh rotation={[0, Math.PI + .6, 0]} position={[-.5, -.005, -.775]} scale={[1, 1, 1.33]} geometry={nodes.Object_0005_1.geometry} material={material} />
-
-//               {/* scale={[2.475, 2.39, 0]}  */}
-//               <mesh scale={2.39} position={[-.034, 0, -.01]} geometry={geometry}>
-//                 <meshBasicMaterial map={texture} side={THREE.DoubleSide} />
-//               </mesh>
-
-//             </group>
-//           }
-//         />
-
-//       })}
-//     </>
-//   )
-// })
-
-// useGLTF.preload('/models-transformed/cd-transformed.glb')

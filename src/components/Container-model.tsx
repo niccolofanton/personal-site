@@ -1,6 +1,6 @@
 import React, { RefObject, useEffect, useRef, useState } from 'react';
 import { useGLTF } from '@react-three/drei';
-import { useRevoluteJoint, RapierRigidBody} from '@react-three/rapier';
+import { useRevoluteJoint, RapierRigidBody } from '@react-three/rapier';
 import { GLTF } from 'three-stdlib';
 import * as THREE from 'three';
 import DraggableRigidBody, { DraggableRigidBodyProps } from './DraggableRigidBody';
@@ -33,6 +33,7 @@ import { ZeldaModel } from './models/Zelda';
 import { ZombieModel } from './models/Zombie';
 import { CdsModel } from './models/Cds';
 import { DvdsModel } from './models/Dvds';
+import TexturedPlane from './PngMesh';
 
 // Array of generated positions
 export const generatedPositions = [
@@ -244,7 +245,7 @@ export function ContainerModel(props: JSX.IntrinsicElements['group']) {
   }, []);
 
 
-  const imageArray = Array.from({ length: 11 }, (v, i) => `${i + 1}.png`);
+  const imageArray = Array.from({ length: 11 }, (v, i) => `${i + 1}.jpg`);
   const vhsArray = Array.from({ length: 5 }, (v, i) => `${i + 1}.jpg`);
   const cdsArray = Array.from({ length: 33 }, (v, i) => `${i + 1}.jpg`);
   const vinylsArray = Array.from({ length: 9 }, (v, i) => `${i + 1}.jpg`);
@@ -287,76 +288,13 @@ export function ContainerModel(props: JSX.IntrinsicElements['group']) {
       />
 
 
-      {/* 
-      {imageArray.map((p, i) => {
+
+
+      {logosArray.map((p, i) => {
         return <DraggableRigidBody  {...DraggableRigidBodyProps}
-          key={`dvd${i}`}
-
-          groupProps={{ position: generatedPositions[7 + 5 + i] }}
-
-          onDragStart={() => setOrbitEnabled(false)}
-          onDragStop={() => setOrbitEnabled(true)}
-          enableSpringJoint={springJoint}
-          // rigidBodyProps={{ colliders: 'cuboid' }}
-          rigidBodyProps={{ colliders: 'cuboid' }}
-
-          visibleMesh={
-            <DvdModel scale={.8} textureSrc={`/films/${p}`} />
-          }
-        />
-      })} */}
-
-
-      {/* {booksArray.map((p, i) => {
-        return <DraggableRigidBody  {...DraggableRigidBodyProps}
-          groupProps={{ position: generatedPositions[i] }}
-          onDragStart={() => setOrbitEnabled(false)}
-          onDragStop={() => setOrbitEnabled(true)}
-          enableSpringJoint={springJoint}
-          rigidBodyProps={{ colliders: 'cuboid', density: 1. }}
-          visibleMesh={
-            <BookModel scale={.9} textureSrc={`/comics/${p}`} />
-          }
-        />
-      })} */}
-
-      {/* {vhsArray.map((p, i) => {
-        return <DraggableRigidBody  {...DraggableRigidBodyProps}
-          key={`vhs${i}`}
-          groupProps={{ position: generatedPositions[7 + i] }}
-          onDragStart={() => setOrbitEnabled(false)}
-          onDragStop={() => setOrbitEnabled(true)}
-          enableSpringJoint={springJoint}
-          rigidBodyProps={{ colliders: 'cuboid' }}
-          visibleMesh={
-            <VhsModel scale={.3} textureSrc={`/vhs/${p}`} />
-          }
-        />
-      })} */}
-
-
-
-
-
-      {/* {vinylsArray.map((p, i) => {
-        return <DraggableRigidBody  {...DraggableRigidBodyProps}
-          groupProps={{ position: generatedPositions[7 + 5 + 11 + 33 + i] }}
-          onDragStart={() => setOrbitEnabled(false)}
-          onDragStop={() => setOrbitEnabled(true)}
-          // rigidBodyProps={{ colliders: '' }}
-          enableSpringJoint={springJoint}
-          // rigidBodyProps={{ colliders: 'cuboid' }}
-
-          // groupProps={{ position: _ }}
-          visibleMesh={
-            <VinylModel scale={2} textureSrc={`/vinyls/${p}`} />
-          }
-        />
-      })} */}
-
-      {/* {logosArray.map((p, i) => {
-        return <DraggableRigidBody  {...DraggableRigidBodyProps}
-          groupProps={{ position: generatedPositions[7 + 5 + 11 + 33 + 9 + i] }}
+          groupProps={{ 
+            scale:2,
+            position: generatedPositions[7 + 5 + 11 + 33 + 9 + i] }}
           onDragStart={() => setOrbitEnabled(false)}
           onDragStop={() => setOrbitEnabled(true)}
           enableSpringJoint={springJoint}
@@ -365,10 +303,10 @@ export function ContainerModel(props: JSX.IntrinsicElements['group']) {
             <TexturedPlane src={`/logos/${p}`} />
           }
         />
-      })} */}
+      })}
 
 
-      
+
       <DraggableRigidBody  {...DraggableRigidBodyProps}
         groupProps={{ position: generatedPositions[78 + 0] }}
         onDragStart={() => setOrbitEnabled(false)}
@@ -484,7 +422,7 @@ export function ContainerModel(props: JSX.IntrinsicElements['group']) {
         onDragStop={() => setOrbitEnabled(true)}
         enableSpringJoint={springJoint}
         // groupProps={{ position: _ }}
-        rigidBodyProps={{ colliders: 'trimesh' }}
+        rigidBodyProps={{ colliders: 'cuboid' }}
 
         visibleMesh={
           <Deadmau5Model scale={objectScaleSize * .05} />
@@ -543,7 +481,7 @@ export function ContainerModel(props: JSX.IntrinsicElements['group']) {
         onDragStop={() => setOrbitEnabled(true)}
         enableSpringJoint={springJoint}
         // groupProps={{ position: _ }}
-        rigidBodyProps={{ colliders: 'ball' }}
+        rigidBodyProps={{ colliders: 'trimesh' }}
 
         visibleMesh={
           <KlonoaModel scale={objectScaleSize * .27} />
