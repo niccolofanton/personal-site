@@ -182,7 +182,7 @@ export const ContainerScene = (props: ContainerSceneProps) => {
         <Suspense>
 
           <EffectComposer>
-            <N8AO {...aoConfig} />
+            <N8AO {...(aoConfig as any)} />
             <Bloom {...bloom}></Bloom>
             <HueSaturation saturation={saturation} />
             <TiltShift2 {...tiltShiftConfig} />
