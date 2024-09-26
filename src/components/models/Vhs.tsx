@@ -61,7 +61,7 @@ export const VhsModel = React.forwardRef<any, VhsModelProps>(({ texturesSrc, ...
           <DraggableRigidBody
             key={`cd${i}`}
             {...props.draggableRigidBodyProps}
-            groupProps={{ position: generatedPositions[7 + i] }}
+            groupProps={{ position: generatedPositions[9 + 7 + i] }}
             rigidBodyProps={{ colliders: 'cuboid' }}
             enableSpringJoint={false}
             visibleComponentRef={meshRefs[i]}

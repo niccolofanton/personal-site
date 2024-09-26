@@ -66,7 +66,7 @@ export const VinylsModel = React.forwardRef<any, DiscModelProps>(({ texturesSrc,
           <DraggableRigidBody
             {...props.draggableRigidBodyProps}
             groupProps={{ position: generatedPositions[i] }}
-            rigidBodyProps={{ colliders: 'cuboid' }}
+            rigidBodyProps={{ colliders: 'cuboid', density: 3 }}
             enableSpringJoint={false}
             visibleComponentRef={meshRefs[i]}
             visibleMesh={

@@ -1,6 +1,6 @@
 import React, { RefObject, useEffect, useRef, useState } from 'react';
 import { useGLTF } from '@react-three/drei';
-import { useRevoluteJoint, RapierRigidBody } from '@react-three/rapier';
+import { useRevoluteJoint, RapierRigidBody, BallCollider, RigidBody } from '@react-three/rapier';
 import { GLTF } from 'three-stdlib';
 import * as THREE from 'three';
 import DraggableRigidBody, { DraggableRigidBodyProps } from './DraggableRigidBody';
@@ -34,6 +34,7 @@ import { ZombieModel } from './models/Zombie';
 import { CdsModel } from './models/Cds';
 import { DvdsModel } from './models/Dvds';
 import TexturedPlane from './PngMesh';
+import { useFrame, useThree } from '@react-three/fiber';
 
 // Array of generated positions
 export const generatedPositions = [
@@ -180,6 +181,51 @@ type GLTFResult = GLTF & {
 
 // console.log(positions)
 
+// function Pointer({ vec = new THREE.Vector3() }) {
+//   const ref = useRef<any>()
+//   const { camera } = useThree();
+//   useFrame(({ mouse, viewport }) => {
+
+//     const x = (mouse.x * viewport.width) * (camera.position.z / 10);
+//     const y = (mouse.y * viewport.height) * (camera.position.z / 10) + (camera.position.y / 10);
+//     vec.set(x, y, 0);
+//     console.log(vec);
+
+//     ref.current?.setNextKinematicTranslation(vec)
+//   })
+//   return (
+//     <RigidBody position={[0, 0, 0]} type="kinematicPosition" colliders={false} ref={ref}>
+//       <BallCollider args={[1]} />
+//     </RigidBody>
+//   )
+// }
+
+function Pointer({ planeNormal = new THREE.Vector3(0, 0, 1), planeConstant = 0 }) {
+  const ref = useRef<any>()
+  const { camera } = useThree()
+  const raycaster = new THREE.Raycaster()
+  const plane = new THREE.Plane(planeNormal, planeConstant)
+
+  useFrame(({ mouse }) => {
+    // Aggiorna il raycaster con la posizione del mouse
+    raycaster.setFromCamera(new THREE.Vector2(mouse.x, mouse.y), camera)
+
+    // Calcola l'intersezione tra il raggio e il piano
+    const intersectionPoint = new THREE.Vector3()
+    raycaster.ray.intersectPlane(plane, intersectionPoint)
+
+    // Se c'è un'intersezione, aggiorna la posizione del RigidBody
+    if (intersectionPoint) {
+      ref.current?.setNextKinematicTranslation(intersectionPoint)
+    }
+  })
+
+  return (
+    <RigidBody position={[0, 0, -100]} type="kinematicPosition" colliders={false} ref={ref}>
+      <BallCollider args={[1]} />
+    </RigidBody>
+  )
+}
 
 export function ContainerModel(props: JSX.IntrinsicElements['group']) {
   const group = useRef<THREE.Group>(null);
@@ -252,10 +298,13 @@ export function ContainerModel(props: JSX.IntrinsicElements['group']) {
   const booksArray = Array.from({ length: 7 }, (v, i) => `${i + 1}.jpg`);
   const logosArray = Array.from({ length: 12 }, (v, i) => `${i + 1}.png`);
 
+
   return (
     <>
 
-      <SmoothOrbitControls enableRotate={orbitEnabled} target={[0, 10, 0]} />
+      <Pointer />
+
+      {/* <SmoothOrbitControls enableRotate={orbitEnabled} target={[0, 10, 0]} /> */}
 
       <CdsModel
         texturesSrc={cdsArray.map(p => `/cds/${p}`)}
@@ -293,9 +342,10 @@ export function ContainerModel(props: JSX.IntrinsicElements['group']) {
       {logosArray.map((p, i) => {
         return <DraggableRigidBody  {...DraggableRigidBodyProps}
           key={`logo${i}`}
-          groupProps={{ 
-            scale:2,
-            position: generatedPositions[7 + 5 + 11 + 33 + 9 + i] }}
+          groupProps={{
+            scale: 2,
+            position: generatedPositions[9 + 7 + 5 + 33 + 11 + i]
+          }}
           onDragStart={() => setOrbitEnabled(false)}
           onDragStop={() => setOrbitEnabled(true)}
           enableSpringJoint={springJoint}
@@ -448,7 +498,7 @@ export function ContainerModel(props: JSX.IntrinsicElements['group']) {
         onDragStart={() => setOrbitEnabled(false)}
         onDragStop={() => setOrbitEnabled(true)}
         enableSpringJoint={springJoint}
-        // groupProps={{ position: _ }}
+        rigidBodyProps={{density: 4}}
         visibleMesh={
           <GbcModel scale={objectScaleSize * .7} />
         }
@@ -482,7 +532,7 @@ export function ContainerModel(props: JSX.IntrinsicElements['group']) {
         onDragStop={() => setOrbitEnabled(true)}
         enableSpringJoint={springJoint}
         // groupProps={{ position: _ }}
-        rigidBodyProps={{ colliders: 'trimesh' }}
+        rigidBodyProps={{ colliders: 'cuboid', density: 7 }}
         visibleMesh={
           <KlonoaModel scale={objectScaleSize * .27} />
         }

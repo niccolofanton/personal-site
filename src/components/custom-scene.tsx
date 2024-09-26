@@ -2,12 +2,12 @@ import { Bloom, EffectComposer, HueSaturation, N8AO, SSAO, TiltShift2 } from '@r
 import { Physics, CuboidCollider } from "@react-three/rapier";
 import { Environment, PerformanceMonitor, Preload, Shadow, SoftShadows } from '@react-three/drei';
 import { ContainerModel } from './Container-model';
-import { Canvas } from '@react-three/fiber';
+import { Canvas, extend } from '@react-three/fiber';
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { Attractor } from "@react-three/rapier-addons";
 import * as THREE from 'three';
 import { Perf } from 'r3f-perf'
-import { useControls } from 'leva';
+import { Leva, useControls } from 'leva';
 import { BlendFunction } from 'postprocessing'
 
 function round(number: number, precision = 0) {
@@ -66,36 +66,25 @@ interface ContainerSceneProps {
 }
 export const ContainerScene = (props: ContainerSceneProps) => {
 
-  const AOconf = {
-    aoRadius: 1,
-    intensity: 2,
-    aoSamples: 10,
-    denoiseSamples: 10,
-    denoiseRadius: 10,
-  }
-
-  const asciiConf = {
-    characters: ' .*#@',
-    fontSize: 40,
-    cellSize: 16
-  }
-
-  const [force, setForce] = useState(.22);
-  // const [gravity, setGravity] = useState(-9.81);
   const [gravity, setGravity] = useState(0);
+  const [force, setForce] = useState(3);
+
+  // const [gravity, setGravity] = useState(-9.81);
+  // const [force, setForce] = useState(.22);
+
   const [dpr, setDpr] = useState(1.5)
 
   useEffect(() => {
     // setTimeout(() => setForce(0), 2000)
-    // setTimeout(() => setGravity(0),9000)
-    // setTimeout(() => setForce(.4), 9000)
+    // setTimeout(() => setGravity(0), 9000)
+    // setTimeout(() => setForce(3), 9000)
   }, []);
 
   const {
     saturation
   } = useControls({
     saturation: { value: .08, step: .01 },
-  })
+  },)
 
   const aoConfig = useControls('aoConf', {
     aoRadius: { value: 5, min: 0, max: 20, step: 0.01 },
@@ -119,8 +108,8 @@ export const ContainerScene = (props: ContainerSceneProps) => {
 
   const bloom = useControls('Bloom', {
     intensity: { value: 2, min: 0, max: 2, step: .01 },
-    luminanceThreshold: { value: .3, min: 0, max: 2, step: .01 },
-    luminanceSmoothing: { value: 2, min: 0, max: 2, step: .01 },
+    luminanceThreshold: { value: .85, min: 0, max: 2, step: .01 },
+    luminanceSmoothing: { value: .56, min: 0, max: 2, step: .01 },
   })
 
   const tiltShiftConfig = useControls('TiltShift2', {
@@ -156,10 +145,13 @@ export const ContainerScene = (props: ContainerSceneProps) => {
 
   return (
     <div className={`${props.className} fixed top-[-150px] w-[100%] `}  >
+      <Leva hidden={true} />
+
       <Canvas
         linear
         flat
-        dpr={dpr}
+        // dpr={dpr}
+        dpr={[1, 1.5]}
         gl={{ antialias: false }}
         performance={{ min: 0.5 }}
         onCreated={state => {
@@ -167,29 +159,31 @@ export const ContainerScene = (props: ContainerSceneProps) => {
 
           state.gl.setClearColor('#262626')
           // state.camera.position.x = -6.55;
-          state.camera.position.y = 10;
-          state.camera.position.z = 20;
+          state.camera.position.y = 20;
+          state.camera.position.z = 30;
           // state.camera.zoom = 2.3;
-          // state.camera.lookAt(0, 0, 0);
+          state.camera.lookAt(0, 10, 0);
           state.camera.updateProjectionMatrix()
           // state.gl.setPixelRatio(1.5);
         }}>
 
+
         {/* <PerformanceMonitor onChange={({ factor }) => setDpr(round(0.5 + 1.5 * factor, 1))} /> */}
-        {/* <Perf /> */}
+        {/* <Perf  /> */}
         <Preload all />
 
         <Suspense>
 
-          <EffectComposer>
-            <N8AO {...(aoConfig as any)} />
+          <EffectComposer  multisampling={8}>
+            {/* {...(aoConfig as any)} */}
+            <N8AO distanceFalloff={1} aoRadius={1} intensity={4} />
             <Bloom {...bloom}></Bloom>
             <HueSaturation saturation={saturation} />
             <TiltShift2 {...tiltShiftConfig} />
           </EffectComposer>
 
           {/* <Environment preset="city" /> */}
-          
+
           <hemisphereLight intensity={0.1} color="white" groundColor="black" />
           <Environment
             files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/2k/evening_road_01_2k.hdr"
@@ -215,12 +209,12 @@ export const ContainerScene = (props: ContainerSceneProps) => {
 
 
             {/* <Door/> */}
-            <CuboidCollider position={[0, -3, 0]} args={[10, 3, 10]} collisionGroups={interactionGroupCommon} />
-            <CuboidCollider position={[0, 23, 0]} args={[10, 3, 10]} />
-            <CuboidCollider position={[-13, 10, 0]} args={[10, 3, 10]} rotation={[0, 0, Math.PI / 2]} />
-            <CuboidCollider position={[13, 10, 0]} args={[10, 3, 10]} rotation={[0, 0, Math.PI / 2]} />
-            <CuboidCollider position={[0, 10, 13]} args={[10, 3, 10]} rotation={[Math.PI / 2, 0, 0]} />
-            <CuboidCollider position={[0, 10, -13]} args={[10, 3, 10]} rotation={[Math.PI / 2, 0, 0]} />
+            <CuboidCollider position={[0, -3, 0]} args={[20, 3, 20]} collisionGroups={interactionGroupCommon} />
+            <CuboidCollider position={[0, 43, 0]} args={[20, 3, 20]} />
+            <CuboidCollider position={[-23, 20, 0]} args={[20, 3, 20]} rotation={[0, 0, Math.PI / 2]} />
+            <CuboidCollider position={[23, 20, 0]} args={[20, 3, 20]} rotation={[0, 0, Math.PI / 2]} />
+            <CuboidCollider position={[0, 20, 23]} args={[20, 3, 20]} rotation={[Math.PI / 2, 0, 0]} />
+            <CuboidCollider position={[0, 20, -23]} args={[20, 3, 20]} rotation={[Math.PI / 2, 0, 0]} />
 
           </Physics>
 

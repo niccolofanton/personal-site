@@ -65,8 +65,8 @@ export const BooksModel = React.forwardRef<any, BookModelProps>(({ texturesSrc, 
           <DraggableRigidBody
             key={`cd${i}`}
             {...props.draggableRigidBodyProps}
-            groupProps={{ position: generatedPositions[i] }}
-            rigidBodyProps={{ colliders: 'cuboid', density: 1 }}
+            groupProps={{ position: generatedPositions[9 + i] }}
+            rigidBodyProps={{ colliders: 'cuboid', density: 3 }}
             enableSpringJoint={false}
             visibleComponentRef={meshRefs[i]}
             visibleMesh={

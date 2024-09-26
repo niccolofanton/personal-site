@@ -23,7 +23,7 @@ export const KlonoaModel = React.forwardRef<THREE.Group, JSX.IntrinsicElements['
   const { nodes, materials } = useGLTF('/models-transformed/klonoa-transformed.glb') as GLTFResult
   return (
     <group ref={ref} {...props} dispose={null}>
-      <mesh geometry={nodes.klonoa.geometry} material={materials.DefaultMaterial}  rotation={[-Math.PI / 2, 0, Math.PI / 2]}  />
+      <mesh geometry={nodes.klonoa.geometry} material={materials.DefaultMaterial}   />
     </group>
   )
 })

@@ -74,7 +74,7 @@ export const CdsModel = React.forwardRef<any, CdsModelProps>(({ texturesSrc, ...
           <DraggableRigidBody
             key={`cd${i}`}
             {...props.draggableRigidBodyProps}
-            groupProps={{ position: generatedPositions[7 + 5 + 11 + i] }}
+            groupProps={{ position: generatedPositions[7 + 9 + 5 + i] }}
             rigidBodyProps={{ colliders: 'cuboid' }}
             enableSpringJoint={false}
             visibleComponentRef={meshRefs[i]}

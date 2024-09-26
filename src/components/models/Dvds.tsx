@@ -75,7 +75,7 @@ export const DvdsModel = React.forwardRef<any, DvdsModelProps>(({ texturesSrc, .
           <DraggableRigidBody
             key={`cd${i}`}
             {...props.draggableRigidBodyProps}
-            groupProps={{ position: generatedPositions[7 + 5 + i] }}
+            groupProps={{ position: generatedPositions[7 + 9 + 5 + 33 + i] }}
             rigidBodyProps={{ colliders: 'cuboid' }}
             enableSpringJoint={false}
             visibleComponentRef={meshRefs[i]}
