@@ -27,7 +27,7 @@ export default function Projects() {
       
       */}
 
-      <ContainerScene className='h-[100vh]'></ContainerScene>
+      <ContainerScene className='h-[calc(100dvh+85px)]'></ContainerScene>
 
     </PageAnimation>
   )

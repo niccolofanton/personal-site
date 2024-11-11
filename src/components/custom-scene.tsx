@@ -150,13 +150,13 @@ export const ContainerScene = (props: ContainerSceneProps) => {
     <div className={`${props.className} fixed top-[-150px] w-[100%] `}  >
       <Leva hidden={true} />
 
-      <div className='flex justify-center z-50 absolute bottom-[10vh] w-[100%]'>
-        <Button className=' bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10 rounded-full' onClick={() => {
+      <div className='flex justify-center z-50 absolute bottom-[5vh] w-[100%]'>
+        <div className=' bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10 rounded-full' onClick={() => {
           setAttractorEnabled(!attractorEnabled)
           setGravity(attractorEnabled ? -(9.81 * 2) : 0)
         }}>
           {attractorEnabled ? 'Disable' : 'Enable'} Gravity
-        </Button>
+        </div>
       </div>
 
 

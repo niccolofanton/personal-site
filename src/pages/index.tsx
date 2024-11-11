@@ -390,7 +390,7 @@ export default function HomePage({ data }: InferGetStaticPropsType<typeof getSta
                 &nbsp;
                 <SocialLink
                   className=''
-                  iconClassName={'w-[16px] mt-[0.5px] fill-blue-500 sm:group-hover:fill-blue-600 dark:fill-blue-400 dark:sm:group-hover:fill-blue-300'}
+                  iconClassName={'w-[16px] mt-[0.5px] !fill-blue-500 sm:group-hover:!fill-blue-600 dark:!fill-blue-400 dark:sm:group-hover:!fill-blue-300'}
                   href="https://drive.google.com/file/d/17yKui9RjnjKYFU5zNo_dyBWZc1kH8xMt/view?usp=sharing"
                   target='_blank'
                   aria-label="Download resume"
