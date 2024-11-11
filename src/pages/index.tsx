@@ -12,7 +12,8 @@ import {
   InstagramIcon,
   LinkedInIcon,
   XIcon,
-  BehanceIcon
+  BehanceIcon,
+  DownloadIcon
 } from '@/components/SocialIcons'
 import logoAzzurroDigitale from '@/images/logos/azzurrodigitale.jpeg'
 import logoAWMS from '@/images/logos/awms.jpeg'
@@ -164,10 +165,10 @@ function SocialLink({
   ...props
 }: React.ComponentPropsWithoutRef<typeof Link> & {
   icon: React.ComponentType<{ className?: string }>
-}) {
+} & { iconClassName?: string }) {
   return (
     <Link className="group -m-1 p-1" {...props}>
-      <Icon className="h-6 w-6 fill-zinc-500 transition sm:group-hover:fill-zinc-600 dark:fill-zinc-400 dark:sm:group-hover:fill-zinc-300" />
+      <Icon className={`h-6 w-6 fill-zinc-500 transition sm:group-hover:fill-zinc-600 dark:fill-zinc-400 dark:sm:group-hover:fill-zinc-300 ${props.iconClassName}`} />
     </Link>
   )
 }
@@ -374,12 +375,29 @@ export default function HomePage({ data }: InferGetStaticPropsType<typeof getSta
                 />
               </h1>
               <motion.p {...anim(blur(getTime(2), playHomeAnimation))} className="mt-6 text-base text-zinc-600 dark:text-zinc-400">
-                My name is Niccolò Fanton, and I&apos;m a developer based in Italy.
+                My name is Niccolò Fanton, and I&apos;m a creative/web developer based in Italy.
                 I have a profound love for design and I consider my work as an extension of myself.
                 I&apos;m an explorer of hidden meanings, I chase life with an insatiable thirst for
                 understanding. <br /><br />
                 Passion fuels every action, leading every step with fervor.
               </motion.p>
+
+              <motion.div {...anim(blur(getTime(2), playHomeAnimation))} className="mt-6 flex flex-row text-base text-blue-600 dark:text-blue-400">
+                <a
+                  href="https://drive.google.com/file/d/17yKui9RjnjKYFU5zNo_dyBWZc1kH8xMt/view?usp=sharing"
+                  target='_blank'
+                >Personal resume</a>
+                &nbsp;
+                <SocialLink
+                  className=''
+                  iconClassName={'w-[16px] mt-[0.5px] fill-blue-500 sm:group-hover:fill-blue-600 dark:fill-blue-400 dark:sm:group-hover:fill-blue-300'}
+                  href="https://drive.google.com/file/d/17yKui9RjnjKYFU5zNo_dyBWZc1kH8xMt/view?usp=sharing"
+                  target='_blank'
+                  aria-label="Download resume"
+                  icon={DownloadIcon}
+                />
+              </motion.div>
+
               <motion.div  {...anim(blur(getTime(3), playHomeAnimation))} className="mt-6 flex gap-6">
                 <SocialLink href="https://twitter.com/niccolofanton" target='_blank' aria-label="Follow on X" icon={XIcon} />
                 <SocialLink

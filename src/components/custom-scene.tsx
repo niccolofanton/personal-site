@@ -1,4 +1,4 @@
-import { Bloom, EffectComposer, HueSaturation, N8AO, SSAO, TiltShift2 } from '@react-three/postprocessing';
+import { Bloom, EffectComposer, HueSaturation, N8AO, TiltShift2 } from '@react-three/postprocessing';
 import { Physics, CuboidCollider } from "@react-three/rapier";
 import { Environment, PerformanceMonitor, Preload, Shadow, SoftShadows } from '@react-three/drei';
 import { ContainerModel } from './Container-model';
@@ -9,6 +9,7 @@ import * as THREE from 'three';
 import { Perf } from 'r3f-perf'
 import { Leva, useControls } from 'leva';
 import { BlendFunction } from 'postprocessing'
+import { Button } from './Button';
 
 function round(number: number, precision = 0) {
   const factor = Math.pow(10, precision);
@@ -68,11 +69,13 @@ export const ContainerScene = (props: ContainerSceneProps) => {
 
   const [gravity, setGravity] = useState(0);
   const [force, setForce] = useState(3);
+  const [attractorEnabled, setAttractorEnabled] = useState(true);
 
   // const [gravity, setGravity] = useState(-9.81);
   // const [force, setForce] = useState(.22);
 
   const [dpr, setDpr] = useState(1.5)
+
 
   useEffect(() => {
     // setTimeout(() => setForce(0), 2000)
@@ -147,79 +150,97 @@ export const ContainerScene = (props: ContainerSceneProps) => {
     <div className={`${props.className} fixed top-[-150px] w-[100%] `}  >
       <Leva hidden={true} />
 
-      <Canvas
-        linear
-        flat
-        // dpr={dpr}
-        dpr={[1, 1.5]}
-        gl={{ antialias: false }}
-        performance={{ min: 0.5 }}
-        onCreated={state => {
-          state.gl.outputColorSpace = THREE.SRGBColorSpace;
-
-          state.gl.setClearColor('#262626')
-          // state.camera.position.x = -6.55;
-          state.camera.position.y = 20;
-          state.camera.position.z = 30;
-          // state.camera.zoom = 2.3;
-          state.camera.lookAt(0, 10, 0);
-          state.camera.updateProjectionMatrix()
-          // state.gl.setPixelRatio(1.5);
+      <div className='flex justify-center z-50 absolute bottom-[10vh] w-[100%]'>
+        <Button className=' bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10 rounded-full' onClick={() => {
+          setAttractorEnabled(!attractorEnabled)
+          setGravity(attractorEnabled ? -(9.81 * 2) : 0)
         }}>
+          {attractorEnabled ? 'Disable' : 'Enable'} Gravity
+        </Button>
+      </div>
 
 
-        {/* <PerformanceMonitor onChange={({ factor }) => setDpr(round(0.5 + 1.5 * factor, 1))} /> */}
-        {/* <Perf  /> */}
-        <Preload all />
 
-        <Suspense>
+      <Suspense fallback={<div>im loading</div>}>
 
-          <EffectComposer  multisampling={8}>
-            {/* {...(aoConfig as any)} */}
-            <N8AO distanceFalloff={1} aoRadius={1} intensity={4} />
-            <Bloom {...bloom}></Bloom>
-            <HueSaturation saturation={saturation} />
-            <TiltShift2 {...tiltShiftConfig} />
-          </EffectComposer>
+        <Canvas
+          linear
+          flat
+          // dpr={dpr}
+          dpr={[1, 1.5]}
+          gl={{ antialias: false }}
+          performance={{ min: 0.5 }}
+          onCreated={state => {
+            state.gl.outputColorSpace = THREE.SRGBColorSpace;
 
-          {/* <Environment preset="city" /> */}
+            state.gl.setClearColor('#262626')
+            // state.camera.position.x = -6.55;
+            state.camera.position.y = 20;
+            state.camera.position.z = 30;
+            // state.camera.zoom = 2.3;
+            state.camera.lookAt(0, 10, 0);
+            state.camera.updateProjectionMatrix()
+            // state.gl.setPixelRatio(1.5);
+          }}>
 
-          <hemisphereLight intensity={0.1} color="white" groundColor="black" />
-          <Environment
-            files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/2k/evening_road_01_2k.hdr"
-            ground={{ height: 10, radius: 80, scale: 60 }}
-          />
 
-          {/* <ambientLight intensity={0.1} /> */}
+          {/* <PerformanceMonitor onChange={({ factor }) => setDpr(round(0.5 + 1.5 * factor, 1))} /> */}
+          {/* <Perf  /> */}
+          <Preload all />
 
-          {/* <directionalLight castShadow position={[2.5, 8, 5]} intensity={1} shadow-mapSize={1024}>
+          <Suspense>
+
+            <EffectComposer multisampling={8}>
+              {/* {...(aoConfig as any)} */}
+              <N8AO distanceFalloff={1} aoRadius={1} intensity={4} />
+              <Bloom {...bloom}></Bloom>
+              <HueSaturation saturation={saturation} />
+              <TiltShift2 {...tiltShiftConfig} />
+            </EffectComposer>
+
+            {/* <Environment preset="city" /> */}
+
+            <hemisphereLight intensity={0.1} color="white" groundColor="black" />
+            <Environment
+              files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/2k/evening_road_01_2k.hdr"
+              ground={{ height: 10, radius: 80, scale: 60 }}
+            />
+
+            {/* <ambientLight intensity={0.1} /> */}
+
+            {/* <directionalLight castShadow position={[2.5, 8, 5]} intensity={1} shadow-mapSize={1024}>
             <orthographicCamera attach="shadow-camera" args={[-10, 10, -10, 10, 0.1, 50]} />
           </directionalLight> */}
 
-          {/* <primitive object={new AxesHelper(5)} /> */}
+            {/* <primitive object={new AxesHelper(5)} /> */}
 
-          <Physics debug={false} gravity={[0, gravity, 0]} paused={false}>
+            <Physics debug={false} gravity={[0, gravity, 0]} paused={false}>
 
-            <Attractor position={[0, 10, 0]} range={40} strength={force} />
+              {attractorEnabled && <Attractor position={[0, 10, 0]} range={40} strength={force} />}
 
-            {/* <FluctuatingValue /> */}
-            <ContainerModel position={[0, 0, -.2]}></ContainerModel>
+              {/* <FluctuatingValue /> */}
+              <ContainerModel position={[0, 0, -.2]} enablePointer={attractorEnabled} ></ContainerModel>
 
-            <Shadow rotation={[-Math.PI / 2, 0, 0]} scale={40} position={[0, 0, 0]} color="black" opacity={.8} />
+              <Shadow rotation={[-Math.PI / 2, 0, 0]} scale={40} position={[0, 0, 0]} color="black" opacity={.8} />
 
 
-            {/* <Door/> */}
-            <CuboidCollider position={[0, -3, 0]} args={[20, 3, 20]} collisionGroups={interactionGroupCommon} />
-            <CuboidCollider position={[0, 43, 0]} args={[20, 3, 20]} />
-            <CuboidCollider position={[-23, 20, 0]} args={[20, 3, 20]} rotation={[0, 0, Math.PI / 2]} />
-            <CuboidCollider position={[23, 20, 0]} args={[20, 3, 20]} rotation={[0, 0, Math.PI / 2]} />
-            <CuboidCollider position={[0, 20, 23]} args={[20, 3, 20]} rotation={[Math.PI / 2, 0, 0]} />
-            <CuboidCollider position={[0, 20, -23]} args={[20, 3, 20]} rotation={[Math.PI / 2, 0, 0]} />
+              {/* <Door/> */}
+              <CuboidCollider position={[0, -3, 0]} args={[20, 3, 20]} collisionGroups={interactionGroupCommon} />
+              <CuboidCollider position={[0, 43, 0]} args={[20, 3, 20]} />
+              <CuboidCollider position={[-23, 20, 0]} args={[20, 3, 20]} rotation={[0, 0, Math.PI / 2]} />
+              <CuboidCollider position={[23, 20, 0]} args={[20, 3, 20]} rotation={[0, 0, Math.PI / 2]} />
+              <CuboidCollider position={[0, 20, 23]} args={[20, 3, 20]} rotation={[Math.PI / 2, 0, 0]} />
+              <CuboidCollider position={[0, 20, -23]} args={[20, 3, 20]} rotation={[Math.PI / 2, 0, 0]} />
 
-          </Physics>
+            </Physics>
 
-        </Suspense>
-      </Canvas>
+          </Suspense>
+        </Canvas>
+
+      </Suspense>
+
+
+
     </div >
   );
 }

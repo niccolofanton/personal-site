@@ -227,7 +227,7 @@ function Pointer({ planeNormal = new THREE.Vector3(0, 0, 1), planeConstant = 0 }
   )
 }
 
-export function ContainerModel(props: JSX.IntrinsicElements['group']) {
+export function ContainerModel(props: JSX.IntrinsicElements['group'] & { enablePointer?: boolean }) {
   const group = useRef<THREE.Group>(null);
   const { nodes, materials } = useGLTF('/container-model-test.glb') as GLTFResult;
 
@@ -302,7 +302,7 @@ export function ContainerModel(props: JSX.IntrinsicElements['group']) {
   return (
     <>
 
-      <Pointer />
+      { props.enablePointer && <Pointer />} 
 
       {/* <SmoothOrbitControls enableRotate={orbitEnabled} target={[0, 10, 0]} /> */}
 
