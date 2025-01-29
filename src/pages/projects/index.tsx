@@ -1,19 +1,27 @@
 
-import Image from 'next/image'
+import Image from 'next/image';
 
-import { Card } from '@/components/Card'
-import { SimpleLayout } from '@/components/SimpleLayout'
+import { Card } from '@/components/Card';
+import { SimpleLayout } from '@/components/SimpleLayout';
 
 import { NextSeo } from 'next-seo';
-import logoOrtify from '@/images/logos/ortify.jpeg'
-import logoEndor from '@/images/logos/endor.jpeg'
-import logoNDM from '@/images/logos/ndm.jpeg'
-import logoDuna from '@/images/logos/duna.jpeg'
-import logoCar from '@/images/logos/car.jpeg'
+import logoOrtify from '@/images/logos/ortify.jpeg';
+import logoEndor from '@/images/logos/endor.jpeg';
+import logoSingularity from '@/images/logos/singularity.png';
+import logoNDM from '@/images/logos/ndm.jpeg';
+import logoDuna from '@/images/logos/duna.jpeg';
+import logoCar from '@/images/logos/car.jpeg';
 
-import { PageAnimation } from '@/components/PageAnimation'
+import { PageAnimation } from '@/components/PageAnimation';
 
 const projects = [
+  {
+    name: 'Singularity',
+    description:
+      'Experimentation with three.js + rapier on mesh optimization',
+    link: { href: 'https://singularity.niccolofanton.dev/', label: 'Singularity' },
+    logo: logoSingularity,
+  },
   {
     name: 'ENDOR',
     description:
@@ -25,14 +33,14 @@ const projects = [
     name: 'DUNA',
     description:
       'A 3D web-based platform for hosting virutal events and conferences.',
-    link: { href: 'https://duna.pages.dev', label: 'Duna Experience' },
+    link: { href: 'https://duna.niccolofanton.dev', label: 'Duna Experience' },
     logo: logoDuna,
   },
   {
     name: 'Configurator',
     description:
       'A 3D web-based configurator for customizing your dream car.',
-    link: { href: 'https://car.endor.studio', label: 'Showcase' },
+    link: { href: 'https://car.niccolofanton.dev', label: 'Showcase' },
     logo: logoCar,
   },
   {
