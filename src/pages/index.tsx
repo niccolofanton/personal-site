@@ -1,12 +1,12 @@
-import Image, { type ImageProps } from 'next/image'
-import Link from 'next/link'
+import Image, { type ImageProps } from 'next/image';
+import Link from 'next/link';
 // import clsx from 'clsx'
 import { motion } from 'framer-motion';
 import { NextSeo } from 'next-seo';
 
-import { Button } from '@/components/Button'
+import { Button } from '@/components/Button';
 // import { Card } from '@/components/Card'
-import { Container } from '@/components/Container'
+import { Container } from '@/components/Container';
 import {
   GitHubIcon,
   InstagramIcon,
@@ -14,23 +14,24 @@ import {
   XIcon,
   BehanceIcon,
   DownloadIcon
-} from '@/components/SocialIcons'
-import logoAzzurroDigitale from '@/images/logos/azzurrodigitale.jpeg'
-import logoAWMS from '@/images/logos/awms.jpeg'
-import logoEndor from '@/images/logos/endor.jpeg'
-import logoMe from '@/images/logos/me.jpeg'
+} from '@/components/SocialIcons';
+import logoAzzurroDigitale from '@/images/logos/azzurrodigitale.jpeg';
+import logoAWMS from '@/images/logos/awms.jpeg';
+import logoEndor from '@/images/logos/endor.jpeg';
+import logoMe from '@/images/logos/me.jpeg';
+import logoWeGo from '@/images/logos/we-go.jpeg';
 // import image1 from '@/images/photos/image-1.jpg'
 // import image2 from '@/images/photos/image-2.jpg'
 // import image3 from '@/images/photos/image-3.jpg'
 // import image4 from '@/images/photos/image-4.jpg'
 // import image5 from '@/images/photos/image-5.jpg'
 // import { type ArticleWithSlug, getAllArticles } from '@/lib/articles'
-import { formatDate } from '@/lib/formatDate'
-import { GetStaticProps, InferGetStaticPropsType } from 'next'
-import { PageAnimation, anim, blur, getTime } from '@/components/PageAnimation'
-import { getAllArticles, ArticleWithSlug } from '@/lib/articles'
-import { RandomText } from '@/components/RandomText'
-import { RandomLoopingText } from '@/components/RandomLopingText'
+import { formatDate } from '@/lib/formatDate';
+import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import { PageAnimation, anim, blur, getTime } from '@/components/PageAnimation';
+import { getAllArticles, ArticleWithSlug } from '@/lib/articles';
+import { RandomText } from '@/components/RandomText';
+import { RandomLoopingText } from '@/components/RandomLopingText';
 import { useContext, useEffect } from 'react';
 import { AppContext } from '@/components/Providers';
 import { Scene } from '@/components/scene';
@@ -250,14 +251,21 @@ function Role({ role }: { role: Role }) {
 function Resume() {
   let resume: Array<Role> = [
     {
+      company: 'we-go',
+      title: 'Senior Full Stack Developer',
+      logo: logoWeGo,
+      start: '2025',
+      end: {
+        label: 'Now',
+        dateTime: new Date().getFullYear().toString(),
+      },
+    },
+    {
       company: 'ENDOR',
       title: 'CTO & Co-Founder',
       logo: logoEndor,
       start: '2022',
-      end: {
-        label: 'Present',
-        dateTime: new Date().getFullYear().toString(),
-      },
+      end: '2024',
     },
     {
       company: 'Freelance',
