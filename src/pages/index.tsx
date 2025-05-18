@@ -13,7 +13,8 @@ import {
   LinkedInIcon,
   XIcon,
   BehanceIcon,
-  DownloadIcon
+  DownloadIcon,
+  MediumIcon
 } from '@/components/SocialIcons';
 import logoAzzurroDigitale from '@/images/logos/azzurrodigitale.jpeg';
 import logoAWMS from '@/images/logos/awms.jpeg';
@@ -408,29 +409,42 @@ export default function HomePage({ data }: InferGetStaticPropsType<typeof getSta
 
               <motion.div  {...anim(blur(getTime(3), playHomeAnimation))} className="mt-6 flex gap-6">
                 <SocialLink href="https://twitter.com/niccolofanton" target='_blank' aria-label="Follow on X" icon={XIcon} />
+
+                <SocialLink
+                  href="https://github.com/niccolofanton"
+                  target='_blank'
+                  aria-label="Follow on GitHub"
+                  icon={GitHubIcon}
+                />
+
                 <SocialLink
                   href="https://www.instagram.com/niccolofanton"
                   target='_blank'
                   aria-label="Follow on Instagram"
                   icon={InstagramIcon}
                 />
+
+                
+
                 <SocialLink
-                  href="https://www.behance.net/fantonniccolo"
+                  href="https://niccolofanton.medium.com/"
                   target='_blank'
-                  aria-label="Follow on Behance"
-                  icon={BehanceIcon}
+                  aria-label="Follow on Medium"
+                  icon={MediumIcon}
                 />
+
                 <SocialLink
                   href="https://www.linkedin.com/in/niccolofanton"
                   target='_blank'
                   aria-label="Follow on LinkedIn"
                   icon={LinkedInIcon}
                 />
+
                 <SocialLink
-                  href="https://github.com/niccolofanton"
+                  href="https://www.behance.net/fantonniccolo"
                   target='_blank'
-                  aria-label="Follow on GitHub"
-                  icon={GitHubIcon}
+                  aria-label="Follow on Behance"
+                  icon={BehanceIcon}
                 />
 
                 <SocialLink

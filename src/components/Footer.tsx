@@ -1,6 +1,6 @@
-import Link from 'next/link'
+import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ContainerInner, ContainerOuter } from '@/components/Container'
+import { ContainerInner, ContainerOuter } from '@/components/Container';
 import { anim, blur, getTime } from './PageAnimation';
 import { useContext } from 'react';
 import { AppContext } from './Providers';
@@ -43,12 +43,12 @@ export function Footer({ lenisRef }: { lenisRef: any }) {
                   <button onClick={() => {
                     lenisRef.current.lenis.scrollTo(0, { duration: .85 });
                   }}>
-                    {/* Back to top */}
+                    Back to top
                   </button>
                 </div>
                 <p className="text-sm text-zinc-400 dark:text-zinc-500">
-                  {/* &copy; {new Date().getFullYear()} Niccoló Fanton. All rights
-                  reserved. */}
+                  &copy; {new Date().getFullYear()} Niccoló Fanton. All rights
+                  reserved.
                 </p>
               </div>
             </ContainerInner>

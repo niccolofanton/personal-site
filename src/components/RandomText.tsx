@@ -8,13 +8,15 @@ interface FadeBufferItem {
 interface Props {
   text: string,
   speed?: number | false,
-  fadeIn?: boolean
+  fadeIn?: boolean,
+  delay?: number
 }
 
 export function RandomText({
   text,
   speed = false,
-  fadeIn = true
+  fadeIn = true,
+  delay = 0
 }: Props) {
 
   let codeletters = "abcdefghijklmnopqrstuvwxyz1234567890&#*+%?£@§$";
@@ -27,12 +29,12 @@ export function RandomText({
     if (!fadeIn) {
       current_length = text.length;
       setDText(randomize(text.substring(0, current_length)))
-      setTimeout(animateFadeBuffer, 350);
+      setTimeout(animateFadeBuffer, 350 + delay);
       return;
     }
     
     setDText('')
-    setTimeout(animateIn, 800);
+    setTimeout(animateIn, 800 + delay);
   }, [])
 
   const randomize = (text: string) => {

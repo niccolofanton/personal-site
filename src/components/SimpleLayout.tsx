@@ -11,7 +11,7 @@ export function SimpleLayout({
   children?: React.ReactNode
 }) {
   return (
-    <Container className="mt-20">
+    <Container className="mt-20 min-h-[59vh]">
       <header className="max-w-2xl">
         <h1 className="text-4xl font-bold tracking-tight text-zinc-800 sm:text-5xl dark:text-zinc-100">
           <RandomText text={title} fadeIn={false} speed={30} ></RandomText>

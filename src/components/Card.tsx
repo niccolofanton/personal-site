@@ -18,29 +18,72 @@ export function Card<T extends React.ElementType = 'div'>({
   as,
   className,
   children,
+  href,
+  newTab,
+  ...props
 }: Omit<React.ComponentPropsWithoutRef<T>, 'as' | 'className'> & {
   as?: T
   className?: string
+  href?: string
+  newTab?: boolean
 }) {
   let Component = as ?? 'div'
-
-  return (
+  const content = (
     <Component
-      className={clsx(className, 'group relative flex flex-col items-start')}
+      className={clsx(className, 'group relative flex flex-wrap items-start')}
+      {...props}
     >
       {children}
     </Component>
+  )
+
+  if (href) {
+    return (
+      <Link href={href} scroll={false} target={newTab ? '_blank' : '_self'} className="cursor-pointer">
+        {content}
+      </Link>
+    )
+  }
+
+  return content
+}
+
+Card.Image = function CardImage({
+  src,
+  alt,
+  className,
+  ...props
+}: {
+  src: string
+  alt: string
+  className?: string
+} & React.ImgHTMLAttributes<HTMLImageElement>) {
+  return (
+    <img
+      src={src}
+      alt={alt}
+      className={clsx(
+        'relative z-10 rounded-xl object-cover aspect-[16/9]',
+        className
+      )}
+      {...props}
+    />
   )
 }
 
 Card.Link = function CardLink({
   children,
+  href,
+  newTab,
   ...props
-}: React.ComponentPropsWithoutRef<typeof Link>) {
+}: React.ComponentPropsWithoutRef<typeof Link> & {
+  href: string
+  newTab?: boolean
+}) {
   return (
     <>
       <div className="absolute -inset-x-4 -inset-y-6 z-0 scale-95 bg-zinc-50 opacity-0 transition sm:group-hover:scale-100 sm:group-hover:opacity-100 sm:-inset-x-6 sm:rounded-2xl dark:bg-zinc-800/50" />
-      <Link href={props.href} scroll={false} target={props.target}>
+      <Link href={href} scroll={false} target={newTab ? '_blank' : '_self'} {...props}>
         <span className="absolute -inset-x-4 -inset-y-6 z-20 sm:-inset-x-6 sm:rounded-2xl" />
         <span className="relative z-10">{children}</span>
       </Link>
@@ -77,13 +120,15 @@ Card.Description = function CardDescription({
   )
 }
 
-Card.Cta = function CardCta({ children }: { children: React.ReactNode }) {
+Card.Cta = function CardCta({ children, href, newTab }: { children: React.ReactNode, href: string, newTab: boolean }) {
   return (
     <div
       aria-hidden="true"
       className="relative z-10 mt-4 flex items-center text-sm font-medium text-blue-500"
     >
-      {children}
+      <Link href={href} scroll={false} target={newTab ? '_blank' : '_self'}>
+        {children}
+      </Link>
       <ChevronRightIcon className="ml-1 h-4 w-4 stroke-current" />
     </div>
   )
@@ -91,7 +136,7 @@ Card.Cta = function CardCta({ children }: { children: React.ReactNode }) {
 
 Card.Eyebrow = function CardEyebrow<T extends React.ElementType = 'p'>({
   as,
-  decorate = false,
+  decorate = true,
   className,
   children,
   ...props
@@ -105,19 +150,16 @@ Card.Eyebrow = function CardEyebrow<T extends React.ElementType = 'p'>({
     <Component
       className={clsx(
         className,
-        'relative z-10 order-first mb-3 flex items-center text-sm text-zinc-400 dark:text-zinc-500',
-        decorate && 'pl-3.5',
+        'relative z-10 order-first mb-3 flex items-center text-sm text-zinc-400 dark:text-zinc-500 pl-3.5',
       )}
       {...props}
     >
-      {decorate && (
-        <span
-          className="absolute inset-y-0 left-0 flex items-center"
-          aria-hidden="true"
-        >
-          <span className="h-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500" />
-        </span>
-      )}
+      <span
+        className="absolute inset-y-0 left-0 flex items-center"
+        aria-hidden="true"
+      >
+        <span className="h-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500" />
+      </span>
       {children}
     </Component>
   )

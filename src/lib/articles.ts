@@ -1,11 +1,15 @@
 import glob from 'fast-glob'
 
-interface Article {
+export interface Article {
   title: string
   description: string
   author: string
   date: string
   image: any
+  link: {
+    newTab: boolean,
+    url: string
+  }
   metadata?: {
     title: string
     description: string
@@ -27,7 +31,7 @@ async function importArticle(
   return {
     slug: articleFilename.replace(/(\/index)?\.mdx$/, ''),
     ...article,
-  }
+  };
 }
 
 export async function getAllArticles() {
