@@ -85,7 +85,7 @@ export default function ArticlesIndex({ data }: InferGetStaticPropsType<typeof g
         <div className="">
           <div className="flex max-w-3xl flex-col space-y-16">
             {data.map((article) => (
-              <Article article={article} />
+              <Article article={article} key={article.title} />
             ))}
           </div>
         </div>
