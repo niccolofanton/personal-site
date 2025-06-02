@@ -12,6 +12,7 @@ import logoDuna from '@/images/logos/duna.jpeg';
 import logoCar from '@/images/logos/car.jpeg';
 
 import { PageAnimation } from '@/components/PageAnimation';
+import { ProjectCard } from '@/components/ProjectCard';
 
 const projects = [
   {
@@ -90,7 +91,7 @@ export default function Projects() {
           className="grid grid-cols-1 gap-x-12 gap-y-16 sm:grid-cols-2 lg:grid-cols-3"
         >
           {projects.map((project) => (
-            <Card as="li" key={project.name}>
+            <ProjectCard as="li" key={project.name}>
               <div className="relative overflow-hidden z-10 hidden sm:flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0">
                 <Image
                   src={project.logo}
@@ -107,7 +108,7 @@ export default function Projects() {
                 <LinkIcon className="h-6 w-6 flex-none" />
                 <span className="ml-2">{project.link.label}</span>
               </p>
-            </Card>
+            </ProjectCard>
           ))}
         </ul>
       </SimpleLayout>

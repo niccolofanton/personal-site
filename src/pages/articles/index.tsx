@@ -8,6 +8,17 @@ import { formatDate } from '@/lib/formatDate'
 
 const articles: Article[] = [
   {
+    title: 'Living the Era of Hyper-Democratization',
+    description: 'We are living through a fracture in how value, effort, and identity are defined',
+    date: '2025-06-02',
+    author: 'Niccoló Fanton',
+    image: '2.jpg',
+    link: {
+      newTab: true,
+      url: 'https://medium.com/@niccolofanton/living-the-era-of-hyper-democratization-dd22020ff160'
+    }
+  },
+  {
     title: 'We, the Flawless Product of a Never-Ending Experiment',
     description: 'Reflections on humanity as an ongoing evolutionary project',
     date: '2025-05-17',
