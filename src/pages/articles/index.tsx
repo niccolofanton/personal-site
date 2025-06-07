@@ -8,9 +8,20 @@ import { formatDate } from '@/lib/formatDate'
 
 const articles: Article[] = [
   {
+    title: 'Building a Real-Time Dithering Shader',
+    description: 'A minimal, real-time WebGL shader that applies ordered dithering and optional pixelation as a composable postprocessing effect.',
+    date: '2025-06-04',
+    author: 'Niccoló Fanton',
+    image: '3.jpg',
+    link: {
+      newTab: true,
+      url: 'https://tympanus.net/codrops/2025/06/04/building-a-real-time-dithering-shader'
+    }
+  },
+  {
     title: 'Living the Era of Hyper-Democratization',
     description: 'We are living through a fracture in how value, effort, and identity are defined',
-    date: '2025-06-02',
+    date: '2025-05-25',
     author: 'Niccoló Fanton',
     image: '2.jpg',
     link: {
