@@ -4,6 +4,9 @@ import { Card } from '@/components/Card';
 import { SimpleLayout } from '@/components/SimpleLayout';
 
 import { NextSeo } from 'next-seo';
+import { generateMetadata } from '@/lib/metadata';
+import { generatePortfolioStructuredData, generateBreadcrumbStructuredData } from '@/lib/structured-data';
+import { SEOHead } from '@/components/SEOHead';
 import logoOrtify from '@/images/logos/ortify.jpeg';
 import logoEndor from '@/images/logos/endor.jpeg';
 import logoSingularity from '@/images/logos/singularity.png';
@@ -87,17 +90,40 @@ function LinkIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
 }
 
 export const metadata = {
-  title: 'Projects - Niccoló Fanton',
-  description: 'Things I\'ve made trying to put my dent in the universe.',
+  title: 'Creative Projects & Portfolio - Niccoló Fanton',
+  description: 'Showcase of my projects including 3D configurators, interactive shaders, virtual experiences, and cutting-edge digital solutions that push creative boundaries.',
+  keywords: ['creative portfolio', 'three.js projects', 'webgl applications', '3d web configurators', 'interactive experiences', 'projects', 'digital innovation', 'web design portfolio', 'creative coding showcase'],
 }
 
 export default function Projects() {
+  const seoData = generateMetadata({
+    title: metadata.title,
+    description: metadata.description,
+    keywords: metadata.keywords,
+    type: 'website',
+    canonical: 'https://niccolofanton.dev/projects',
+  })
+
+  const structuredProjects = projects.map(project => ({
+    name: project.name,
+    description: project.description,
+    url: project.link.href,
+    image: project.logo.src,
+    technologies: ['Three.js', 'React', 'WebGL', 'JavaScript'],
+  }))
+
+  const structuredData = [
+    generatePortfolioStructuredData(structuredProjects),
+    generateBreadcrumbStructuredData([
+      { name: 'Home', url: 'https://niccolofanton.dev' },
+      { name: 'Projects', url: 'https://niccolofanton.dev/projects' }
+    ])
+  ]
+
   return (
     <PageAnimation>
-      <NextSeo
-        title={metadata.title}
-        description={metadata.description}
-      />
+      <NextSeo {...seoData} />
+      <SEOHead structuredData={structuredData} />
       <SimpleLayout
         title="Things I've made trying to put my dent in the universe."
         intro="I've worked on tons of little projects over the years but these are the ones that I'm most proud of!"

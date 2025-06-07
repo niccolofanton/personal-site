@@ -3,18 +3,21 @@ import Link from 'next/link';
 // import clsx from 'clsx'
 import { motion } from 'framer-motion';
 import { NextSeo } from 'next-seo';
+import { generateMetadata } from '@/lib/metadata';
+import { generatePersonStructuredData, generateWebsiteStructuredData } from '@/lib/structured-data';
+import { SEOHead } from '@/components/SEOHead';
 
 import { Button } from '@/components/Button';
 // import { Card } from '@/components/Card'
 import { Container } from '@/components/Container';
 import {
-  GitHubIcon,
-  InstagramIcon,
-  LinkedInIcon,
-  XIcon,
-  BehanceIcon,
-  DownloadIcon,
-  MediumIcon
+    GitHubIcon,
+    InstagramIcon,
+    LinkedInIcon,
+    XIcon,
+    BehanceIcon,
+    DownloadIcon,
+    MediumIcon
 } from '@/components/SocialIcons';
 import logoAzzurroDigitale from '@/images/logos/azzurrodigitale.jpeg';
 import logoAWMS from '@/images/logos/awms.jpeg';
@@ -338,8 +341,9 @@ function Resume() {
 // }
 
 export const metadata = {
-  title: 'Home - Niccoló Fanton',
-  // description: 'Niccoló Fanton - I find meaning in work that matters.',
+  title: 'Niccoló Fanton - Creative Developer & Digital Designer',
+  description: 'Italian creative developer passionate about pushing the boundaries of web technology. Specialized in Three.js, WebGL, and immersive digital experiences that inspire and amaze.',
+  keywords: ['creative developer', 'three.js developer', 'webgl expert', 'react developer', 'next.js', 'digital designer', '3d web experiences', 'shader programming', 'interactive design', 'italy developer'],
 }
 
 export const getStaticProps = (async (context: any) => {
@@ -359,11 +363,23 @@ export default function HomePage({ data }: InferGetStaticPropsType<typeof getSta
     return () => setPlayHomeAnimation(false)
   }, [])
 
+  const seoData = generateMetadata({
+    title: metadata.title,
+    description: metadata.description,
+    keywords: metadata.keywords,
+    type: 'website',
+    canonical: 'https://niccolofanton.dev',
+  })
+
+  const structuredData = [
+    generatePersonStructuredData(),
+    generateWebsiteStructuredData()
+  ]
+
   return (
     <>
-      <NextSeo
-        title={metadata.title}
-      />
+      <NextSeo {...seoData} />
+      <SEOHead structuredData={structuredData} />
 
       <PageAnimation>
 

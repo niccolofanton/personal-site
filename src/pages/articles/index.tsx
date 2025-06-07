@@ -3,6 +3,9 @@ import { SimpleLayout } from '@/components/SimpleLayout'
 import { type Article } from '@/lib/articles'
 import { GetStaticProps, InferGetStaticPropsType } from 'next'
 import { NextSeo } from 'next-seo'
+import { generateMetadata } from '@/lib/metadata'
+import { generateBlogStructuredData, generateBreadcrumbStructuredData } from '@/lib/structured-data'
+import { SEOHead } from '@/components/SEOHead'
 import { Card } from '@/components/Card'
 import { formatDate } from '@/lib/formatDate'
 
@@ -82,9 +85,9 @@ function Article({ article }: { article: Article }) {
 }
 
 export const metadata = {
-  title: 'Articles',
-  description:
-    'Long-form thoughts on coding, life, and more, collected in chronological order.',
+  title: 'Technical Articles & Insights - Niccoló Fanton',
+  description: 'In-depth articles on advanced web development techniques, Three.js mastery, WebGL shaders, and creative coding insights from a professional developer\'s perspective.',
+  keywords: ['web development articles', 'three.js tutorials', 'webgl shaders', 'creative coding blog', 'javascript tutorials', 'react techniques', 'technical writing', 'programming insights', 'front-end development'],
 }
 
 export const getStaticProps = (async () => {
@@ -94,12 +97,36 @@ export const getStaticProps = (async () => {
 }>
 
 export default function ArticlesIndex({ data }: InferGetStaticPropsType<typeof getStaticProps>) {
+  const seoData = generateMetadata({
+    title: metadata.title,
+    description: metadata.description,
+    keywords: metadata.keywords,
+    type: 'website',
+    canonical: 'https://niccolofanton.dev/articles',
+  })
+
+  const structuredArticles = data.map(article => ({
+    title: article.title,
+    description: article.description,
+    date: article.date,
+    author: article.author,
+    image: `/images/articles/${article.image}`,
+    url: article.link.url,
+    tags: ['Web Development', 'Creative Coding']
+  }))
+
+  const structuredData = [
+    generateBlogStructuredData(structuredArticles),
+    generateBreadcrumbStructuredData([
+      { name: 'Home', url: 'https://niccolofanton.dev' },
+      { name: 'Articles', url: 'https://niccolofanton.dev/articles' }
+    ])
+  ]
+
   return (
     <PageAnimation>
-      <NextSeo
-        title={metadata.title}
-        description={metadata.description}
-      />
+      <NextSeo {...seoData} />
+      <SEOHead structuredData={structuredData} />
       <SimpleLayout
         title="Writing on stuff I've learned on the way."
         intro="Long-form thoughts on coding, life, and more, collected in chronological order."

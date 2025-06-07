@@ -1,0 +1,27 @@
+{
+  "name": "Niccoló Fanton - Creative Developer",
+  "short_name": "Niccoló Fanton",
+  "description": "Italian creative developer passionate about pushing the boundaries of web technology. Specialized in Three.js, WebGL, and immersive digital experiences.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/images/preview.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    }
+  ],
+  "categories": ["portfolio", "design", "development"],
+  "lang": "en",
+  "scope": "/",
+  "id": "niccolofanton-portfolio"
+} 

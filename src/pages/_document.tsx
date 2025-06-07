@@ -6,6 +6,11 @@ export default function Document() {
   return (
     <Html lang="en" className={` h-auto antialiased`} suppressHydrationWarning>
       <Head>
+        <link rel="icon" href='/favicon.ico' sizes="any" />
+        <link rel="apple-touch-icon" href="/images/preview.jpg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#ffffff" />
+        <link rel="canonical" href="https://niccolofanton.dev" />
 
         <Script
           strategy='lazyOnload'
@@ -22,8 +27,6 @@ export default function Document() {
               });
           `}
         </Script>
-
-        <link rel="icon" href='/favicon.ico' sizes="any" />
 
       </Head>
       <body className="h-full bg-zinc-200 dark:bg-[#121212]">
