@@ -5,8 +5,14 @@ import remarkGfm from 'remark-gfm'
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
+  trailingSlash: true,
+  skipTrailingSlashRedirect: true,
+  distDir: 'out',
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'mdx'],
-  transpilePackages: ["geist"]
+  transpilePackages: ["geist"],
+  images: {
+    unoptimized: true
+  }
 }
 
 const withMDX = nextMDX({
