@@ -27,7 +27,7 @@ export const siteMetadata: SiteMetadata = {
     linkedin: "niccolofanton",
     github: "niccolofanton"
   },
-  defaultOgImage: "/images/preview.jpg"
+  defaultOgImage: "https://niccolofanton.dev/images/preview.jpg"
 }
 
 export interface PageMetadata {

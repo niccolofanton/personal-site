@@ -369,6 +369,7 @@ export default function HomePage({ data }: InferGetStaticPropsType<typeof getSta
     keywords: metadata.keywords,
     type: 'website',
     canonical: 'https://niccolofanton.dev',
+    ogImage: 'https://niccolofanton.dev/images/preview.jpg', // Explicit OG image
   })
 
   const structuredData = [
