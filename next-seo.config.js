@@ -24,6 +24,7 @@ const defaultSEOConfig = {
     handle: '@niccolofanton',
     site: '@niccolofanton',
     cardType: 'summary_large_image',
+    image: 'https://niccolofanton.dev/images/preview.jpg',
   },
   additionalMetaTags: [
     {
@@ -41,6 +42,19 @@ const defaultSEOConfig = {
     {
       name: 'keywords',
       content: 'creative developer, three.js developer, webgl expert, react developer, next.js, digital designer, 3d web experiences, shader programming, interactive design, italy developer',
+    },
+    // Additional meta tags for better social media compatibility
+    {
+      property: 'og:image:secure_url',
+      content: 'https://niccolofanton.dev/images/preview.jpg',
+    },
+    {
+      name: 'twitter:title',
+      content: 'Niccoló Fanton - Creative Developer & Digital Designer',
+    },
+    {
+      name: 'twitter:description',
+      content: 'Italian creative developer passionate about pushing the boundaries of web technology. Specialized in Three.js, WebGL, and immersive digital experiences.',
     },
   ],
   additionalLinkTags: [
