@@ -18,29 +18,4 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-  <!-- Articles -->
-  <url>
-    <loc>https://niccolofanton.dev/articles/building-real-time-dithering-shader</loc>
-    <lastmod>2025-06-04T00:00:00.000Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://niccolofanton.dev/articles/living-era-hyper-democratization</loc>
-    <lastmod>2025-05-25T00:00:00.000Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://niccolofanton.dev/articles/flawless-product-never-ending-experiment</loc>
-    <lastmod>2025-05-17T00:00:00.000Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://niccolofanton.dev/articles/building-efficient-three-js-scenes</loc>
-    <lastmod>2025-02-11T00:00:00.000Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
 </urlset> 

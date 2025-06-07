@@ -113,25 +113,32 @@ export function generateArticleStructuredData(article: Article) {
 export function generateBlogStructuredData(articles: Article[]) {
   return {
     '@context': 'https://schema.org',
-    '@type': 'Blog',
+    '@type': 'CollectionPage',
     name: `${siteMetadata.siteName} - Technical Articles`,
-    description: 'In-depth technical articles on advanced web development, Three.js, WebGL, and creative coding insights',
+    description: 'Curated collection of technical articles published on external platforms like Medium and Codrops',
     url: `${siteMetadata.url}/articles`,
     author: {
       '@type': 'Person',
       name: siteMetadata.author.name,
     },
-    blogPost: articles.map(article => ({
-      '@type': 'BlogPosting',
-      headline: article.title,
-      description: article.description,
-      url: article.url,
-      datePublished: article.date,
-      author: {
-        '@type': 'Person',
-        name: article.author,
-      },
-    })),
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: articles.map((article, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        item: {
+          '@type': 'Article',
+          headline: article.title,
+          description: article.description,
+          url: article.url,
+          datePublished: article.date,
+          author: {
+            '@type': 'Person',
+            name: article.author,
+          },
+        },
+      })),
+    },
   }
 }
 
