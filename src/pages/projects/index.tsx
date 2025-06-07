@@ -10,11 +10,27 @@ import logoSingularity from '@/images/logos/singularity.png';
 import logoNDM from '@/images/logos/ndm.jpeg';
 import logoDuna from '@/images/logos/duna.jpeg';
 import logoCar from '@/images/logos/car.jpeg';
+import logoDithering from '@/images/logos/dithering.png';
+import logoImageTrail from '@/images/logos/image-trail.png';
 
 import { PageAnimation } from '@/components/PageAnimation';
 import { ProjectCard } from '@/components/ProjectCard';
 
 const projects = [
+  {
+    name: 'Image-trail',
+    description:
+      'Image trail shader for three.js pmndrs/postprocessing',
+    link: { href: 'https://trail.niccolofanton.dev/', label: 'Image-trail' },
+    logo: logoImageTrail,
+  },
+  {
+    name: 'Dithering Shader',
+    description:
+      'Dithering shader for three.js pmndrs/postprocessing',
+    link: { href: 'https://dithering.niccolofanton.dev/', label: 'Dithering' },
+    logo: logoDithering,
+  },
   {
     name: 'Singularity',
     description:
