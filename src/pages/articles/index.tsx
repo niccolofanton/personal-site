@@ -11,6 +11,17 @@ import { formatDate } from '@/lib/formatDate'
 
 const articles: Article[] = [
   {
+    title: 'Breaking the Frame: Building a Real-Time Datamosh Effect with Three.js',
+    description: 'Recreating the glitchy look of corrupted video codecs in real time with Three.js and custom shaders, using motion vectors to smear one scene into the next.',
+    date: '2026-09-02',
+    author: 'Niccoló Fanton',
+    image: '4.jpg',
+    link: {
+      newTab: true,
+      url: 'https://tympanus.net/codrops/2026/09/02/breaking-the-frame-building-a-real-time-datamosh-effect-with-three-js/'
+    }
+  },
+  {
     title: 'Building a Real-Time Dithering Shader',
     description: 'A minimal, real-time WebGL shader that applies ordered dithering and optional pixelation as a composable postprocessing effect.',
     date: '2025-06-04',
