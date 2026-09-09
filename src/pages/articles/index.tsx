@@ -72,7 +72,7 @@ function Article({ article }: { article: Article }) {
       <Card className="relative">
         <div className="flex flex-col md:flex-row w-full">
           <div className="w-full md:w-auto md:flex-shrink-0 mb-4 md:mb-0 flex items-center">
-            <Card.Image src={article.image} alt={article.title} className="w-full md:w-[280px] h-auto" />
+            <Card.Image src={`/${article.image}`} alt={article.title} className="w-full md:w-[280px] h-auto" />
           </div>
           <div className="flex flex-col md:ml-6">
             <Card.Title>
@@ -121,7 +121,7 @@ export default function ArticlesIndex({ data }: InferGetStaticPropsType<typeof g
     description: article.description,
     date: article.date,
     author: article.author,
-    image: `/images/articles/${article.image}`,
+    image: `https://niccolofanton.dev/${article.image}`,
     url: article.link.url,
     tags: ['Web Development', 'Creative Coding']
   }))
