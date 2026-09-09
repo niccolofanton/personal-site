@@ -36,7 +36,8 @@ export function generatePersonStructuredData() {
     ],
     worksFor: {
       '@type': 'Organization',
-      name: 'Freelance',
+      name: 'MONOGRID',
+      url: 'https://www.monogrid.com',
     },
     knowsAbout: [
       'Web Development',

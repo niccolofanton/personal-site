@@ -23,6 +23,7 @@ import logoAzzurroDigitale from '@/images/logos/azzurrodigitale.jpeg';
 import logoAWMS from '@/images/logos/awms.jpeg';
 import logoEndor from '@/images/logos/endor.jpeg';
 import logoMe from '@/images/logos/me.jpeg';
+import logoMonogrid from '@/images/logos/monogrid.jpeg';
 import logoWeGo from '@/images/logos/we-go.jpeg';
 // import image1 from '@/images/photos/image-1.jpg'
 // import image2 from '@/images/photos/image-2.jpg'
@@ -255,21 +256,28 @@ function Role({ role }: { role: Role }) {
 function Resume() {
   let resume: Array<Role> = [
     {
-      company: 'we-go',
-      title: 'Senior Full Stack Developer',
-      logo: logoWeGo,
-      start: '2025',
+      company: 'MONOGRID',
+      title: 'Senior Web Developer',
+      logo: logoMonogrid,
+      start: '2026',
       end: {
         label: 'Now',
         dateTime: new Date().getFullYear().toString(),
       },
     },
     {
+      company: 'we-go',
+      title: 'Senior Web Developer',
+      logo: logoWeGo,
+      start: '2025',
+      end: '2026',
+    },
+    {
       company: 'ENDOR',
-      title: 'CTO & Co-Founder',
+      title: 'Co-founder & CTO',
       logo: logoEndor,
       start: '2022',
-      end: '2024',
+      end: '2025',
     },
     {
       company: 'Freelance',

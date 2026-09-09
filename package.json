@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-        "build": "next build",
+    "build": "next build",
     "build:cloudflare": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "serve": "next dev"
   },
   "browserslist": "defaults, not ie <= 11",
   "dependencies": {
@@ -55,5 +56,12 @@
     "r3f-perf": "^7.2.1",
     "sharp": "0.33.1",
     "vercel": "^41.7.8"
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "^24.0.0",
+      "onFail": "download"
+    }
   }
 }
