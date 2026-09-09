@@ -2,6 +2,8 @@
 
 # niccolofanton.dev
 
+![niccolofanton.dev](docs/preview.gif)
+
 Personal portfolio site with an interactive 3D hero, built on Next.js and React Three Fiber.
 
 [![Live site](https://img.shields.io/website?url=https%3A%2F%2Fniccolofanton.dev&label=live%20site)](https://niccolofanton.dev/)
