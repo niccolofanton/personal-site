@@ -2,7 +2,6 @@
 const defaultSEOConfig = {
   title: 'Niccoló Fanton - Creative Developer & Digital Designer',
   description: 'Italian creative developer passionate about pushing the boundaries of web technology. Specialized in Three.js, WebGL, and immersive digital experiences that inspire and amaze.',
-  canonical: 'https://niccolofanton.dev',
   openGraph: {
     type: 'website',
     locale: 'en_US',

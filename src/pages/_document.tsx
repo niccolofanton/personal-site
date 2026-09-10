@@ -10,7 +10,6 @@ export default function Document() {
         <link rel="apple-touch-icon" href="/images/preview.jpg" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#ffffff" />
-        <link rel="canonical" href="https://niccolofanton.dev" />
 
         <Script
           strategy='lazyOnload'

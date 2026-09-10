@@ -1,7 +1,7 @@
 'use client'
 
 import { useContext } from 'react'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 import { Container } from '@/components/Container'
 import { Prose } from '@/components/Prose'
@@ -33,6 +33,7 @@ export function ArticleLayout({
   children: React.ReactNode
 }) {
   let router = useRouter()
+  const pathname = usePathname()
   let { previousPathname } = useContext(AppContext)
 
   if (!previousPathname) {
@@ -46,6 +47,7 @@ export function ArticleLayout({
         <NextSeo
           title={article.metadata.title}
           description={article.metadata.description}
+          canonical={`https://niccolofanton.dev${pathname}`}
         />
       )}
 
