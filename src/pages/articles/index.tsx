@@ -12,7 +12,7 @@ import { formatDate } from '@/lib/formatDate'
 const articles: Article[] = [
   {
     title: 'Breaking the Frame: Building a Real-Time Datamosh Effect with Three.js',
-    description: 'Recreating the glitchy look of corrupted video codecs in real time with Three.js and custom shaders, using motion vectors to smear one scene into the next.',
+    description: 'Recreating the glitchy look of corrupted video codecs in real time, using motion vectors to smear one scene into the next.',
     date: '2026-09-02',
     author: 'Niccoló Fanton',
     image: '4.jpg',
