@@ -72,6 +72,12 @@ yarn lint
 
 - Base layout adapted from the [Tailwind UI](https://tailwindui.com/) **Spotlight** template.
 - 3D rendering powered by [React Three Fiber](https://docs.pmnd.rs/react-three-fiber) and the [pmndrs](https://github.com/pmndrs) ecosystem.
+- `public/4.jpg` (cover for the datamosh article) carries embedded XMP metadata naming **Manoela Ilic** as its creator. It is the article artwork produced by [Codrops](https://tympanus.net/codrops/), reused here with the article listing.
+- `public/2.jpg` carries embedded IPTC/XMP metadata reading *"Copyright by Wilczyński Krzysztof / Muzeum Narodowe w Warszawie"*. The photograph is by **Krzysztof Wilczyński** for the [National Museum in Warsaw](https://www.mnw.art.pl/). Its licence terms have not been verified — see the note below.
+- The remaining article covers (`public/1.webp`, `public/3.jpg`, `public/singularity.png`) carry no authorship metadata and have not been traced.
+- Company and project marks under `src/images/logos/` belong to their respective owners and are used here only to identify the organisations and projects they refer to.
+
+> **Note on `public/2.jpg`:** the file is explicitly copyright-marked to a third party and is redistributed in this public repository. Its licensing has not been confirmed, and the repository's own licence does not extend to it. It should be re-licensed, replaced or removed.
 
 ## License
 
