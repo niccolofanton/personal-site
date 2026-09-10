@@ -37,9 +37,21 @@ export function Footer({ lenisRef }: { lenisRef: any }) {
             <ContainerInner>
               <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
                 <div className="flex flex-wrap justify-center gap-x-6 gap-y-1 text-sm font-medium text-zinc-800 dark:text-zinc-200">
-                  {/* <NavLink href="/">Home</NavLink>
-                <NavLink href="/articles">Articles</NavLink>
-                <NavLink href="/projects">Projects</NavLink> */}
+                  <NavLink href="/demos">WebGL demos</NavLink>
+                  <NavLink href="/projects">Projects</NavLink>
+                  <NavLink href="/articles">Articles</NavLink>
+                  <a
+                    href="https://demos.niccolofanton.dev"
+                    className="transition sm:hover:text-blue-500 sm:dark:hover:text-blue-400"
+                  >
+                    Demo hub
+                  </a>
+                  <a
+                    href="https://github.com/niccolofanton"
+                    className="transition sm:hover:text-blue-500 sm:dark:hover:text-blue-400"
+                  >
+                    GitHub
+                  </a>
                   <button onClick={() => {
                     lenisRef.current.lenis.scrollTo(0, { duration: .85 });
                   }}>
